@@ -1,7 +1,7 @@
 import 'package:bookvies/constant/colors.dart';
 import 'package:flutter/material.dart';
 
-class AppStyle {
+class AppStyles {
   static Shadow primaryShadow = Shadow(
     color: AppColors.primaryShadowColor,
     offset: const Offset(12, 26),
@@ -12,4 +12,9 @@ class AppStyle {
       color: AppColors.secondaryShadowColor,
       offset: const Offset(0, 10),
       blurRadius: 30);
+
+  static const actionBarText = TextStyle(
+      color: AppColors.primaryTextColor,
+      fontSize: 22,
+      fontWeight: FontWeight.w600);
 }
