@@ -1,7 +1,7 @@
 import 'package:bookvies/constant/colors.dart';
 import 'package:flutter/material.dart';
 
-class AppStyle {
+class AppStyles {
   static const TextStyle authenticationHeader = TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.bold,
@@ -18,4 +18,9 @@ class AppStyle {
       color: AppColors.secondaryShadowColor,
       offset: const Offset(0, 10),
       blurRadius: 30);
+
+  static const actionBarText = TextStyle(
+      color: AppColors.primaryTextColor,
+      fontSize: 22,
+      fontWeight: FontWeight.w600);
 }

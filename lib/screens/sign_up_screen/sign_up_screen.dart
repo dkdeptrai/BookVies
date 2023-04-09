@@ -19,7 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           children: [
             const Text(
               'Sign Up',
-              style: AppStyle.authenticationHeader,
+              style: AppStyles.authenticationHeader,
             ),
             TextFormField(
               controller: TextEditingController(),
