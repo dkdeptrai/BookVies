@@ -20,6 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _confirmPasswordObscured = true;
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     var center = Center(
       child: Column(
         children: [
@@ -31,6 +32,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               boxShadow: [
                 AppStyles.primaryShadow,
               ],
+=======
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Sign Up',
+              style: AppStyles.authenticationHeader,
+>>>>>>> 19edae507f379b063920f87375ad4c52aed8ae9a
             ),
             child: TextFormField(
               textAlignVertical: TextAlignVertical.center,
