@@ -8,16 +8,21 @@ class AppStyles {
     fontFamily: "Poppins",
   );
 
-  static Shadow primaryShadow = Shadow(
+  static BoxShadow primaryShadow = BoxShadow(
     color: AppColors.primaryShadowColor,
     offset: const Offset(12, 26),
     blurRadius: 40,
   );
 
-  static Shadow secondaryShadow = Shadow(
+  static BoxShadow secondaryShadow = BoxShadow(
       color: AppColors.secondaryShadowColor,
       offset: const Offset(0, 10),
       blurRadius: 30);
+
+  static BoxShadow tertiaryShadow = BoxShadow(
+      color: AppColors.secondaryShadowColor,
+      offset: const Offset(4, 4),
+      blurRadius: 4);
 
   static const actionBarText = TextStyle(
       color: AppColors.primaryTextColor,
