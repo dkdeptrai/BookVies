@@ -17,6 +17,10 @@ class AppColors {
   static const Color authenticationSmallTextColor = Color(0xFF6FE3E1);
   static Color primaryShadowColor = const Color(0xFF5A6CEA).withOpacity(0.07);
   static Color secondaryShadowColor = const Color(0xFF000000).withOpacity(0.25);
+<<<<<<< HEAD
+  static Color inputFieldBorderColor = primaryHintTextColor;
+=======
+>>>>>>> 19edae507f379b063920f87375ad4c52aed8ae9a
 
   static const navBarActiveColor = Color(0xFFFfFFFF);
   static const navBarInactiveColor = greyTextColor;
