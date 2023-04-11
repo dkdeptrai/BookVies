@@ -1,6 +1,7 @@
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/books_screen/widgets/books_section_header.dart';
 import 'package:bookvies/screens/books_screen/widgets/popular_book_item_widget.dart';
+import 'package:bookvies/screens/popular_book_screen/popular_book_screen.dart';
 import 'package:flutter/material.dart';
 
 class PopularBookWidget extends StatelessWidget {
@@ -18,7 +19,7 @@ class PopularBookWidget extends StatelessWidget {
         children: [
           BooksSectionHeader(
             title: "Popular Books",
-            onPressed: () {},
+            onPressed: () => _navigateToPopularBookScreen(context),
           ),
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -30,5 +31,9 @@ class PopularBookWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _navigateToPopularBookScreen(BuildContext context) {
+    Navigator.pushNamed(context, PopularBookScreen.id);
   }
 }

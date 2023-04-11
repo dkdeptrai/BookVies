@@ -17,6 +17,7 @@ class BookScreen extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(50.0),
           child: CustomAppBar(
+            title: "Books",
             actions: [
               IconButton(
                   onPressed: () => _navigateToSearchBooksScreen(context),
