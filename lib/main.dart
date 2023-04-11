@@ -1,9 +1,6 @@
 import 'package:bookvies/blocs/nav_bar_bloc/nav_bar_bloc.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
-<<<<<<< HEAD
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
-=======
->>>>>>> 19edae507f379b063920f87375ad4c52aed8ae9a
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,11 +22,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               fontFamily: "Poppins",
               primaryColor: Colors.red),
-<<<<<<< HEAD
-          home: const SignUpScreen()),
-=======
           home: const MainScreen()),
->>>>>>> 19edae507f379b063920f87375ad4c52aed8ae9a
     );
   }
 }
