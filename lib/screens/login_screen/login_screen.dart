@@ -1,3 +1,4 @@
+import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
@@ -20,15 +21,15 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
+    double topMargin = size.height * 0.174;
     return Scaffold(
       backgroundColor: AppColors.primaryBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
             height: size.height,
-            padding: const EdgeInsets.only(
-                left: 20, right: 20, top: 140, bottom: 38),
+            padding: EdgeInsets.only(
+                left: 20, right: 20, top: topMargin, bottom: 38),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               // mainAxisAlignment: MainAxisAlignment.center,
@@ -39,76 +40,42 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Column(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 14, bottom: 14),
-                      height: 52,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          AppStyles.primaryShadow,
-                        ],
-                      ),
-                      child: TextFormField(
-                        textAlignVertical: TextAlignVertical.center,
-                        controller: emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          fillColor: AppColors.secondaryColor,
-                          hintText: 'Email',
-                          hintStyle: AppStyles.hintTextStyle,
-                          prefixIcon: Container(
-                              margin:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: SvgPicture.asset(AppAssets.icEmail)),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 10),
-                          enabledBorder: AppStyles.authenticateFieldBorder,
-                          focusedBorder: AppStyles.authenticateFieldBorder,
+                    CustomTextFormField(
+                      controller: emailController,
+                      hintText: "Email",
+                      prefixIcon: Container(
+                        margin: const EdgeInsets.only(left: 10, right: 10),
+                        child: SvgPicture.asset(
+                          AppAssets.icEmail,
+                          height: 14,
+                          width: 14,
                         ),
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 14, bottom: 14),
-                      height: 52,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          AppStyles.primaryShadow,
-                        ],
-                      ),
-                      child: TextFormField(
-                        obscureText: _passwordObscured,
-                        textAlignVertical: TextAlignVertical.center,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          hintStyle: AppStyles.hintTextStyle,
-                          prefixIcon: Container(
-                            margin: const EdgeInsets.only(left: 10, right: 10),
-                            child: SvgPicture.asset(
-                              AppAssets.icPassword,
-                              height: 14,
-                              width: 14,
-                            ),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: SvgPicture.asset(
-                              AppAssets.icReveal,
-                              height: 12,
-                              width: 12,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _passwordObscured = !_passwordObscured;
-                              });
-                            },
-                          ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 10),
-                          enabledBorder: AppStyles.authenticateFieldBorder,
-                          focusedBorder: AppStyles.authenticateFieldBorder,
+                    CustomTextFormField(
+                      controller: passwordController,
+                      hintText: "Password",
+                      prefixIcon: Container(
+                        margin: const EdgeInsets.only(left: 10, right: 10),
+                        child: SvgPicture.asset(
+                          AppAssets.icPassword,
+                          height: 14,
+                          width: 14,
                         ),
                       ),
+                      suffixIcon: IconButton(
+                        icon: SvgPicture.asset(
+                          AppAssets.icReveal,
+                          height: 12,
+                          width: 12,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordObscured = !_passwordObscured;
+                          });
+                        },
+                      ),
+                      obscureText: _passwordObscured,
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 23, bottom: 32),
@@ -183,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             const Text(
-                              'Sign up with Google',
+                              'Sign in with Google',
                               style: TextStyle(
                                 fontSize: 16,
                                 color: AppColors.greyTextColor,

@@ -22,6 +22,12 @@ class AppStyles {
     color: AppColors.secondaryColor,
   );
 
+  static BoxDecoration primaryBoxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [AppStyles.primaryShadow],
+    color: AppColors.secondaryColor,
+  );
+
   static OutlineInputBorder authenticateFieldBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
     borderSide: BorderSide(

@@ -1,3 +1,4 @@
+import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
@@ -42,117 +43,70 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Column(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 14, bottom: 14),
-                      height: 52,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          AppStyles.primaryShadow,
-                        ],
-                      ),
-                      child: TextFormField(
-                        textAlignVertical: TextAlignVertical.center,
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          fillColor: AppColors.secondaryColor,
-                          hintText: 'Email',
-                          hintStyle: AppStyles.hintTextStyle,
-                          prefixIcon: Container(
-                              margin:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: SvgPicture.asset(AppAssets.icEmail)),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 10),
-                          enabledBorder: AppStyles.authenticateFieldBorder,
-                          focusedBorder: AppStyles.authenticateFieldBorder,
+                    CustomTextFormField(
+                      controller: emailController,
+                      hintText: "Email",
+                      prefixIcon: Container(
+                        margin: const EdgeInsets.only(left: 10, right: 10),
+                        child: SvgPicture.asset(
+                          AppAssets.icEmail,
+                          height: 14,
+                          width: 14,
                         ),
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 14, bottom: 14),
-                      height: 52,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          AppStyles.primaryShadow,
-                        ],
-                      ),
-                      child: TextFormField(
-                        obscureText: _passwordObscured,
-                        textAlignVertical: TextAlignVertical.center,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          hintStyle: AppStyles.hintTextStyle,
-                          prefixIcon: Container(
-                            margin: const EdgeInsets.only(left: 10, right: 10),
-                            child: SvgPicture.asset(
-                              AppAssets.icPassword,
-                              height: 14,
-                              width: 14,
-                            ),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: SvgPicture.asset(
-                              AppAssets.icReveal,
-                              height: 12,
-                              width: 12,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _passwordObscured = !_passwordObscured;
-                              });
-                            },
-                          ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 10),
-                          enabledBorder: AppStyles.authenticateFieldBorder,
-                          focusedBorder: AppStyles.authenticateFieldBorder,
+                    CustomTextFormField(
+                      obscureText: _passwordObscured,
+                      controller: passwordController,
+                      hintText: "Password",
+                      prefixIcon: Container(
+                        margin: const EdgeInsets.only(left: 10, right: 10),
+                        child: SvgPicture.asset(
+                          AppAssets.icPassword,
+                          height: 28,
+                          width: 28,
                         ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 14, bottom: 14),
-                      height: 52,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          AppStyles.primaryShadow,
-                        ],
+                      suffixIcon: IconButton(
+                        icon: SvgPicture.asset(
+                          AppAssets.icReveal,
+                          height: 12,
+                          width: 12,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordObscured = !_passwordObscured;
+                          });
+                        },
                       ),
-                      child: TextFormField(
-                        textAlignVertical: TextAlignVertical.center,
-                        obscureText: _confirmPasswordObscured,
-                        controller: confirmPasswordController,
-                        decoration: InputDecoration(
-                          hintText: 'Confirm Password',
-                          hintStyle: AppStyles.hintTextStyle,
-                          prefixIcon: Container(
-                            margin: const EdgeInsets.only(left: 10, right: 10),
-                            child: SvgPicture.asset(
-                              AppAssets.icPassword,
-                              height: 28,
-                              width: 28,
-                            ),
+                    ),
+                    CustomTextFormField(
+                      obscureText: _confirmPasswordObscured,
+                      controller: confirmPasswordController,
+                      hintText: "Confirm Password",
+                      prefixIcon: Container(
+                        margin: const EdgeInsets.only(left: 10, right: 10),
+                        child: SvgPicture.asset(
+                          AppAssets.icPassword,
+                          height: 28,
+                          width: 28,
+                        ),
+                      ),
+                      suffixIcon: InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            AppAssets.icReveal,
+                            height: 12,
+                            width: 12,
                           ),
-                          suffixIcon: IconButton(
-                            icon: SvgPicture.asset(
-                              AppAssets.icReveal,
-                              height: 12,
-                              width: 12,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _confirmPasswordObscured =
-                                    !_confirmPasswordObscured;
-                              });
-                            },
-                          ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 10),
-                          enabledBorder: AppStyles.authenticateFieldBorder,
-                          focusedBorder: AppStyles.authenticateFieldBorder,
+                          onPressed: () {
+                            setState(() {
+                              _confirmPasswordObscured =
+                                  !_confirmPasswordObscured;
+                            });
+                          },
                         ),
                       ),
                     ),
