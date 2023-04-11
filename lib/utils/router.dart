@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class AppRouter {
   Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      //   case (SignUpScreen.id):
-      //     return MaterialPageRoute(builder: (_) => const SignUpScreen());
-      //   case (LoginScreen.id):
-      //     return MaterialPageRoute(builder: (_) => const LoginScreen());
+      case (SignUpScreen.id):
+        return MaterialPageRoute(builder: (_) => const SignUpScreen());
+      case (LoginScreen.id):
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
     }
   }
 }
