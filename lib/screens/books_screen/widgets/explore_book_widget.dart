@@ -1,6 +1,7 @@
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/books_screen/widgets/books_section_header.dart';
 import 'package:bookvies/screens/books_screen/widgets/explore_book_item_widget.dart';
+import 'package:bookvies/screens/explore_books_screen/explore_books_screen.dart';
 import 'package:flutter/material.dart';
 
 class ExploreBooksWidget extends StatelessWidget {
@@ -14,7 +15,7 @@ class ExploreBooksWidget extends StatelessWidget {
         children: [
           BooksSectionHeader(
             title: "Explore",
-            onPressed: () {},
+            onPressed: () => _navigateToExploreBooksScreen(context),
           ),
           GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -23,7 +24,7 @@ class ExploreBooksWidget extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20,
-                  childAspectRatio: 2 / 2.7),
+                  childAspectRatio: 0.74),
               shrinkWrap: true,
               itemCount: Book.bookList.length,
               itemBuilder: (context, index) {
@@ -32,5 +33,9 @@ class ExploreBooksWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _navigateToExploreBooksScreen(BuildContext context) {
+    Navigator.pushNamed(context, ExploreBooksScreen.id);
   }
 }
