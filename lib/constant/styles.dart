@@ -1,4 +1,5 @@
 import 'package:bookvies/constant/colors.dart';
+import 'package:bookvies/screens/books_screen/widgets/books_section_header.dart';
 import 'package:flutter/material.dart';
 
 class AppStyles {
@@ -55,4 +56,9 @@ class AppStyles {
       color: AppColors.primaryTextColor,
       fontSize: 22,
       fontWeight: FontWeight.w600);
+
+  static const booksSectionHeaderText = TextStyle(
+      fontSize: 22,
+      color: AppColors.primaryTextColor,
+      fontWeight: FontWeight.w500);
 }
