@@ -4,6 +4,7 @@ import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/screens/books_screen/widgets/explore_book_widget.dart';
 import 'package:bookvies/screens/books_screen/widgets/popular_books_widget.dart';
 import 'package:bookvies/screens/books_screen/widgets/top_rating_book_widget.dart';
+import 'package:bookvies/screens/search_books_screen/search_books_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -18,7 +19,8 @@ class BookScreen extends StatelessWidget {
           child: CustomAppBar(
             actions: [
               IconButton(
-                  onPressed: () {}, icon: SvgPicture.asset(AppAssets.icSearch))
+                  onPressed: () => _navigateToSearchBooksScreen(context),
+                  icon: SvgPicture.asset(AppAssets.icSearch))
             ],
           )),
       body: SingleChildScrollView(
@@ -35,5 +37,9 @@ class BookScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _navigateToSearchBooksScreen(BuildContext context) {
+    Navigator.pushNamed(context, SearchBooksScreen.id);
   }
 }
