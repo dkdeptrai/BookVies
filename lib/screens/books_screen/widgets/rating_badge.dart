@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RatingBadge extends StatelessWidget {
-  const RatingBadge({super.key});
+  final Color? borderColor;
+  final EdgeInsets? padding;
+  const RatingBadge({super.key, this.borderColor, this.padding});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding:
+          padding ?? const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
       decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.white,
+            color: borderColor ?? Colors.white,
             width: 1,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(100))),

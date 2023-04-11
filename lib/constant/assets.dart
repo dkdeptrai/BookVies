@@ -10,6 +10,7 @@ class AppAssets {
   static const String icLibrary = "$iconPath/ic_library.svg";
   static const String icMessage = "$iconPath/ic_message.svg";
   static const String icProfile = "$iconPath/ic_profile.svg";
+  static const String icArrowRight = "$iconPath/ic_arrow_right.svg";
 
   // images
 }
