@@ -2,43 +2,40 @@ import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/screens/login_screen/login_screen.dart';
+import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SignUpScreen extends StatefulWidget {
-  static const id = '/signup-screen';
-  const SignUpScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  static const id = '/login-screen';
+  const LoginScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
   bool _passwordObscured = true;
-  bool _confirmPasswordObscured = true;
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
+    double topMargin = size.height * 0.174;
     return Scaffold(
       backgroundColor: AppColors.primaryBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
             height: size.height,
-            padding: const EdgeInsets.only(
-                left: 20, right: 20, top: 140, bottom: 38),
+            padding: EdgeInsets.only(
+                left: 20, right: 20, top: topMargin, bottom: 38),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Sign up',
+                  'Login',
                   style: AppStyles.authenticationHeader,
                 ),
                 Column(
@@ -56,15 +53,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     CustomTextFormField(
-                      obscureText: _passwordObscured,
                       controller: passwordController,
                       hintText: "Password",
                       prefixIcon: Container(
                         margin: const EdgeInsets.only(left: 10, right: 10),
                         child: SvgPicture.asset(
                           AppAssets.icPassword,
-                          height: 28,
-                          width: 28,
+                          height: 14,
+                          width: 14,
                         ),
                       ),
                       suffixIcon: IconButton(
@@ -79,36 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           });
                         },
                       ),
-                    ),
-                    CustomTextFormField(
-                      obscureText: _confirmPasswordObscured,
-                      controller: confirmPasswordController,
-                      hintText: "Confirm Password",
-                      prefixIcon: Container(
-                        margin: const EdgeInsets.only(left: 10, right: 10),
-                        child: SvgPicture.asset(
-                          AppAssets.icPassword,
-                          height: 28,
-                          width: 28,
-                        ),
-                      ),
-                      suffixIcon: InkWell(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            AppAssets.icReveal,
-                            height: 12,
-                            width: 12,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _confirmPasswordObscured =
-                                  !_confirmPasswordObscured;
-                            });
-                          },
-                        ),
-                      ),
+                      obscureText: _passwordObscured,
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 23, bottom: 32),
@@ -127,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           backgroundColor: Colors.transparent,
                         ),
                         child: const Text(
-                          'Sign Up',
+                          'Login',
                           style: AppStyles.authenticateButtonTextStyle,
                         ),
                       ),
@@ -183,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                             const Text(
-                              'Sign up with Google',
+                              'Sign in with Google',
                               style: TextStyle(
                                 fontSize: 16,
                                 color: AppColors.greyTextColor,
@@ -201,18 +168,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Already had an accout? ",
+                      Text("You don't have an account? ",
                           style: AppStyles.hintTextStyle),
                       GestureDetector(
                         onTap: () {
                           Navigator.pushNamedAndRemoveUntil(
                             context,
-                            LoginScreen.id,
+                            SignUpScreen.id,
                             (route) => false,
                           );
                         },
                         child: const Text(
-                          'Sign in',
+                          'Sign up',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF6FE3E1),

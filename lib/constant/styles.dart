@@ -1,4 +1,5 @@
 import 'package:bookvies/constant/colors.dart';
+import 'package:bookvies/screens/books_screen/widgets/books_section_header.dart';
 import 'package:flutter/material.dart';
 
 class AppStyles {
@@ -19,6 +20,12 @@ class AppStyles {
     fontSize: 20,
     fontFamily: "Poppins",
     fontWeight: FontWeight.w500,
+    color: AppColors.secondaryColor,
+  );
+
+  static BoxDecoration primaryBoxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [AppStyles.primaryShadow],
     color: AppColors.secondaryColor,
   );
 
