@@ -42,7 +42,9 @@ class TopRatingBookWidget extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const RatingBadge()
+              const RatingBadge(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              )
             ],
           ),
         ),

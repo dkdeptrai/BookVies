@@ -49,4 +49,25 @@ class AppStyles {
       color: AppColors.primaryTextColor,
       fontSize: 22,
       fontWeight: FontWeight.w600);
+
+  static const booksSectionHeaderText = TextStyle(
+      fontSize: 22,
+      color: AppColors.primaryTextColor,
+      fontWeight: FontWeight.w500);
+
+  static const searchBoxText =
+      TextStyle(height: 1, fontSize: 12, color: AppColors.greyTextColor);
+
+  static const searchBookNameText = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: AppColors.primaryTextColor);
+
+  static const searchBookAuthorText =
+      TextStyle(fontSize: 10, color: AppColors.greyTextColor);
+
+  static const searchBookRatingText = TextStyle(
+    fontSize: 10,
+    color: AppColors.primaryTextColor,
+  );
 }
