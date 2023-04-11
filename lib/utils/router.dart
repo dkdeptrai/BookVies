@@ -12,10 +12,6 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
       case (LoginScreen.id):
         return MaterialPageRoute(builder: (_) => const LoginScreen());
-      //   case (SignUpScreen.id):
-      //     return MaterialPageRoute(builder: (_) => const SignUpScreen());
-      //   case (LoginScreen.id):
-      //     return MaterialPageRoute(builder: (_) => const LoginScreen());
       case (SearchBooksScreen.id):
         return MaterialPageRoute(builder: (_) => const SearchBooksScreen());
       case (PopularBookScreen.id):
