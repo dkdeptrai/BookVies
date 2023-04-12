@@ -16,6 +16,12 @@ class AppStyles {
     color: AppColors.primaryHintTextColor,
   );
 
+  static const TextStyle subHeaderTextStyle = TextStyle(
+    fontSize: 15,
+    fontFamily: "Poppins",
+    fontWeight: FontWeight.w500,
+    color: AppColors.primaryTextColor,
+  );
   static const TextStyle authenticateButtonTextStyle = TextStyle(
     fontSize: 20,
     fontFamily: "Poppins",
@@ -27,6 +33,7 @@ class AppStyles {
     borderRadius: BorderRadius.circular(12),
     boxShadow: [AppStyles.primaryShadow],
     color: AppColors.secondaryColor,
+    border: Border.all(color: AppColors.primaryHintTextColor),
   );
 
   static OutlineInputBorder authenticateFieldBorder = OutlineInputBorder(

@@ -74,9 +74,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           width: 12,
                         ),
                         onPressed: () {
-                          setState(() {
-                            _passwordObscured = !_passwordObscured;
-                          });
+                          setState(
+                              () => _passwordObscured = !_passwordObscured);
                         },
                       ),
                     ),
@@ -102,10 +101,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             width: 12,
                           ),
                           onPressed: () {
-                            setState(() {
-                              _confirmPasswordObscured =
-                                  !_confirmPasswordObscured;
-                            });
+                            setState(() => _confirmPasswordObscured =
+                                !_confirmPasswordObscured);
                           },
                         ),
                       ),
@@ -118,7 +115,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           gradient: AppColors.primaryGradient,
                           borderRadius: BorderRadius.circular(12)),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          //signup functionality
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -163,7 +162,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: AppColors.greyTextColor)),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          //signup with Google functionality
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           foregroundColor: Colors.transparent,
@@ -204,13 +205,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Text("Already had an accout? ",
                           style: AppStyles.hintTextStyle),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            LoginScreen.id,
-                            (route) => false,
-                          );
-                        },
+                        onTap: _navigateToLoginScreen,
                         child: const Text(
                           'Sign in',
                           style: TextStyle(
@@ -227,6 +222,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  _navigateToLoginScreen() {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      LoginScreen.id,
+      (route) => false,
     );
   }
 }

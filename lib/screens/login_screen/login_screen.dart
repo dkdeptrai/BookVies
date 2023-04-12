@@ -70,9 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 12,
                         ),
                         onPressed: () {
-                          setState(() {
-                            _passwordObscured = !_passwordObscured;
-                          });
+                          setState(
+                              () => _passwordObscured = !_passwordObscured);
                         },
                       ),
                       obscureText: _passwordObscured,
@@ -85,7 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           gradient: AppColors.primaryGradient,
                           borderRadius: BorderRadius.circular(12)),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          //login
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -130,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: AppColors.greyTextColor)),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          //login with google
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           foregroundColor: Colors.transparent,
@@ -172,11 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: AppStyles.hintTextStyle),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            SignUpScreen.id,
-                            (route) => false,
-                          );
+                          _navigateToSignUpScreen();
                         },
                         child: const Text(
                           'Sign up',
@@ -195,5 +194,19 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  _navigateToSignUpScreen() {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      SignUpScreen.id,
+      (route) => false,
+    );
+  }
+
+  _toggleRevealState(bool obscuredState) {
+    setState(() {
+      obscuredState = !obscuredState;
+    });
   }
 }
