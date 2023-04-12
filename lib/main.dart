@@ -1,5 +1,6 @@
 import 'package:bookvies/blocs/nav_bar_bloc/nav_bar_bloc.dart';
-import 'package:bookvies/screens/main_screen/main_screen.dart';
+import 'package:bookvies/screens/login_screen/login_screen.dart';
+import 'package:bookvies/screens/personal_information_screen/personal_information_screen.dart';
 import 'package:bookvies/utils/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               fontFamily: "Poppins",
               primaryColor: Colors.red),
-          home: const MainScreen()),
+          home: const PersonalInformationScreen()),
     );
   }
 }
