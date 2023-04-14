@@ -4,6 +4,8 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
+import 'package:bookvies/services/authentication/authentication_exceptions.dart';
+import 'package:bookvies/services/authentication/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,8 +18,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String? _emailErrorText;
+  String? _passwordErrorText;
   bool _passwordObscured = true;
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Column(
                   children: [
                     CustomTextFormField(
-                      controller: emailController,
+                      controller: _emailController,
                       hintText: "Email",
                       prefixIcon: Container(
                         margin: const EdgeInsets.only(left: 10, right: 10),
@@ -52,9 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 14,
                         ),
                       ),
+                      errorText: _emailErrorText,
                     ),
                     CustomTextFormField(
-                      controller: passwordController,
+                      controller: _passwordController,
                       hintText: "Password",
                       prefixIcon: Container(
                         margin: const EdgeInsets.only(left: 10, right: 10),
@@ -76,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       obscureText: _passwordObscured,
+                      errorText: _passwordErrorText,
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 23, bottom: 32),
@@ -233,5 +239,22 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       ForgotPasswordScreen.id,
     );
+  }
+
+  _signIn() {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    try {
+      AuthService.firebase().logIn(email: email, password: password);
+    } on UserNotFoundAuthException {
+      setState(() {
+        _emailErrorText = "This email can't be found not found!";
+        _passwordErrorText = null;
+      });
+    } on WrongPasswordAuthException {
+      _emailErrorText = _passwordErrorText = "Wromg email or password!";
+    } on GenericAuthException {
+      _emailErrorText = "Something went wrong!";
+    }
   }
 }

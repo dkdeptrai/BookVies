@@ -1,7 +1,6 @@
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
-import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

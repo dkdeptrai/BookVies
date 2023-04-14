@@ -4,6 +4,9 @@ import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/forgot_password_screen/widgets/alert_dialog.dart';
+import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
+import 'package:bookvies/services/authentication/authentication_provider.dart';
+import 'package:bookvies/services/authentication/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -17,7 +20,6 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController emailController = TextEditingController();
-  void sendEmailAndAlert() {}
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -67,19 +69,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 margin: const EdgeInsets.only(bottom: 27),
                 height: 54,
                 text: "Send",
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return NotiDiaglog();
-                    },
-                  );
-                },
+                onPressed: () => _sendEmailAndAlert(context),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  _sendEmailAndAlert(BuildContext context) async {
+    await AuthService.firebase()
+        .sendPasswordResetEmail(email: emailController.text);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NotiDiaglog();
+      },
     );
   }
 }
