@@ -17,5 +17,8 @@ class AppAssets {
   static const String icReveal = "$iconPath/ic_reveal.svg";
   static const String icGoogle = "$iconPath/ic_google.svg";
 
+  static const String imgForgotPassword = "$imagePath/img_forgot_password.svg";
+  static const String imgEmailSent = "$imagePath/img_email_sent.svg";
+
   // images
 }

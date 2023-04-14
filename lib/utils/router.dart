@@ -1,3 +1,4 @@
+import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:bookvies/screens/explore_books_screen/explore_books_screen.dart';
@@ -18,6 +19,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const PopularBookScreen());
       case (ExploreBooksScreen.id):
         return MaterialPageRoute(builder: (_) => const ExploreBooksScreen());
+      case (ForgotPasswordScreen.id):
+        return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
 
       default:
         return MaterialPageRoute(
