@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "884051304577",
+    "project_id": "bookvies-66ad8",
+    "storage_bucket": "bookvies-66ad8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884051304577:android:757d11c14ec6fe6cadad80",
+        "android_client_info": {
+          "package_name": "com.example.bookvies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "884051304577-68fihkml9gpa8oeon9u0ep3qetke00o7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBINtwx8Ml7N6unJGnVc3-Rq4vDJlF7nkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884051304577-68fihkml9gpa8oeon9u0ep3qetke00o7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "884051304577-vrn7b6lsn2rsl751n8jsdmi4cfpudlsi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bookvies"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

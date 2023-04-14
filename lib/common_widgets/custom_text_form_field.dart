@@ -16,6 +16,7 @@ class CustomTextFormField extends StatefulWidget {
     this.height = 52,
     this.maxLines = 1,
     this.prefixIconConstraints,
+    this.errorText,
   }) : super(key: key);
   final TextEditingController controller;
   final String hintText;
@@ -25,6 +26,7 @@ class CustomTextFormField extends StatefulWidget {
   late final double height;
   late final int? maxLines;
   late final BoxConstraints? prefixIconConstraints;
+  String? errorText;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -50,6 +52,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           prefixIconConstraints: widget.prefixIconConstraints,
           suffixIcon: widget.suffixIcon,
           border: InputBorder.none,
+          errorText: widget.errorText,
         ),
       ),
     );

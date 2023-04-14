@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>884051304577-vrn7b6lsn2rsl751n8jsdmi4cfpudlsi.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.884051304577-vrn7b6lsn2rsl751n8jsdmi4cfpudlsi</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBIjH3bI70sZwQoTkwkUfe0CfkZeTgL6-o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>884051304577</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.bookvies</string>
+	<key>PROJECT_ID</key>
+	<string>bookvies-66ad8</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bookvies-66ad8.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:884051304577:ios:a62a7a217b9d2a1fadad80</string>
+</dict>
+</plist>

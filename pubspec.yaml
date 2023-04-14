@@ -40,6 +40,8 @@ dependencies:
   google_nav_bar: ^5.0.6
   flutter_bloc: ^8.1.2
   lottie: ^2.3.2
+  firebase_core: ^2.9.0
+  firebase_auth: ^4.4.1
 
 dev_dependencies:
   flutter_test:

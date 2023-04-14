@@ -3,6 +3,8 @@ import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/login_screen/login_screen.dart';
+import 'package:bookvies/services/authentication/authentication_exceptions.dart';
+import 'package:bookvies/services/authentication/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,12 +17,16 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool _passwordObscured = true;
   bool _confirmPasswordObscured = true;
+  String? _emailErrorText;
+  String? _passwordErrorText;
+  String? _confirmPasswordErrorText;
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -44,7 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Column(
                   children: [
                     CustomTextFormField(
-                      controller: emailController,
+                      controller: _emailController,
                       hintText: "Email",
                       prefixIcon: Container(
                         margin: const EdgeInsets.only(left: 10, right: 10),
@@ -54,10 +60,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           width: 14,
                         ),
                       ),
+                      errorText: _emailErrorText,
                     ),
                     CustomTextFormField(
                       obscureText: _passwordObscured,
-                      controller: passwordController,
+                      controller: _passwordController,
                       hintText: "Password",
                       prefixIcon: Container(
                         margin: const EdgeInsets.only(left: 10, right: 10),
@@ -78,10 +85,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               () => _passwordObscured = !_passwordObscured);
                         },
                       ),
+                      errorText: _passwordErrorText,
                     ),
                     CustomTextFormField(
                       obscureText: _confirmPasswordObscured,
-                      controller: confirmPasswordController,
+                      controller: _confirmPasswordController,
                       hintText: "Confirm Password",
                       prefixIcon: Container(
                         margin: const EdgeInsets.only(left: 10, right: 10),
@@ -106,6 +114,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                         ),
                       ),
+                      errorText: _confirmPasswordErrorText,
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 23, bottom: 32),
@@ -116,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           borderRadius: BorderRadius.circular(12)),
                       child: ElevatedButton(
                         onPressed: () {
-                          //signup functionality
+                          _registerNewUser();
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -231,5 +240,68 @@ class _SignUpScreenState extends State<SignUpScreen> {
       LoginScreen.id,
       (route) => false,
     );
+  }
+
+  Future<void> _registerNewUser() async {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+    if (email == "") {
+      setState(() {
+        _emailErrorText = "Email is required";
+        _passwordErrorText = _confirmPasswordErrorText = null;
+      });
+      return;
+    }
+    if (password == "") {
+      setState(() {
+        _passwordErrorText = "Password is required";
+        _emailErrorText = _confirmPasswordErrorText = null;
+      });
+      return;
+    }
+
+    if (confirmPassword == "") {
+      setState(() {
+        _confirmPasswordErrorText = "Confirm password is required";
+        _emailErrorText = _passwordErrorText = null;
+      });
+      return;
+    }
+
+    if (password != confirmPassword) {
+      setState(() {
+        _passwordErrorText =
+            _confirmPasswordErrorText = "Passwords do not match";
+        _emailErrorText = null;
+      });
+      return;
+    }
+    try {
+      await AuthService.firebase().createUser(
+        email: email,
+        password: password,
+      );
+    } on WeakPasswordAuthException {
+      setState(() {
+        _emailErrorText = null;
+        _passwordErrorText = _confirmPasswordErrorText = "Password is too weak";
+      });
+    } on EmailAlreadyInUseAuthException {
+      setState(() {
+        _emailErrorText = "Email is already in use";
+        _passwordErrorText = _confirmPasswordErrorText = null;
+      });
+    } on InvalidEmailAuthException {
+      setState(() {
+        _emailErrorText = "Email is invalid";
+        _passwordErrorText = _confirmPasswordErrorText = null;
+      });
+    } on GenericAuthException {
+      setState(() {
+        _emailErrorText = "Something went wrong";
+        _passwordErrorText = _confirmPasswordErrorText = null;
+      });
+    }
   }
 }
