@@ -24,7 +24,7 @@ class CustomButtonWithGradientBackground extends StatelessWidget {
     return Container(
       margin: margin,
       height: height,
-      width: double.infinity,
+      width: width,
       decoration: BoxDecoration(
           gradient: AppColors.primaryGradient,
           borderRadius: BorderRadius.circular(12)),

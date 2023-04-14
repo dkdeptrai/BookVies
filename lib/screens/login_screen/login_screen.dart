@@ -2,6 +2,7 @@ import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 left: 20, right: 20, top: topMargin, bottom: 38),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   'Login',
@@ -165,14 +166,37 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
+                Container(
+                  margin: const EdgeInsets.only(top: 32),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _navigateToForgotPasswordScreen();
+                        },
+                        child: const Text(
+                          'Forgot password?',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF6FE3E1),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const Spacer(),
                 Container(
                   margin: const EdgeInsets.only(bottom: 38),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("You don't have an account? ",
-                          style: AppStyles.hintTextStyle),
+                      Text(
+                        "You don't have an account? ",
+                        style: AppStyles.hintTextStyle,
+                      ),
                       GestureDetector(
                         onTap: () {
                           _navigateToSignUpScreen();
@@ -204,9 +228,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _toggleRevealState(bool obscuredState) {
-    setState(() {
-      obscuredState = !obscuredState;
-    });
+  _navigateToForgotPasswordScreen() {
+    Navigator.pushNamed(
+      context,
+      ForgotPasswordScreen.id,
+    );
   }
 }
