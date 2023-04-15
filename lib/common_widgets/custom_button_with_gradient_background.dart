@@ -11,7 +11,7 @@ class CustomButtonWithGradientBackground extends StatelessWidget {
     required this.height,
     this.width = double.infinity,
     required this.text,
-    this.onPressed,
+    required this.onPressed,
   }) : super(key: key);
   final EdgeInsetsGeometry? margin;
   final double height;

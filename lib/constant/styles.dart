@@ -33,7 +33,7 @@ class AppStyles {
     borderRadius: BorderRadius.circular(12),
     boxShadow: [AppStyles.primaryShadow],
     color: AppColors.secondaryColor,
-    border: Border.all(color: AppColors.primaryHintTextColor),
+    border: Border.all(color: Colors.black),
   );
 
   static OutlineInputBorder authenticateFieldBorder = OutlineInputBorder(

@@ -1,3 +1,4 @@
+import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
@@ -8,6 +9,8 @@ import 'package:bookvies/services/authentication/authentication_exceptions.dart'
 import 'package:bookvies/services/authentication/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../main_screen/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const id = '/login-screen';
@@ -83,29 +86,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: _passwordObscured,
                       errorText: _passwordErrorText,
                     ),
-                    Container(
+                    CustomButtonWithGradientBackground(
                       margin: const EdgeInsets.only(top: 23, bottom: 32),
                       height: 54,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          gradient: AppColors.primaryGradient,
-                          borderRadius: BorderRadius.circular(12)),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          //login
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                        ),
-                        child: const Text(
-                          'Login',
-                          style: AppStyles.authenticateButtonTextStyle,
-                        ),
-                      ),
+                      text: "Login",
+                      onPressed: () => _signIn(),
                     ),
                     Row(
                       children: <Widget>[
@@ -226,6 +211,14 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  _navigateToMainScreen() {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      MainScreen.id,
+      (route) => false,
+    );
+  }
+
   _navigateToSignUpScreen() {
     Navigator.pushNamedAndRemoveUntil(
       context,
@@ -241,20 +234,26 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _signIn() {
+  _signIn() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
     try {
-      AuthService.firebase().logIn(email: email, password: password);
+      await AuthService.firebase().logIn(email: email, password: password);
+      _navigateToMainScreen();
     } on UserNotFoundAuthException {
       setState(() {
         _emailErrorText = "This email can't be found not found!";
         _passwordErrorText = null;
       });
     } on WrongPasswordAuthException {
-      _emailErrorText = _passwordErrorText = "Wromg email or password!";
+      setState(() {
+        _emailErrorText = _passwordErrorText = "Wrong email or password!";
+      });
     } on GenericAuthException {
-      _emailErrorText = "Something went wrong!";
+      setState(() {
+        _emailErrorText = "Something went wrong!";
+        _passwordErrorText = null;
+      });
     }
   }
 }

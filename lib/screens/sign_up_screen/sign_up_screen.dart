@@ -1,8 +1,10 @@
+import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/login_screen/login_screen.dart';
+import 'package:bookvies/screens/main_screen/main_screen.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
 import 'package:bookvies/services/authentication/authentication_service.dart';
 import 'package:flutter/material.dart';
@@ -116,29 +118,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       errorText: _confirmPasswordErrorText,
                     ),
-                    Container(
+                    CustomButtonWithGradientBackground(
                       margin: const EdgeInsets.only(top: 23, bottom: 32),
                       height: 54,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          gradient: AppColors.primaryGradient,
-                          borderRadius: BorderRadius.circular(12)),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _registerNewUser();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                        ),
-                        child: const Text(
-                          'Sign Up',
-                          style: AppStyles.authenticateButtonTextStyle,
-                        ),
-                      ),
+                      text: "Sign up",
+                      onPressed: () => _registerNewUser(),
                     ),
                     Row(
                       children: <Widget>[
@@ -282,6 +266,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         email: email,
         password: password,
       );
+      _showSnackBar(context);
+      _navigateToLoginScreen();
     } on WeakPasswordAuthException {
       setState(() {
         _emailErrorText = null;
@@ -303,5 +289,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _passwordErrorText = _confirmPasswordErrorText = null;
       });
     }
+  }
+
+  _showSnackBar(BuildContext context) {
+    const snackBar = SnackBar(
+      content: Text('Your account has been created successfully!'),
+      duration: Duration(seconds: 5),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
