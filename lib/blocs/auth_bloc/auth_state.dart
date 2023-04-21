@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show immutable;
 
 import 'package:bookvies/services/authentication/authentication_user.dart';
@@ -19,13 +19,16 @@ class AuthStateLoggedIn extends AuthState {
   );
 }
 
-class AuthStateLoggedOut extends AuthState {
+class AuthStateLoggedOut extends AuthState with EquatableMixin {
   final Exception? exception;
   final bool isLoading;
   const AuthStateLoggedOut({
     required this.exception,
     required this.isLoading,
   });
+
+  @override
+  List<Object?> get props => [exception, isLoading];
 }
 
 class AuthStateSignUp extends AuthState {
@@ -50,6 +53,10 @@ class AuthStateSignUpFailure extends AuthState {
   const AuthStateSignUpFailure(
     this.exception,
   );
+}
+
+class AuthStateNeedSignUp extends AuthState {
+  const AuthStateNeedSignUp();
 }
 
 class AuthStateForgotPassword extends AuthState {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show immutable;
+import 'package:flutter/material.dart' show BuildContext, immutable;
 
 @immutable
 abstract class AuthEvent {
@@ -20,6 +20,10 @@ class AuthEventLogOut extends AuthEvent {
   const AuthEventLogOut();
 }
 
+class AuthEventNeedSignUp extends AuthEvent {
+  const AuthEventNeedSignUp();
+}
+
 class AuthEventSignUp extends AuthEvent {
   final String email;
   final String password;
@@ -30,8 +34,8 @@ class AuthEventSignUp extends AuthEvent {
 
 class AuthEventForgotPasswordSent extends AuthEvent {
   final String email;
-
-  const AuthEventForgotPasswordSent(this.email);
+  final BuildContext context;
+  const AuthEventForgotPasswordSent(this.email, this.context);
 }
 
 class AuthEventForgotPassword extends AuthEvent {
