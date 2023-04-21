@@ -170,7 +170,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   Border.all(color: AppColors.greyTextColor)),
                           child: ElevatedButton(
                             onPressed: () {
-                              //signup with Google functionality
+                              // context
+                              //     .read<AuthBloc>()
+                              //     .add(const AuthEventSignInWithGoogle());
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
@@ -191,7 +193,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                 ),
                                 const Text(
-                                  'Sign up with Google',
+                                  'Sign in with Google',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: AppColors.greyTextColor,

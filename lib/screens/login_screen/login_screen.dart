@@ -131,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             border: Border.all(color: AppColors.greyTextColor)),
                         child: ElevatedButton(
                           onPressed: () {
-                            //login with google
+                            // context
+                            //     .read<AuthBloc>()
+                            //     .add(const AuthEventSignInWithGoogle());
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
