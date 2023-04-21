@@ -1,6 +1,7 @@
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
+import 'package:bookvies/screens/book_description_screen/book_description_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.red),
       home: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
+          return const BookDescriptionScreen();
           if (state is AuthStateLoggedIn) {
             return const MainScreen();
           } else if (state is AuthStateLoggedOut) {

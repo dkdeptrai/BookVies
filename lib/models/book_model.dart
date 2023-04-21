@@ -9,6 +9,7 @@ class Book extends Media {
     required super.description,
     required super.image,
     required this.author,
+    rating,
   });
 
   static final bookList = [

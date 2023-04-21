@@ -36,6 +36,12 @@ class AppStyles {
     border: Border.all(color: const Color(0xFFCCCCCC).withOpacity(0.6)),
   );
 
+  static BoxDecoration primaryNoBorderBoxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [AppStyles.primaryShadow],
+    color: AppColors.secondaryColor,
+  );
+
   static OutlineInputBorder authenticateFieldBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
     borderSide: BorderSide(
@@ -68,6 +74,12 @@ class AppStyles {
       fontSize: 22,
       color: AppColors.primaryTextColor,
       fontWeight: FontWeight.w500);
+
+  static const bookNameForDescriptionHeader = TextStyle(
+    fontSize: 20,
+    color: AppColors.primaryTextColor,
+    fontWeight: FontWeight.w600,
+  );
 
   static const searchBoxText =
       TextStyle(height: 1, fontSize: 12, color: AppColors.greyTextColor);
