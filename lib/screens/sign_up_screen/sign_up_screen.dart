@@ -1,3 +1,6 @@
+import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
@@ -8,6 +11,7 @@ import 'package:bookvies/screens/main_screen/main_screen.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
 import 'package:bookvies/services/authentication/authentication_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -118,11 +122,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       errorText: _confirmPasswordErrorText,
                     ),
-                    CustomButtonWithGradientBackground(
-                      margin: const EdgeInsets.only(top: 23, bottom: 32),
-                      height: 54,
-                      text: "Sign up",
-                      onPressed: () => _registerNewUser(),
+                    BlocListener<AuthBloc, AuthState>(
+                      listener: (context, state) {
+                        _handleExceptions(state);
+                      },
+                      child: CustomButtonWithGradientBackground(
+                        margin: const EdgeInsets.only(top: 23, bottom: 32),
+                        height: 54,
+                        text: "Sign up",
+                        onPressed: () => _registerNewUser(),
+                      ),
                     ),
                     Row(
                       children: <Widget>[
@@ -226,69 +235,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Future<void> _registerNewUser() async {
+  _registerNewUser() {
     final email = _emailController.text;
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
-    if (email == "") {
-      setState(() {
-        _emailErrorText = "Email is required";
-        _passwordErrorText = _confirmPasswordErrorText = null;
-      });
-      return;
-    }
-    if (password == "") {
-      setState(() {
-        _passwordErrorText = "Password is required";
-        _emailErrorText = _confirmPasswordErrorText = null;
-      });
-      return;
-    }
 
-    if (confirmPassword == "") {
-      setState(() {
-        _confirmPasswordErrorText = "Confirm password is required";
-        _emailErrorText = _passwordErrorText = null;
-      });
-      return;
-    }
-
-    if (password != confirmPassword) {
-      setState(() {
-        _passwordErrorText =
-            _confirmPasswordErrorText = "Passwords do not match";
-        _emailErrorText = null;
-      });
-      return;
-    }
-    try {
-      await AuthService.firebase().createUser(
-        email: email,
-        password: password,
-      );
-      _showSnackBar(context);
-      _navigateToLoginScreen();
-    } on WeakPasswordAuthException {
-      setState(() {
-        _emailErrorText = null;
-        _passwordErrorText = _confirmPasswordErrorText = "Password is too weak";
-      });
-    } on EmailAlreadyInUseAuthException {
-      setState(() {
-        _emailErrorText = "Email is already in use";
-        _passwordErrorText = _confirmPasswordErrorText = null;
-      });
-    } on InvalidEmailAuthException {
-      setState(() {
-        _emailErrorText = "Email is invalid";
-        _passwordErrorText = _confirmPasswordErrorText = null;
-      });
-    } on GenericAuthException {
-      setState(() {
-        _emailErrorText = "Something went wrong";
-        _passwordErrorText = _confirmPasswordErrorText = null;
-      });
-    }
+    context.read()<AuthBloc>().add(AuthEventSignUp(
+          email,
+          password,
+          confirmPassword,
+        ));
+    _showSnackBar(context);
+    _navigateToLoginScreen();
   }
 
   _showSnackBar(BuildContext context) {
@@ -297,5 +255,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
       duration: Duration(seconds: 5),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _handleExceptions(AuthState state) {
+    if (state is AuthStateSignUpFailure) {
+      if (state.exception is WeakPasswordAuthException) {
+        setState(() {
+          _emailErrorText = null;
+          _passwordErrorText =
+              _confirmPasswordErrorText = "Password is too weak";
+        });
+      } else if (state.exception is EmailAlreadyInUseAuthException) {
+        setState(() {
+          _emailErrorText = "Email is already in use";
+          _passwordErrorText = _confirmPasswordErrorText = null;
+        });
+      } else if (state.exception is InvalidEmailAuthException) {
+        setState(() {
+          _emailErrorText = "Email is invalid";
+          _passwordErrorText = _confirmPasswordErrorText = null;
+        });
+      } else if (state.exception is GenericAuthException) {
+        setState(() {
+          _emailErrorText = "Something went wrong";
+          _passwordErrorText = _confirmPasswordErrorText = null;
+        });
+      }
+    }
   }
 }

@@ -1,8 +1,10 @@
+import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
-import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NotiDiaglog extends StatelessWidget {
@@ -49,7 +51,8 @@ class NotiDiaglog extends StatelessWidget {
               height: 35,
               width: 135,
               text: "OK",
-              onPressed: () => _navigateToLoginScreen(context),
+              onPressed: () =>
+                  context.read<AuthBloc>().add(const AuthEventLogOut()),
             ),
             Container(
               margin: const EdgeInsets.only(top: 19),
@@ -57,7 +60,9 @@ class NotiDiaglog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () => _navigateBack(context),
+                    onTap: () => context
+                        .read<AuthBloc>()
+                        .add(const AuthEventForgotPassword()),
                     child: const Text(
                       "Cancel",
                       style: TextStyle(
@@ -70,17 +75,6 @@ class NotiDiaglog extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  void _navigateBack(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
-  void _navigateToLoginScreen(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      LoginScreen.id,
-      (route) => false,
     );
   }
 }

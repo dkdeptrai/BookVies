@@ -1,6 +1,10 @@
-import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
+import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
+import 'package:bookvies/screens/main_screen/main_screen.dart';
+import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bookvies/firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +17,13 @@ import 'package:bookvies/utils/router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp(appRouter: AppRouter()));
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (_) => NavBarBloc()),
+      BlocProvider(create: (_) => AuthBloc(FirebaseAuthProvider())),
+    ],
+    child: MyApp(appRouter: AppRouter()),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -22,17 +32,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => NavBarBloc())],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          onGenerateRoute: appRouter.onGenerateRoute,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-              primarySwatch: Colors.blue,
-              fontFamily: "Poppins",
-              primaryColor: Colors.red),
-          home: const SignUpScreen()),
+    context.read<AuthBloc>().add(const AuthEventInitialize());
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: appRouter.onGenerateRoute,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+          primarySwatch: Colors.blue,
+          fontFamily: "Poppins",
+          primaryColor: Colors.red),
+      home: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          if (state is AuthStateLoggedIn) {
+            return const MainScreen();
+          } else if (state is AuthStateLoggedOut) {
+            return const LoginScreen();
+          } else if (state is AuthStateForgotPassword) {
+            return const ForgotPasswordScreen();
+          } else {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }

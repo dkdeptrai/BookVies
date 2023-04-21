@@ -1,3 +1,6 @@
+import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
@@ -6,8 +9,8 @@ import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
-import 'package:bookvies/services/authentication/authentication_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../main_screen/main_screen.dart';
@@ -30,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     double topMargin = size.height * 0.174;
+
     return Scaffold(
       backgroundColor: AppColors.primaryBackgroundColor,
       body: SafeArea(
@@ -86,11 +90,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: _passwordObscured,
                       errorText: _passwordErrorText,
                     ),
-                    CustomButtonWithGradientBackground(
-                      margin: const EdgeInsets.only(top: 23, bottom: 32),
-                      height: 54,
-                      text: "Login",
-                      onPressed: () => _signIn(),
+                    BlocListener<AuthBloc, AuthState>(
+                      listener: (context, state) {
+                        _handleLoginExceptions(state);
+                      },
+                      child: CustomButtonWithGradientBackground(
+                        margin: const EdgeInsets.only(top: 23, bottom: 32),
+                        height: 54,
+                        text: "Login",
+                        onPressed: () => _signIn(),
+                      ),
                     ),
                     Row(
                       children: <Widget>[
@@ -164,7 +173,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          _navigateToForgotPasswordScreen();
+                          context
+                              .read<AuthBloc>()
+                              .add(const AuthEventForgotPassword());
                         },
                         child: const Text(
                           'Forgot password?',
@@ -190,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          _navigateToSignUpScreen();
+                          context.read<AuthBloc>().add(const AuthEventLogOut());
                         },
                         child: const Text(
                           'Sign up',
@@ -211,22 +222,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _navigateToMainScreen() {
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      MainScreen.id,
-      (route) => false,
-    );
-  }
-
-  _navigateToSignUpScreen() {
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      SignUpScreen.id,
-      (route) => false,
-    );
-  }
-
   _navigateToForgotPasswordScreen() {
     Navigator.pushNamed(
       context,
@@ -234,26 +229,33 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _signIn() async {
+  _signIn() {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
-    try {
-      await AuthService.firebase().logIn(email: email, password: password);
-      _navigateToMainScreen();
-    } on UserNotFoundAuthException {
-      setState(() {
-        _emailErrorText = "This email can't be found not found!";
-        _passwordErrorText = null;
-      });
-    } on WrongPasswordAuthException {
-      setState(() {
-        _emailErrorText = _passwordErrorText = "Wrong email or password!";
-      });
-    } on GenericAuthException {
-      setState(() {
-        _emailErrorText = "Something went wrong!";
-        _passwordErrorText = null;
-      });
+    context.read<AuthBloc>().add(
+          AuthEventLogin(
+            email,
+            password,
+          ),
+        );
+  }
+
+  void _handleLoginExceptions(AuthState state) {
+    if (state is AuthStateLoggedOut) {
+      if (state.exception is UserNotFoundAuthException) {
+        setState(() {
+          _emailErrorText = "User not found!";
+          _passwordErrorText = null;
+        });
+      } else if (state.exception is WrongPasswordAuthException) {
+        setState(() {
+          _emailErrorText = _passwordErrorText = "Wrong email or password!";
+        });
+      } else if (state.exception is GenericAuthException) {
+        setState(() {
+          _emailErrorText = _passwordErrorText = "Something went wrong!";
+        });
+      }
     }
   }
 }

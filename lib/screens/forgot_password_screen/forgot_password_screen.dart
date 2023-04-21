@@ -1,3 +1,6 @@
+import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
@@ -5,10 +8,8 @@ import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/forgot_password_screen/widgets/alert_dialog.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
-import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
-import 'package:bookvies/services/authentication/authentication_provider.dart';
-import 'package:bookvies/services/authentication/authentication_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -68,13 +69,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 errorText: _error,
               ),
               const Spacer(),
-              CustomButtonWithGradientBackground(
-                margin: const EdgeInsets.only(bottom: 27),
-                height: 54,
-                text: "Send",
-                onPressed: () {
-                  _sendEmailAndAlert(context);
+              BlocListener<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  _handleLoginExceptions(state);
                 },
+                child: CustomButtonWithGradientBackground(
+                  margin: const EdgeInsets.only(bottom: 27),
+                  height: 54,
+                  text: "Send",
+                  onPressed: () {
+                    _sendEmailAndAlert(context);
+                  },
+                ),
               ),
             ],
           ),
@@ -84,22 +90,27 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   _sendEmailAndAlert(BuildContext context) async {
-    try {
-      await AuthService.firebase()
-          .sendPasswordResetEmail(email: _emailController.text);
-      showDialog(context: context, builder: (context) => NotiDiaglog());
-    } on InvalidEmailAuthException {
-      setState(() {
-        _error = "Invalid email";
-      });
-    } on UserNotFoundAuthException {
-      setState(() {
-        _error = "There is no user with this email";
-      });
-    } on GenericAuthException {
-      setState(() {
-        _error = "Something went wrong";
-      });
+    showDialog(context: context, builder: (context) => NotiDiaglog());
+    context
+        .read<AuthBloc>()
+        .add(AuthEventForgotPasswordSent(_emailController.text));
+  }
+
+  void _handleLoginExceptions(AuthState state) {
+    if (state is AuthStateLoggedOut) {
+      if (state.exception is InvalidEmailAuthException) {
+        setState(() {
+          _error = "Invalid email";
+        });
+      } else if (state.exception is UserNotFoundAuthException) {
+        setState(() {
+          _error = "There is no user with this email";
+        });
+      } else if (state.exception is GenericAuthException) {
+        setState(() {
+          _error = "Something went wrong";
+        });
+      }
     }
   }
 }
