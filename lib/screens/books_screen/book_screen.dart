@@ -1,3 +1,5 @@
+import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/dimensions..dart';
@@ -6,6 +8,7 @@ import 'package:bookvies/screens/books_screen/widgets/popular_books_widget.dart'
 import 'package:bookvies/screens/books_screen/widgets/top_rating_book_widget.dart';
 import 'package:bookvies/screens/search_books_screen/search_books_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BookScreen extends StatelessWidget {
@@ -20,7 +23,10 @@ class BookScreen extends StatelessWidget {
             title: "Books",
             actions: [
               IconButton(
-                  onPressed: () => _navigateToSearchBooksScreen(context),
+                  onPressed: () {
+                    context.read<AuthBloc>().add(const AuthEventLogOut());
+                  },
+                  //_navigateToSearchBooksScreen(context),
                   icon: SvgPicture.asset(AppAssets.icSearch))
             ],
           )),

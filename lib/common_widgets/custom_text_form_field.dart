@@ -1,10 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 
+// ignore: must_be_immutable
 class CustomTextFormField extends StatefulWidget {
   CustomTextFormField({
     Key? key,
@@ -35,25 +34,52 @@ class CustomTextFormField extends StatefulWidget {
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
+    var showError = widget.errorText == null ? false : true;
+
     return Container(
-      margin: const EdgeInsets.only(top: 14, bottom: 14),
-      height: widget.height,
+      margin: const EdgeInsets.only(top: 4, bottom: 4),
+      height: widget.height + 20,
       width: double.infinity,
-      decoration: AppStyles.primaryBoxDecoration,
-      child: TextFormField(
-        textAlignVertical: TextAlignVertical.center,
-        maxLines: widget.maxLines,
-        obscureText: widget.obscureText,
-        controller: widget.controller,
-        decoration: InputDecoration(
-          hintText: widget.hintText,
-          hintStyle: AppStyles.hintTextStyle,
-          prefixIcon: widget.prefixIcon,
-          prefixIconConstraints: widget.prefixIconConstraints,
-          suffixIcon: widget.suffixIcon,
-          border: InputBorder.none,
-          errorText: widget.errorText,
-        ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [AppStyles.primaryShadow],
+        color: Colors.transparent,
+      ),
+      child: Stack(
+        children: [
+          SizedBox(
+            height: widget.height,
+            child: TextFormField(
+              textAlignVertical: TextAlignVertical.center,
+              maxLines: widget.maxLines,
+              obscureText: widget.obscureText,
+              controller: widget.controller,
+              decoration: InputDecoration(
+                isDense: true,
+                hintText: widget.hintText,
+                hintStyle: AppStyles.hintTextStyle,
+                prefixIcon: widget.prefixIcon,
+                prefixIconConstraints: widget.prefixIconConstraints,
+                suffixIcon: widget.suffixIcon,
+                border: AppStyles.authenticateFieldBorder,
+                fillColor: AppColors.primaryBackgroundColor,
+                filled: true,
+              ),
+            ),
+          ),
+          showError
+              ? Positioned(
+                  bottom: -3,
+                  left: 10,
+                  child: Text(
+                    widget.errorText!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                )
+              : Container(
+                  margin: const EdgeInsets.only(top: 4),
+                ),
+        ],
       ),
     );
   }
