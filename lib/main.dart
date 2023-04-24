@@ -3,6 +3,7 @@ import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
+import 'package:bookvies/screens/movies_screen/movies_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,32 +37,33 @@ class MyApp extends StatelessWidget {
     context.read<AuthBloc>().add(const AuthEventInitialize());
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: appRouter.onGenerateRoute,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          primarySwatch: Colors.blue,
-          fontFamily: "Poppins",
-          primaryColor: Colors.red),
-      home: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          if (state is AuthStateLoggedIn) {
-            return const MainScreen();
-          } else if (state is AuthStateLoggedOut) {
-            return const LoginScreen();
-          } else if (state is AuthStateForgotPassword) {
-            return const ForgotPasswordScreen();
-          } else if (state is AuthStateNeedSignUp) {
-            return const SignUpScreen();
-          } else {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        },
-      ),
-    );
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: appRouter.onGenerateRoute,
+        title: 'BookVies',
+        theme: ThemeData(
+            primarySwatch: Colors.blue,
+            fontFamily: "Poppins",
+            primaryColor: Colors.red),
+        home: MainScreen()
+        // BlocBuilder<AuthBloc, AuthState>(
+        //   builder: (context, state) {
+        //     if (state is AuthStateLoggedIn) {
+        //       return const MainScreen();
+        //     } else if (state is AuthStateLoggedOut) {
+        //       return const LoginScreen();
+        //     } else if (state is AuthStateForgotPassword) {
+        //       return const ForgotPasswordScreen();
+        //     } else if (state is AuthStateNeedSignUp) {
+        //       return const SignUpScreen();
+        //     } else {
+        //       return const Scaffold(
+        //         body: Center(
+        //           child: CircularProgressIndicator(),
+        //         ),
+        //       );
+        //     }
+        //   },
+        // ),
+        );
   }
 }

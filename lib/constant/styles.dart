@@ -1,5 +1,5 @@
 import 'package:bookvies/constant/colors.dart';
-import 'package:bookvies/screens/books_screen/widgets/books_section_header.dart';
+import 'package:bookvies/common_widgets/section_header.dart';
 import 'package:flutter/material.dart';
 
 class AppStyles {
@@ -64,8 +64,8 @@ class AppStyles {
       fontSize: 22,
       fontWeight: FontWeight.w600);
 
-  static const booksSectionHeaderText = TextStyle(
-      fontSize: 22,
+  static const sectionHeaderText = TextStyle(
+      fontSize: 20,
       color: AppColors.primaryTextColor,
       fontWeight: FontWeight.w500);
 
@@ -84,4 +84,8 @@ class AppStyles {
     fontSize: 10,
     color: AppColors.primaryTextColor,
   );
+  static const movieItemName = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: AppColors.primaryTextColor);
 }

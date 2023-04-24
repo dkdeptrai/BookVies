@@ -1,5 +1,5 @@
 import 'package:bookvies/models/book_model.dart';
-import 'package:bookvies/screens/books_screen/widgets/books_section_header.dart';
+import 'package:bookvies/common_widgets/section_header.dart';
 import 'package:bookvies/screens/books_screen/widgets/explore_book_item_widget.dart';
 import 'package:bookvies/screens/explore_books_screen/explore_books_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class ExploreBooksWidget extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8.0),
       child: Column(
         children: [
-          BooksSectionHeader(
+          SectionHeader(
             title: "Explore",
             onPressed: () => _navigateToExploreBooksScreen(context),
           ),
