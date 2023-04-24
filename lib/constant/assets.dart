@@ -5,6 +5,8 @@ class AppAssets {
   // icons
   static const String icSearch = "$iconPath/ic_search.svg";
   static const String icRatingStar = "$iconPath/ic_rating_star.svg";
+  static const String icRatingStarGradient =
+      "$iconPath/ic_rating_star_gradient.svg";
   static const String icBook = "$iconPath/ic_book.svg";
   static const String icMovie = "$iconPath/ic_movie.svg";
   static const String icLibrary = "$iconPath/ic_library.svg";
