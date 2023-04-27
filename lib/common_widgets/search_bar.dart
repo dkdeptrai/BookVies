@@ -20,6 +20,7 @@ class SearchBar extends StatelessWidget {
             child: SizedBox(
           height: 35,
           child: TextFormField(
+            textInputAction: TextInputAction.search,
             decoration: InputDecoration(
                 hintText: hint,
                 hintStyle: AppStyles.searchBoxText,

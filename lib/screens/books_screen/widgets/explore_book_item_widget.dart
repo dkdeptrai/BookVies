@@ -45,11 +45,12 @@ class ExploreBookItemWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     book.name,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                   Text(
                     book.author.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         color: AppColors.greyTextColor),
