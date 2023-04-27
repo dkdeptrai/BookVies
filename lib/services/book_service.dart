@@ -2,12 +2,12 @@ import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 
 class BookService {
-  Future<List<Book>> getPopularBooks() async {
+  Future<List<Book>> getPopularBooks({required int limit}) async {
     List<Book> books = [];
 
     final ref = await booksRef
         .orderBy("averageRating", descending: true)
-        .limit(10)
+        .limit(limit)
         .get();
 
     ref.docs.forEach(

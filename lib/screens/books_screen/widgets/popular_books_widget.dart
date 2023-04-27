@@ -52,6 +52,6 @@ class PopularBookWidget extends StatelessWidget {
   }
 
   Future<List<Book>> _getPopularBooks() {
-    return BookService().getPopularBooks();
+    return BookService().getPopularBooks(limit: 10);
   }
 }

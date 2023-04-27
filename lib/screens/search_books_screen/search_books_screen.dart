@@ -48,7 +48,7 @@ class SearchBooksScreen extends StatelessWidget {
                             style: AppStyles.searchBookNameText,
                           ),
                           Text(
-                            Book.bookList[index].author,
+                            Book.bookList[index].author.toString(),
                             style: AppStyles.searchBookAuthorText,
                           ),
                           const SizedBox(height: 20),

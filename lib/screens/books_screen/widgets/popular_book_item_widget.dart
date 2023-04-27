@@ -45,7 +45,8 @@ class PopularBookItem extends StatelessWidget {
                         errorWidget: (context, index, error) =>
                             const Icon(Icons.error),
                       ),
-                      const RatingBadge(
+                      RatingBadge(
+                        rating: book.averageRating,
                         borderColor: AppColors.greyTextColor,
                       )
                     ],
@@ -59,7 +60,7 @@ class PopularBookItem extends StatelessWidget {
                         fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    book.author,
+                    book.author.toString(),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(

@@ -34,7 +34,8 @@ class ExploreBookItemWidget extends StatelessWidget {
                     children: [
                       CachedNetworkImage(
                           imageUrl: book.image, height: 116, fit: BoxFit.cover),
-                      const RatingBadge(
+                      RatingBadge(
+                        rating: book.averageRating,
                         borderColor: AppColors.greyTextColor,
                       )
                     ],
@@ -47,7 +48,7 @@ class ExploreBookItemWidget extends StatelessWidget {
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    book.author,
+                    book.author.toString(),
                     style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
