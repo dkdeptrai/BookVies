@@ -4,6 +4,8 @@ class Media {
   final String description;
   final String image;
   final double averageRating;
+  final int reviewsNum;
+  final List<String> genres;
 
   Media({
     required this.id,
@@ -11,5 +13,7 @@ class Media {
     required this.description,
     required this.image,
     this.averageRating = 0,
+    this.reviewsNum = 0,
+    required this.genres,
   });
 }

@@ -1,14 +1,17 @@
+import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
+
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/rating_widget.dart';
 import 'package:bookvies/screens/login_screen/login_screen.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../constant/assets.dart';
 
@@ -51,6 +54,7 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.only(bottom: 58),
                 width: size.width - 40,
                 decoration: AppStyles.primaryNoBorderBoxDecoration,
                 child: Row(
@@ -74,14 +78,171 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
                               softWrap: true,
                               maxLines: 2,
                             ),
-                            RatingWidget(rating: book.averageRating),
+                            RatingWidget(
+                              rating: book.averageRating,
+                            ),
+                            Text("${book.reviewsNum} Reviews"),
                           ],
                         ),
                       ),
                     )
                   ],
                 ),
-              )
+              ),
+              Text(
+                book.description,
+                style: AppStyles.primaryTextStyle,
+                textAlign: TextAlign.justify,
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 15),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 15, top: 15),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: (size.width - 40) / 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      bottom: 15, top: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Author: ",
+                                        style: AppStyles.descriptionItemText,
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          book.author,
+                                          style: AppStyles.primaryTextStyle,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          maxLines: 1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Pages: ",
+                                      style: AppStyles.descriptionItemText,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        book.pages.toString(),
+                                        style: AppStyles.primaryTextStyle,
+                                        overflow: TextOverflow.ellipsis,
+                                        softWrap: true,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: (size.width - 40) / 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      bottom: 15, top: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Publisher: ",
+                                        style: AppStyles.descriptionItemText,
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          book.publisher,
+                                          style: AppStyles.primaryTextStyle,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          maxLines: 1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Publication date: ",
+                                      style: AppStyles.descriptionItemText,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        DateFormat('dd/MM/yyyy')
+                                            .format(book.publicationDate),
+                                        style: AppStyles.primaryTextStyle,
+                                        overflow: TextOverflow.ellipsis,
+                                        softWrap: true,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Genres: ",
+                            style: AppStyles.descriptionItemText),
+                        Flexible(
+                          child: Text(
+                            book.genres.join(", ").toString(),
+                            style: AppStyles.primaryTextStyle,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            maxLines: 4,
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              CustomButtonWithGradientBackground(
+                margin: const EdgeInsets.only(top: 34),
+                height: 53,
+                width: 200,
+                text: "Add to library",
+                onPressed: () {},
+              ),
+              CustomButtonWithGradientBackground(
+                margin: const EdgeInsets.only(top: 34),
+                height: 53,
+                width: 233,
+                text: "Write your review",
+                onPressed: () {},
+              ),
             ],
           ),
         ),

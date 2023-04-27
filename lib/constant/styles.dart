@@ -74,6 +74,15 @@ class AppStyles {
       fontSize: 20,
       color: AppColors.primaryTextColor,
       fontWeight: FontWeight.w500);
+  static const descriptionItemText = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primaryTextColor,
+  );
+  static const primaryTextStyle = TextStyle(
+    fontSize: 12,
+    color: AppColors.primaryTextColor,
+  );
 
   static const bookNameForDescriptionHeader = TextStyle(
     fontSize: 20,
