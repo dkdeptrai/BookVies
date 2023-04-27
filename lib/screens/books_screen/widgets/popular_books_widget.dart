@@ -1,5 +1,6 @@
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/common_widgets/section_header.dart';
+import 'package:bookvies/screens/books_screen/widgets/loading/popular_books_loading_widget.dart';
 import 'package:bookvies/screens/books_screen/widgets/popular_book_item_widget.dart';
 import 'package:bookvies/screens/popular_book_screen/popular_book_screen.dart';
 import 'package:bookvies/services/book_service.dart';
@@ -26,7 +27,7 @@ class PopularBookWidget extends StatelessWidget {
               future: _getPopularBooks(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const PopularBooksLoadingWidget();
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Text(snapshot.error.toString()),
