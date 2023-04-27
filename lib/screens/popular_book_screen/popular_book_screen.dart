@@ -16,7 +16,7 @@ class PopularBookScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
+          preferredSize: Size.fromHeight(50),
           child: CustomAppBar(
             title: "Popular Books",
             leading: IconButton(

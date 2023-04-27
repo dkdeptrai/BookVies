@@ -1,10 +1,13 @@
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
+import 'package:bookvies/screens/recommend_movies_screen/recommend_movies_screen.dart';
+import 'package:bookvies/screens/search_movies_screen/search_movies_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:bookvies/screens/explore_books_screen/explore_books_screen.dart';
 import 'package:bookvies/screens/popular_book_screen/popular_book_screen.dart';
 import 'package:bookvies/screens/search_books_screen/search_books_screen.dart';
+import 'package:bookvies/screens/top_rating_screen/top_rating_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -24,6 +27,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
       case (MainScreen.id):
         return MaterialPageRoute(builder: (_) => const MainScreen());
+      case (SearchMoviesScreen.id):
+        return MaterialPageRoute(builder: (_) => const SearchMoviesScreen());
+      case (RecommendMoviesScreen.id):
+        return MaterialPageRoute(builder: (_) => const RecommendMoviesScreen());
+      case (TopRatingMoviesScreen.id):
+        return MaterialPageRoute(builder: (_) => const TopRatingMoviesScreen());
 
       default:
         return MaterialPageRoute(
