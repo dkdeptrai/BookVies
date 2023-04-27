@@ -50,7 +50,7 @@ class Media {
       numberReviews:
           map['numberReviews'] == null ? 0 : map['numberReviews'] as int,
       averageRating:
-          map['averageRating'] == null ? 0 : map['averageRating'] as double,
+          map['averageRating'] == null ? 0.0 : map['averageRating'] as double,
     );
   }
 

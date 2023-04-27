@@ -7,11 +7,11 @@ import 'package:bookvies/models/review_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Book extends Media {
-  final String author;
-  final String publisher;
-  final String isbn;
+  final String? author;
+  final String? publisher;
+  final String? isbn;
   final DateTime? firstPublishDate;
-  final int pages;
+  final int? pages;
   Book({
     required super.id,
     required super.name,
@@ -82,14 +82,14 @@ class Book extends Media {
       numberReviews:
           map['numberReviews'] == null ? 0 : map['numberReviews'] as int,
       averageRating:
-          map['averageRating'] == null ? 0.0 : map['averageRating'] as double,
-      author: map['author'] as String,
-      publisher: map['publisher'] as String,
-      isbn: map['isbn'] as String,
+          map['averageRating'] == null ? 0.0 : map['averageRating'].toDouble(),
+      author: map['author'] as String?,
+      publisher: map['publisher'] as String?,
+      isbn: map['isbn'] as String?,
       firstPublishDate: map['firstPublishDate'] == null
           ? null
           : (map['firstPublishDate'] as Timestamp).toDate(),
-      pages: map['pages'] as int,
+      pages: map['pages'] as int?,
     );
   }
 
