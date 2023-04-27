@@ -1,3 +1,4 @@
+import 'package:bookvies/common_widgets/search_bar.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/dimensions..dart';
@@ -19,37 +20,7 @@ class SearchBooksScreen extends StatelessWidget {
         child: SingleChildScrollView(
             child: Column(
           children: [
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    // iconSize: 50,
-                    icon: SvgPicture.asset(AppAssets.icArrowLeft)),
-                Expanded(
-                    child: SizedBox(
-                  height: 35,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        hintText: "Search books, authors, ISBN...",
-                        hintStyle: AppStyles.searchBoxText,
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          borderSide:
-                              const BorderSide(color: AppColors.greyTextColor),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          borderSide:
-                              const BorderSide(color: AppColors.greyTextColor),
-                        )),
-                  ),
-                )),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: SvgPicture.asset(AppAssets.icSearch),
-                )
-              ],
-            ),
+            const SearchBar(hint: "Search books, authors, ISBN..."),
             ListView.builder(
                 shrinkWrap: true,
                 itemCount: Book.bookList.length,

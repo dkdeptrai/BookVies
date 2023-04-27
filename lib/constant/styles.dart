@@ -1,4 +1,5 @@
 import 'package:bookvies/constant/colors.dart';
+import 'package:bookvies/common_widgets/section_header.dart';
 import 'package:flutter/material.dart';
 
 class AppStyles {
@@ -15,11 +16,24 @@ class AppStyles {
     color: AppColors.primaryHintTextColor,
   );
 
+  static const TextStyle subHeaderTextStyle = TextStyle(
+    fontSize: 15,
+    fontFamily: "Poppins",
+    fontWeight: FontWeight.w500,
+    color: AppColors.primaryTextColor,
+  );
   static const TextStyle authenticateButtonTextStyle = TextStyle(
     fontSize: 20,
     fontFamily: "Poppins",
     fontWeight: FontWeight.w500,
     color: AppColors.secondaryColor,
+  );
+
+  static BoxDecoration primaryBoxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [AppStyles.primaryShadow],
+    color: AppColors.secondaryColor,
+    border: Border.all(color: const Color(0xFFCCCCCC).withOpacity(0.6)),
   );
 
   static OutlineInputBorder authenticateFieldBorder = OutlineInputBorder(
@@ -50,8 +64,8 @@ class AppStyles {
       fontSize: 22,
       fontWeight: FontWeight.w600);
 
-  static const booksSectionHeaderText = TextStyle(
-      fontSize: 22,
+  static const sectionHeaderText = TextStyle(
+      fontSize: 20,
       color: AppColors.primaryTextColor,
       fontWeight: FontWeight.w500);
 
@@ -70,4 +84,8 @@ class AppStyles {
     fontSize: 10,
     color: AppColors.primaryTextColor,
   );
+  static const movieItemName = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: AppColors.primaryTextColor);
 }

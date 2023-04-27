@@ -2,12 +2,14 @@ import 'package:bookvies/blocs/nav_bar_bloc/nav_bar_bloc.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/screens/books_screen/book_screen.dart';
+import 'package:bookvies/screens/movies_screen/movies_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MainScreen extends StatefulWidget {
+  static const id = '/main-screen';
   const MainScreen({super.key});
 
   @override
@@ -17,7 +19,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final List<Widget> screen = [
     const BookScreen(),
-    const Placeholder(), // Replace with movies screen
+    const MoviesScreen(), // Replace with movies screen
     const Placeholder(), // Replace with library screen
     const Placeholder(), // Replace with chat screen
     const Placeholder() // Replace with profile screen
