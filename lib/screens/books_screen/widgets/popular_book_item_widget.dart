@@ -17,6 +17,7 @@ class PopularBookItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    print(book.image);
 
     return Padding(
       padding: const EdgeInsets.only(right: 15),
@@ -38,7 +39,12 @@ class PopularBookItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CachedNetworkImage(
-                          imageUrl: book.image, height: 80, fit: BoxFit.cover),
+                        imageUrl: book.image,
+                        height: 80,
+                        fit: BoxFit.cover,
+                        errorWidget: (context, index, error) =>
+                            const Icon(Icons.error),
+                      ),
                       const RatingBadge(
                         borderColor: AppColors.greyTextColor,
                       )
@@ -49,11 +55,14 @@ class PopularBookItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     book.name,
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                   Text(
                     book.author,
-                    style: TextStyle(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
                         color: AppColors.greyTextColor),
@@ -69,12 +78,12 @@ class PopularBookItem extends StatelessWidget {
               child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(12),
                           bottomRight: Radius.circular(12)),
                       gradient: AppColors.primaryGradient),
-                  child: Text("Details",
+                  child: const Text("Details",
                       style: TextStyle(
                           fontSize: 10,
                           color: AppColors.primaryTextColor,
