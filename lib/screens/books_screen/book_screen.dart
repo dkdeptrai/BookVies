@@ -30,7 +30,7 @@ class BookScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              TopRatingBookWidget(),
+              // TopRatingBookWidget(),
               PopularBookWidget(margin: EdgeInsets.only(top: 5)),
               ExploreBooksWidget()
             ],
