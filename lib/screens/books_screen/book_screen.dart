@@ -4,7 +4,6 @@ import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/screens/books_screen/widgets/explore_books_widget.dart';
-import 'package:bookvies/screens/books_screen/widgets/highest_rating_books_widget.dart';
 import 'package:bookvies/screens/books_screen/widgets/popular_books_widget.dart';
 import 'package:bookvies/screens/books_screen/widgets/highest_rating_book_widget.dart';
 import 'package:bookvies/screens/search_books_screen/search_books_screen.dart';
