@@ -17,7 +17,6 @@ class PopularBookItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    print(book.image);
 
     return Padding(
       padding: const EdgeInsets.only(right: 15),

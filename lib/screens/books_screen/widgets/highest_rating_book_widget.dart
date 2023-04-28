@@ -2,6 +2,7 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/book_model.dart';
+import 'package:bookvies/screens/books_screen/widgets/loading/highest_rating_book_loading_widget.dart';
 import 'package:bookvies/screens/books_screen/widgets/rating_badge.dart';
 import 'package:bookvies/services/book_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -20,7 +21,7 @@ class HighestRatingBookWidget extends StatelessWidget {
         future: _getMostPopularBook(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const HighestRatingBookLoadingWidget();
           } else if (snapshot.hasError) {
             return Center(
               child: Text(snapshot.error.toString()),
