@@ -17,7 +17,10 @@ class SearchMoviesScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
             child: Column(children: [
-          const SearchBar(hint: "Search movies, actors,..."),
+          SearchBar(
+            hint: "Search movies, actors,...",
+            onSearch: () {},
+          ),
           GridView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(

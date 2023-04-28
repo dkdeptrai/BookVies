@@ -34,12 +34,11 @@ class MovieItemWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      border:
-                          Border.all(width: 1, color: const Color(0xFF609DE3)),
+                      border: Border.all(width: 1, color: AppColors.mediumBlue),
                       borderRadius: BorderRadius.circular(5)),
                   child: Row(children: [
                     Text(movie.averageRating.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 8, fontWeight: FontWeight.w500)),
                     const SizedBox(width: 3),
                     SvgPicture.asset(AppAssets.icRatingStarGradient)
