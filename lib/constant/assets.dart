@@ -20,9 +20,9 @@ class AppAssets {
   static const String icGoogle = "$iconPath/ic_google.svg";
   static const String icShare = "$iconPath/ic_share.svg";
   static const String icStar = "$iconPath/ic_star.svg";
-
-  static const String imgForgotPassword = "$imagePath/img_forgot_password.svg";
-  static const String imgEmailSent = "$imagePath/img_email_sent.svg";
+  static const String icUser = "$iconPath/ic_user.svg";
 
   // images
+  static const String imgForgotPassword = "$imagePath/img_forgot_password.svg";
+  static const String imgEmailSent = "$imagePath/img_email_sent.svg";
 }

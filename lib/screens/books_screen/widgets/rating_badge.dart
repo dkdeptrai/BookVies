@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RatingBadge extends StatelessWidget {
+  final double rating;
   final Color? borderColor;
   final EdgeInsets? padding;
-  const RatingBadge({super.key, this.borderColor, this.padding});
+  const RatingBadge(
+      {super.key, required this.rating, this.borderColor, this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class RatingBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "4.7",
+            rating.toString(),
             style: TextStyle(fontSize: 8, fontWeight: FontWeight.w600),
           ),
           const SizedBox(width: 5),

@@ -1,7 +1,18 @@
+import 'dart:io';
+
+import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
+import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PersonalInformationScreen extends StatefulWidget {
   static const id = '/personal-information-screen';
@@ -13,13 +24,15 @@ class PersonalInformationScreen extends StatefulWidget {
 }
 
 class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
+  File? _pickedImage;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final double topMargin = size.height * 0.05;
     final double bottomMargin = size.height * 0.03;
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController descriptionController = TextEditingController();
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -52,17 +65,29 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                     style: AppStyles.subHeaderTextStyle,
                   ),
                 ),
-                Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.network(
-                      'https://picsum.photos/200',
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
+                GestureDetector(
+                  onTap: () {
+                    _pickImage();
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: _pickedImage == null
+                          ? SvgPicture.asset(
+                              AppAssets.icUser,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              _pickedImage!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                 ),
@@ -75,7 +100,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                   ),
                 ),
                 CustomTextFormField(
-                  controller: nameController,
+                  controller: _nameController,
                   hintText: "Name",
                   prefixIconConstraints:
                       BoxConstraints.tight(const Size(24, 24)),
@@ -90,7 +115,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                   ),
                 ),
                 CustomTextFormField(
-                  controller: descriptionController,
+                  controller: _descriptionController,
                   hintText: "Your description",
                   prefixIconConstraints:
                       BoxConstraints.tight(const Size(24, 24)),
@@ -104,7 +129,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                   text: "Submit",
                   margin: EdgeInsets.only(bottom: bottomMargin),
                   onPressed: () {
-                    //signup new user
+                    _uploadUserInfo();
                   },
                 ),
               ],
@@ -113,5 +138,29 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile == null) {
+      return;
+    }
+    setState(() {
+      _pickedImage = File(pickedFile.path);
+    });
+  }
+
+  Future<void> _uploadUserInfo() async {
+    if (_pickedImage == null ||
+        _nameController.text.isEmpty ||
+        _descriptionController.text.isEmpty) {
+      return;
+    }
+    context.read<AuthBloc>().add(AuthEventAddUserInformation(
+          name: _nameController.text,
+          description: _descriptionController.text,
+          image: _pickedImage!,
+        ));
   }
 }

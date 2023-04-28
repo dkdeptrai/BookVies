@@ -30,5 +30,6 @@ class Movie extends Media {
       required super.image,
       required super.reviews,
       required super.numberReviews,
-      required super.averageRating});
+      required super.averageRating,
+      required super.genres});
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart' show BuildContext, immutable;
 
 @immutable
@@ -44,4 +46,16 @@ class AuthEventForgotPasswordSent extends AuthEvent {
 
 class AuthEventForgotPassword extends AuthEvent {
   const AuthEventForgotPassword();
+}
+
+class AuthEventAddUserInformation extends AuthEvent {
+  final File image;
+  final String name;
+  final String description;
+
+  const AuthEventAddUserInformation({
+    required this.image,
+    required this.name,
+    required this.description,
+  });
 }
