@@ -6,7 +6,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchBar extends StatelessWidget {
   final String hint;
-  const SearchBar({super.key, required this.hint});
+  final TextEditingController? controller;
+  final VoidCallback onSearch;
+  const SearchBar(
+      {super.key, required this.hint, this.controller, required this.onSearch});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +23,7 @@ class SearchBar extends StatelessWidget {
             child: SizedBox(
           height: 35,
           child: TextFormField(
+            controller: controller,
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
                 hintText: hint,
@@ -34,10 +38,12 @@ class SearchBar extends StatelessWidget {
                 )),
           ),
         )),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: SvgPicture.asset(AppAssets.icSearch),
-        )
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        //   child: SvgPicture.asset(AppAssets.icSearch),
+        // )
+        IconButton(
+            onPressed: onSearch, icon: SvgPicture.asset(AppAssets.icSearch))
       ],
     );
   }

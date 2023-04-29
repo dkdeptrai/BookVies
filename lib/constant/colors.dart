@@ -20,6 +20,7 @@ class AppColors {
   static Color inputFieldBorderColor = primaryHintTextColor;
   static Color baseShimmerLoadingColor = Colors.grey[300]!;
   static Color highlightShimmerLoadingColor = Colors.grey[100]!;
+  static Color mediumBlue = const Color(0xFF609DE3);
 
   static const navBarActiveColor = Color(0xFFFfFFFF);
   static const navBarInactiveColor = greyTextColor;
