@@ -11,6 +11,7 @@ class Media {
   final List<Review> reviews;
   final int numberReviews;
   final double averageRating;
+  final List<String> genres;
 
   Media({
     required this.id,
@@ -20,6 +21,7 @@ class Media {
     required this.reviews,
     required this.numberReviews,
     required this.averageRating,
+    required this.genres,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,6 +33,7 @@ class Media {
       'reviews': reviews.map((x) => x.toMap()).toList(),
       'numberReviews': numberReviews,
       'averageRating': averageRating,
+      'genres': genres,
     };
   }
 
@@ -51,6 +54,11 @@ class Media {
           map['numberReviews'] == null ? 0 : map['numberReviews'] as int,
       averageRating:
           map['averageRating'] == null ? 0.0 : map['averageRating'] as double,
+      genres: map['genres'] == null
+          ? []
+          : (map['genres'] as String)
+              .replaceAll(RegExp(r"[\[\]']"), "")
+              .split(", "),
     );
   }
 
