@@ -2,6 +2,7 @@ import 'package:bookvies/blocs/nav_bar_bloc/nav_bar_bloc.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/screens/books_screen/book_screen.dart';
+import 'package:bookvies/screens/library_screen/library_screen.dart';
 import 'package:bookvies/screens/movies_screen/movies_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> screen = [
     const BookScreen(),
     const MoviesScreen(), // Replace with movies screen
-    const Placeholder(), // Replace with library screen
+    const LibraryScreen(), // Replace with library screen
     const Placeholder(), // Replace with chat screen
     const Placeholder() // Replace with profile screen
   ];

@@ -35,6 +35,21 @@ class Book extends Media {
     //     image:
     //         "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg",
     //     author: "Bonnie Garmus"),
+
+    Book(
+        id: "1",
+        name: "Lesson in Chemistry",
+        description: "Hello",
+        image:
+            "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg",
+        reviews: [],
+        numberReviews: 0,
+        averageRating: 4.5,
+        author: "Tien Vi",
+        publisher: "Publisher",
+        isbn: "123",
+        firstPublishDate: DateTime.now(),
+        pages: 100)
     // Book(
     //     id: "2",
     //     name: "Lesson in Chemistry",
