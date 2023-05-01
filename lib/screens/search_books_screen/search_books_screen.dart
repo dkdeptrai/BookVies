@@ -1,15 +1,10 @@
 import 'package:bookvies/common_widgets/search_bar.dart';
-import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
-import 'package:bookvies/constant/dimensions..dart';
-import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/search_books_screen/widgets/search_book_item_widget.dart';
 import 'package:bookvies/services/book_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchBooksScreen extends StatefulWidget {
   const SearchBooksScreen({super.key});

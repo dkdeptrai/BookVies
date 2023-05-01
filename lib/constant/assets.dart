@@ -5,6 +5,8 @@ class AppAssets {
   // icons
   static const String icSearch = "$iconPath/ic_search.svg";
   static const String icRatingStar = "$iconPath/ic_rating_star.svg";
+  static const String icRatingStarOutline =
+      "$iconPath/ic_rating_star_outline.svg";
   static const String icRatingStarGradient =
       "$iconPath/ic_rating_star_gradient.svg";
   static const String icBook = "$iconPath/ic_book.svg";
@@ -18,6 +20,9 @@ class AppAssets {
   static const String icPassword = "$iconPath/ic_password.svg";
   static const String icReveal = "$iconPath/ic_reveal.svg";
   static const String icGoogle = "$iconPath/ic_google.svg";
+  static const String icChevronDown = "$iconPath/ic_chevron_down.svg";
+  static const String icChevronUp = "$iconPath/ic_chevron_up.svg";
+  static const String icAdjustGradient = "$iconPath/ic_adjust_gradient.svg";
   static const String icShare = "$iconPath/ic_share.svg";
   static const String icStar = "$iconPath/ic_star.svg";
   static const String icUser = "$iconPath/ic_user.svg";

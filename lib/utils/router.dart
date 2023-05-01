@@ -9,6 +9,7 @@ import 'package:bookvies/screens/explore_books_screen/explore_books_screen.dart'
 import 'package:bookvies/screens/popular_book_screen/popular_book_screen.dart';
 import 'package:bookvies/screens/search_books_screen/search_books_screen.dart';
 import 'package:bookvies/screens/top_rating_screen/top_rating_screen.dart';
+import 'package:bookvies/screens/write_review_screen/write_review_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -38,6 +39,12 @@ class AppRouter {
         final bookId = routeSettings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => BookDescriptionScreen(bookId: bookId));
+      case (WriteReviewScreen.id):
+        final mediaId = routeSettings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => WriteReviewScreen(
+                  mediaId: mediaId,
+                ));
 
       default:
         return MaterialPageRoute(

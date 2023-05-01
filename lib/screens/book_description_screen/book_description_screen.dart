@@ -1,7 +1,9 @@
 import 'package:bookvies/common_widgets/shimmer_loading_widget.dart';
 import 'package:bookvies/constant/dimensions..dart';
+import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/description_title_widget.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/information_widget.dart';
+import 'package:bookvies/screens/write_review_screen/write_review_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -81,29 +83,45 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
                         text: "Add to library",
                         onPressed: () {},
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          5,
-                          (index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: LinearProgressIndicator(
-                                value: index + 1 <= rating ? 1 : 0,
-                                minHeight: 10,
-                                backgroundColor: AppColors.greyTextColor,
-                                color: Colors.amber,
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Text("${book.averageRating} "),
+                          SvgPicture.asset(AppAssets.icStar, height: 14),
+                          Text(" (${book.reviews.length} Reviews)")
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      ...List.generate(
+                        5,
+                        (index) {
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: LinearProgressIndicator(
+                                  value: book.reviews.isEmpty
+                                      ? 0
+                                      : countReviewsPerRating(book, rating) /
+                                          book.reviews.length,
+                                  minHeight: 8,
+                                  backgroundColor: AppColors.greyTextColor,
+                                  color: Colors.amber,
+                                ),
                               ),
-                            );
-                          },
-                        ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text("${countReviewsPerRating(book, rating)}")
+                            ],
+                          );
+                        },
                       ),
                       CustomButtonWithGradientBackground(
                         margin: const EdgeInsets.only(top: 34),
                         height: 53,
                         width: 233,
                         text: "Write your review",
-                        onPressed: () {},
+                        onPressed: _navigateToWriteReviewScreen,
                       ),
                     ],
                   ),
@@ -115,5 +133,19 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
             }
           },
         )));
+  }
+
+  _navigateToWriteReviewScreen() {
+    Navigator.pushNamed(context, WriteReviewScreen.id);
+  }
+
+  int countReviewsPerRating(Book book, int rating) {
+    int count = 0;
+    for (Review review in book.reviews) {
+      if (review.rating == rating) {
+        count++;
+      }
+    }
+    return count;
   }
 }
