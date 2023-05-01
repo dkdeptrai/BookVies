@@ -20,7 +20,7 @@ import '../../constant/assets.dart';
 
 class BookDescriptionScreen extends StatefulWidget {
   BookDescriptionScreen({super.key});
-  final bookData = booksRef.doc('00RHCU3W5lP3Djq9UCmD');
+  final bookData = booksRef.doc('00KdZnrchHIgd2kjI298');
   @override
   State<BookDescriptionScreen> createState() => _BookDescriptionScreenState();
 }
@@ -40,7 +40,7 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
         late final Book book;
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            // display some error
+            //TODO: display some error
             return const Text('Error: \${snapshot.error}');
           }
           if (snapshot.data?.data() == null) {

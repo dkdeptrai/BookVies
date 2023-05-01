@@ -6,13 +6,13 @@ import 'package:bookvies/common_widgets/custom_button_with_gradient_background.d
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PersonalInformationScreen extends StatefulWidget {
   static const id = '/personal-information-screen';
@@ -151,16 +151,42 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     });
   }
 
+// ...
+
+  Future<File> _loadDefaultImage() async {
+    // Load the default image bytes from assets
+    ByteData byteData = await rootBundle.load(AppAssets.icUser);
+
+    // Create a Uint8List from the byteData
+    Uint8List uint8List = byteData.buffer.asUint8List();
+
+    // Get the temporary directory
+    Directory tempDir = await getTemporaryDirectory();
+
+    // Create a File object with the default image bytes
+    File file = File('/${tempDir.path}/default_image.jpg');
+    await file.writeAsBytes(uint8List);
+
+    return file;
+  }
+
   Future<void> _uploadUserInfo() async {
     if (_nameController.text.isEmpty || _descriptionController.text.isEmpty) {
       return;
     }
-    _pickedImage ??= File(AppAssets.icUser);
+
+    File? imageToUpload;
+
+    if (_pickedImage != null) {
+      imageToUpload = _pickedImage;
+    } else {
+      imageToUpload = await _loadDefaultImage();
+    }
 
     context.read<AuthBloc>().add(AuthEventAddUserInformation(
           name: _nameController.text,
           description: _descriptionController.text,
-          image: _pickedImage!,
+          image: imageToUpload!,
         ));
   }
 }
