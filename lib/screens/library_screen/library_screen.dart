@@ -1,6 +1,7 @@
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/library_screen/widgets/books_tab.dart';
+import 'package:bookvies/screens/library_screen/widgets/reviewed_tab.dart';
 import 'package:flutter/material.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -50,7 +51,7 @@ class _LibraryScreenState extends State<LibraryScreen>
             Expanded(
               child: TabBarView(controller: tabController, children: const [
                 BookTab(),
-                Placeholder(),
+                ReviewedTab(),
                 Placeholder(),
                 Placeholder(),
               ]),

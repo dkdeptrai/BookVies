@@ -81,6 +81,12 @@ class AppStyles {
   static const libraryBookItemDropdownText = TextStyle(
       fontFamily: "Poppins", fontSize: 12, color: AppColors.primaryTextColor);
 
+  static const libraryReviewedDropdownText = TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      fontWeight: FontWeight.w500,
+      color: Colors.black);
+
   // Others
   static BoxDecoration primaryBoxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(12),
