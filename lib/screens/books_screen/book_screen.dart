@@ -1,5 +1,3 @@
-import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
-import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/dimensions..dart';

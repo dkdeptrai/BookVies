@@ -2,7 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
+import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
 import 'package:bookvies/services/authentication/authentication_provider.dart';
+import 'package:bookvies/services/authentication/authentication_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import '../../screens/forgot_password_screen/widgets/noti_dialog.dart';
@@ -13,7 +18,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await provider.initialize();
       final user = provider.currentUser;
       if (user != null) {
-        emit(AuthStateLoggedIn(user));
+        var docSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+        if (docSnapshot.exists) {
+          emit(AuthStateLoggedIn(user));
+        } else {
+          emit(const AuthStateNoUserInformation());
+        }
       } else {
         emit(const AuthStateLoggedOut(
           exception: null,
@@ -38,7 +51,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               isLoading: false,
             ),
           );
-          emit(AuthStateLoggedIn(user));
+          DocumentSnapshot? userData = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+          if (userData.exists) {
+            emit(AuthStateLoggedIn(user));
+          } else {
+            emit(const AuthStateNoUserInformation());
+          }
         } on Exception catch (e) {
           emit(
             AuthStateLoggedOut(
@@ -96,9 +117,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthStateSignUpFailure(e));
       }
       try {
-        final user =
-            await provider.logIn(email: event.email, password: event.password);
-        emit(AuthStateLoggedIn(user));
+        await provider.logIn(email: event.email, password: event.password);
+        emit(const AuthStateNoUserInformation());
       } on Exception catch (e) {
         emit(
           AuthStateLoggedOut(
@@ -135,5 +155,48 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     });
+    on<AuthEventAddUserInformation>(
+      (event, emit) async {
+        AuthUser? user = FirebaseAuthProvider().currentUser;
+
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref = storage.ref().child("user_images").child(user!.uid);
+        UploadTask uploadTask = ref.putFile(event.image);
+
+        await uploadTask.whenComplete(() async {
+          // Get the image URL
+          String imageUrl = await ref.getDownloadURL();
+
+          // Check if the document exists
+          var docSnapshot = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+
+          if (docSnapshot.exists) {
+            // Update the existing document
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .update({
+              'imageUrl': imageUrl,
+              'username': event.name,
+              'description': event.description,
+            });
+          } else {
+            // Create a new document
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .set({
+              'imageUrl': imageUrl,
+              'username': event.name,
+              'description': event.description,
+            });
+          }
+        });
+        emit(AuthStateLoggedIn(user));
+      },
+    );
   }
 }

@@ -1,19 +1,11 @@
-import 'dart:math';
-
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
-import 'package:bookvies/common_widgets/dialogs/loading_dialog.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/screens/explore_books_screen/explore_books_screen.dart';
-import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
-import 'package:bookvies/screens/login_screen/login_screen.dart';
-import 'package:bookvies/screens/main_screen/main_screen.dart';
-import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -46,7 +46,44 @@ class AppStyles {
     color: AppColors.secondaryColor,
   );
 
-  static const TextStyle actionBarText = TextStyle(
+  // static const TextStyle actionBarText = TextStyle(
+  // static BoxDecoration primaryBoxDecoration = BoxDecoration(
+  //   borderRadius: BorderRadius.circular(12),
+  //   boxShadow: [AppStyles.primaryShadow],
+  //   color: AppColors.secondaryColor,
+  //   border: Border.all(color: const Color(0xFFCCCCCC).withOpacity(0.6)),
+  // );
+
+  // static BoxDecoration primaryNoBorderBoxDecoration = BoxDecoration(
+  //   borderRadius: BorderRadius.circular(12),
+  //   boxShadow: [AppStyles.primaryShadow],
+  //   color: AppColors.secondaryColor,
+  // );
+
+  // static OutlineInputBorder authenticateFieldBorder = OutlineInputBorder(
+  //   borderRadius: BorderRadius.circular(12),
+  //   borderSide: BorderSide(
+  //     color: const Color(0xFFCCCCCC).withOpacity(0.6),
+  //   ),
+  // );
+
+  // static BoxShadow primaryShadow = BoxShadow(
+  //   color: AppColors.primaryShadowColor,
+  //   offset: const Offset(12, 26),
+  //   blurRadius: 40,
+  // );
+
+  // static BoxShadow secondaryShadow = BoxShadow(
+  //     color: AppColors.secondaryShadowColor,
+  //     offset: const Offset(0, 10),
+  //     blurRadius: 30);
+
+  // static BoxShadow tertiaryShadow = BoxShadow(
+  //     color: AppColors.secondaryShadowColor,
+  //     offset: const Offset(4, 4),
+  //     blurRadius: 4);
+
+  static const actionBarText = TextStyle(
       color: AppColors.primaryTextColor,
       fontSize: 22,
       fontWeight: FontWeight.w600);
@@ -55,6 +92,21 @@ class AppStyles {
       fontSize: 20,
       color: AppColors.primaryTextColor,
       fontWeight: FontWeight.w500);
+  static const descriptionItemText = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primaryTextColor,
+  );
+  static const primaryTextStyle = TextStyle(
+    fontSize: 12,
+    color: AppColors.primaryTextColor,
+  );
+
+  static const bookNameForDescriptionHeader = TextStyle(
+    fontSize: 20,
+    color: AppColors.primaryTextColor,
+    fontWeight: FontWeight.w600,
+  );
 
   static const searchBoxText =
       TextStyle(height: 1, fontSize: 12, color: AppColors.greyTextColor);

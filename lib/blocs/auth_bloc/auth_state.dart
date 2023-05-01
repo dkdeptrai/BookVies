@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show immutable;
 
@@ -63,7 +65,23 @@ class AuthStateForgotPassword extends AuthState {
   const AuthStateForgotPassword();
 }
 
-class AuthEventForgotPasswordFailure extends AuthState {
+class AuthStateForgotPasswordFailure extends AuthState {
   final Exception exception;
-  const AuthEventForgotPasswordFailure(this.exception);
+  const AuthStateForgotPasswordFailure(this.exception);
+}
+
+class AuthStateNoUserInformation extends AuthState {
+  const AuthStateNoUserInformation();
+}
+
+class AuthStateUserInformation extends AuthState {
+  final File image;
+  final String name;
+  final String description;
+
+  const AuthStateUserInformation(
+    this.image,
+    this.name,
+    this.description,
+  );
 }
