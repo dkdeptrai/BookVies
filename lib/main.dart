@@ -39,34 +39,33 @@ class MyApp extends StatelessWidget {
     context.read<AuthBloc>().add(const AuthEventInitialize());
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: appRouter.onGenerateRoute,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          primarySwatch: Colors.blue,
-          fontFamily: "Poppins",
-          primaryColor: Colors.red),
-      home: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          if (state is AuthStateLoggedIn) {
-            return const MainScreen();
-          } else if (state is AuthStateLoggedOut) {
-            return const LoginScreen();
-          } else if (state is AuthStateForgotPassword) {
-            return const ForgotPasswordScreen();
-          } else if (state is AuthStateNeedSignUp) {
-            return const SignUpScreen();
-          } else if (state is AuthStateNoUserInformation) {
-            return const PersonalInformationScreen();
-          } else {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        },
-      ),
-    );
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: appRouter.onGenerateRoute,
+        title: 'BookVies',
+        theme: ThemeData(
+            primarySwatch: Colors.blue,
+            fontFamily: "Poppins",
+            primaryColor: Colors.red),
+        home: MainScreen()
+        // BlocBuilder<AuthBloc, AuthState>(
+        //   builder: (context, state) {
+        //     if (state is AuthStateLoggedIn) {
+        //       return const MainScreen();
+        //     } else if (state is AuthStateLoggedOut) {
+        //       return const LoginScreen();
+        //     } else if (state is AuthStateForgotPassword) {
+        //       return const ForgotPasswordScreen();
+        //     } else if (state is AuthStateNeedSignUp) {
+        //       return const SignUpScreen();
+        //     } else {
+        //       return const Scaffold(
+        //         body: Center(
+        //           child: CircularProgressIndicator(),
+        //         ),
+        //       );
+        //     }
+        //   },
+        // ),
+        );
   }
 }

@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:bookvies/models/review_model.dart';
 
 class Media {
-  final String id;
+  String id;
   final String name;
   final String description;
   final String image;

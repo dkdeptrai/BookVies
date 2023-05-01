@@ -10,8 +10,11 @@ class BookService {
         .limit(limit)
         .get();
 
-    ref.docs.forEach(
-        (item) => books.add(Book.fromMap(item.data() as Map<String, dynamic>)));
+    ref.docs.forEach((item) {
+      Book book = Book.fromMap(item.data() as Map<String, dynamic>);
+      book.id = item.id;
+      books.add(book);
+    });
 
     return books;
   }

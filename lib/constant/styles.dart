@@ -29,25 +29,25 @@ class AppStyles {
     color: AppColors.secondaryColor,
   );
 
-  static BoxDecoration primaryBoxDecoration = BoxDecoration(
-    borderRadius: BorderRadius.circular(12),
-    boxShadow: [AppStyles.primaryShadow],
-    color: AppColors.secondaryColor,
-    border: Border.all(color: const Color(0xFFCCCCCC).withOpacity(0.6)),
-  );
+  // static BoxDecoration primaryBoxDecoration = BoxDecoration(
+  //   borderRadius: BorderRadius.circular(12),
+  //   boxShadow: [AppStyles.primaryShadow],
+  //   color: AppColors.secondaryColor,
+  //   border: Border.all(color: const Color(0xFFCCCCCC).withOpacity(0.6)),
+  // );
 
-  static BoxDecoration primaryNoBorderBoxDecoration = BoxDecoration(
-    borderRadius: BorderRadius.circular(12),
-    boxShadow: [AppStyles.primaryShadow],
-    color: AppColors.secondaryColor,
-  );
+  // static BoxDecoration primaryNoBorderBoxDecoration = BoxDecoration(
+  //   borderRadius: BorderRadius.circular(12),
+  //   boxShadow: [AppStyles.primaryShadow],
+  //   color: AppColors.secondaryColor,
+  // );
 
-  static OutlineInputBorder authenticateFieldBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(12),
-    borderSide: BorderSide(
-      color: const Color(0xFFCCCCCC).withOpacity(0.6),
-    ),
-  );
+  // static OutlineInputBorder authenticateFieldBorder = OutlineInputBorder(
+  //   borderRadius: BorderRadius.circular(12),
+  //   borderSide: BorderSide(
+  //     color: const Color(0xFFCCCCCC).withOpacity(0.6),
+  //   ),
+  // );
 
   static BoxShadow primaryShadow = BoxShadow(
     color: AppColors.primaryShadowColor,
@@ -109,4 +109,36 @@ class AppStyles {
       fontSize: 14,
       fontWeight: FontWeight.w400,
       color: AppColors.primaryTextColor);
+
+  static const libraryBookItemAuthorText = TextStyle(
+      fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF615555));
+  static const libraryBookItemDropdownText = TextStyle(
+      fontFamily: "Poppins", fontSize: 12, color: AppColors.primaryTextColor);
+
+  static const libraryReviewedDropdownText = TextStyle(
+      fontFamily: "Poppins",
+      fontSize: 15,
+      fontWeight: FontWeight.w500,
+      color: Colors.black);
+
+  // Others
+  static BoxDecoration primaryBoxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [AppStyles.primaryShadow],
+    color: AppColors.secondaryColor,
+    border: Border.all(color: const Color(0xFFCCCCCC).withOpacity(0.6)),
+  );
+
+  static OutlineInputBorder authenticateFieldBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(12),
+    borderSide: BorderSide(
+      color: const Color(0xFFCCCCCC).withOpacity(0.6),
+    ),
+  );
+
+  static BoxDecoration primaryNoBorderBoxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [AppStyles.primaryShadow],
+    color: AppColors.secondaryColor,
+  );
 }

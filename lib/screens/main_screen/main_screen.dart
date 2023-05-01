@@ -19,10 +19,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final List<Widget> screen = [
-    const Placeholder(),
-    // const BookScreen(),
-    const Placeholder(),
-    // const MoviesScreen(), // Replace with movies screen
+    const BookScreen(),
+    const MoviesScreen(), // Replace with movies screen
     const Placeholder(), // Replace with library screen
     const ChatScreen(), // Replace with chat screen
     const Placeholder() // Replace with profile screen
