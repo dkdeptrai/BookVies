@@ -152,11 +152,11 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   }
 
   Future<void> _uploadUserInfo() async {
-    if (_pickedImage == null ||
-        _nameController.text.isEmpty ||
-        _descriptionController.text.isEmpty) {
+    if (_nameController.text.isEmpty || _descriptionController.text.isEmpty) {
       return;
     }
+    _pickedImage ??= File(AppAssets.icUser);
+
     context.read<AuthBloc>().add(AuthEventAddUserInformation(
           name: _nameController.text,
           description: _descriptionController.text,

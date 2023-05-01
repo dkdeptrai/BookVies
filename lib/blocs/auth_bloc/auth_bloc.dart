@@ -180,7 +180,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .doc(user.uid)
                 .update({
               'imageUrl': imageUrl,
-              'username': event.name,
+              'name': event.name,
               'description': event.description,
             });
           } else {
@@ -190,7 +190,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .doc(user.uid)
                 .set({
               'imageUrl': imageUrl,
-              'username': event.name,
+              'name': event.name,
               'description': event.description,
             });
           }
