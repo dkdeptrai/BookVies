@@ -6,6 +6,8 @@ class Comment {
   final String userId;
   final String userName;
   final String userAvatarUrl;
+  final String mediaId;
+  final String reviewId;
   final String content;
   final DateTime createdTime;
   Comment({
@@ -13,6 +15,8 @@ class Comment {
     required this.userId,
     required this.userName,
     required this.userAvatarUrl,
+    required this.mediaId,
+    required this.reviewId,
     required this.content,
     required this.createdTime,
   });
@@ -23,6 +27,8 @@ class Comment {
       'userId': userId,
       'userName': userName,
       'userAvatarUrl': userAvatarUrl,
+      'mediaId': mediaId,
+      'reviewId': reviewId,
       'content': content,
       'createdTime': createdTime.millisecondsSinceEpoch,
     };
@@ -34,6 +40,8 @@ class Comment {
       userId: map['userId'] as String,
       userName: map['userName'] as String,
       userAvatarUrl: map['userAvatarUrl'] as String,
+      mediaId: map['mediaId'] as String,
+      reviewId: map['mediaId'] as String,
       content: map['content'] as String,
       createdTime:
           DateTime.fromMillisecondsSinceEpoch(map['createdTime'] as int),

@@ -1,12 +1,10 @@
-import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
-import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
+import 'package:bookvies/blocs/description_review_list_bloc/description_review_list_bloc.dart';
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/models/review_model.dart';
-import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:bookvies/services/review_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -26,7 +24,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
   final privacyDropdownValues = ["Public", "Personal"];
   String privacyCurrentValue = "";
   final TextEditingController titleController = TextEditingController();
-  final TextEditingController contentController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
   double rating = 0;
 
   @override
@@ -39,13 +37,11 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
   void dispose() {
     super.dispose();
     titleController.dispose();
-    contentController.dispose();
+    descriptionController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: AppDimensions.defaultAppBarPreferredSize,
@@ -97,6 +93,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                 SizedBox(
                   height: 40,
                   child: TextFormField(
+                    controller: titleController,
                     style: AppStyles.writeReviewContentText,
                     decoration: InputDecoration(
                         hintText: "Enter the title of your review",
@@ -131,6 +128,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                   style: AppStyles.writeReviewSectionTitle,
                 ),
                 TextFormField(
+                  controller: descriptionController,
                   maxLines: 10,
                   minLines: 4,
                   style: AppStyles.writeReviewContentText,
@@ -145,7 +143,10 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                 CustomButtonWithGradientBackground(
                   height: 53,
                   text: "Submit",
-                  onPressed: () {},
+                  onPressed: () {
+                    // TODO: validate
+                    addReview();
+                  },
                 )
               ],
             ),
@@ -155,22 +156,16 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
     );
   }
 
-  Future<void> addReview() async {
-    // final Review review = Review(
-    //     id: "",
-    //     userId: currentUser!.uid,
-    //     userName: userName,
-    //     userAvatarUrl: userAvatarUrl,
-    //     mediaId: widget.mediaId,
-    //     rating: rating.toInt(),
-    //     title: titleController.text,
-    //     description: contentController.text,
-    //     upVoteNumber: 0,
-    //     upVoteUsers: [],
-    //     downVoteNumber: 0,
-    //     downVoteUsers: [],
-    //     comments: [],
-    //     createdTime: DateTime.now(),
-    //     privacy: privacyCurrentValue.toUpperCase());
+  void addReview() {
+    BlocProvider.of<DescriptionReviewListBloc>(context).add(AddReviewEvent(
+        context: context,
+        mediaId: widget.mediaId,
+        rating: rating.toInt(),
+        title: titleController.text,
+        description: descriptionController.text,
+        privacy: privacyCurrentValue.toUpperCase()));
+
+    titleController.clear();
+    descriptionController.clear();
   }
 }

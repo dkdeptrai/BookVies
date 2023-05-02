@@ -1,6 +1,7 @@
 class AppAssets {
   static const imagePath = "assets/images";
   static const iconPath = "assets/icons";
+  static const lottiePath = "assets/lotties";
 
   // icons
   static const String icSearch = "$iconPath/ic_search.svg";
@@ -26,8 +27,17 @@ class AppAssets {
   static const String icShare = "$iconPath/ic_share.svg";
   static const String icStar = "$iconPath/ic_star.svg";
   static const String icUser = "$iconPath/ic_user.svg";
+  static const String icShareGradient = "$iconPath/ic_share_gradient.svg";
+  static const String icUpVoteOutline = "$iconPath/ic_upvote_outline.svg";
+  static const String icDownVoteOutline = "$iconPath/ic_downvote_outline.svg";
+  static const String icComment = "$iconPath/ic_comment.svg";
 
   // images
   static const String imgForgotPassword = "$imagePath/img_forgot_password.svg";
   static const String imgEmailSent = "$imagePath/img_email_sent.svg";
+
+  // lotties
+  static const String lottieWarning = "$lottiePath/warning_sign.json";
+  static const String lottieError = "$lottiePath/error_sign.json";
+  static const String lottieSuccess = "$lottiePath/success_sign.json";
 }

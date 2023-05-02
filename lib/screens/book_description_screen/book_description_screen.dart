@@ -1,12 +1,26 @@
+import 'package:bookvies/blocs/description_review_list_bloc/description_review_list_bloc.dart';
 import 'package:bookvies/common_widgets/shimmer_loading_widget.dart';
+import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
+import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
+import 'package:bookvies/screens/book_description_screen/widgets/choose_list_dialog.dart';
+import 'package:bookvies/screens/book_description_screen/widgets/description_loading_widget.dart';
+import 'package:bookvies/screens/book_description_screen/widgets/description_review_item_widget.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/description_title_widget.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/information_widget.dart';
+import 'package:bookvies/screens/book_description_screen/widgets/reviews_chart.dart';
 import 'package:bookvies/screens/write_review_screen/write_review_screen.dart';
+import 'package:bookvies/services/library_service.dart';
+import 'package:bookvies/services/review_service.dart';
+import 'package:bookvies/services/user_service.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:bookvies/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
@@ -19,7 +33,6 @@ import '../../constant/assets.dart';
 class BookDescriptionScreen extends StatefulWidget {
   final String bookId;
   const BookDescriptionScreen({super.key, required this.bookId});
-  // final bookData = booksRef.doc('00RHCU3W5lP3Djq9UCmD');
 
   static const id = "/book-description-screen";
 
@@ -29,8 +42,14 @@ class BookDescriptionScreen extends StatefulWidget {
 
 class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<DescriptionReviewListBloc>(context)
+        .add(LoadDescriptionReviewList(mediaId: widget.bookId));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const rating = 3;
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -59,7 +78,6 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
             late final Book book;
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
-                //TODO: display some error
                 return const Text('Error: \${snapshot.error}');
               }
               if (snapshot.data?.data() == null) {
@@ -81,41 +99,14 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
                         height: 53,
                         width: 200,
                         text: "Add to library",
-                        onPressed: () {},
+                        onPressed: _showAddToLibraryDialog,
                       ),
                       const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Text("${book.averageRating} "),
-                          SvgPicture.asset(AppAssets.icStar, height: 14),
-                          Text(" (${book.reviews.length} Reviews)")
-                        ],
-                      ),
                       const SizedBox(height: 10),
-                      ...List.generate(
-                        5,
-                        (index) {
-                          return Row(
-                            children: [
-                              Expanded(
-                                child: LinearProgressIndicator(
-                                  value: book.reviews.isEmpty
-                                      ? 0
-                                      : countReviewsPerRating(book, rating) /
-                                          book.reviews.length,
-                                  minHeight: 8,
-                                  backgroundColor: AppColors.greyTextColor,
-                                  color: Colors.amber,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text("${countReviewsPerRating(book, rating)}")
-                            ],
-                          );
-                        },
-                      ),
+
+                      // Review's rating chart
+                      ReviewsChartWidget(averageRating: book.averageRating),
+
                       CustomButtonWithGradientBackground(
                         margin: const EdgeInsets.only(top: 34),
                         height: 53,
@@ -123,29 +114,52 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
                         text: "Write your review",
                         onPressed: _navigateToWriteReviewScreen,
                       ),
+                      const SizedBox(height: 20),
+                      BlocBuilder<DescriptionReviewListBloc,
+                          DescriptionReviewListState>(
+                        builder: (context, state) {
+                          if (state is DescriptionReviewListLoading) {
+                            return SpinKitFadingCircle(
+                                color: AppColors.mediumBlue);
+                          } else if (state is DescriptionReviewListLoaded) {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: state.reviews.length,
+                                itemBuilder: (_, index) {
+                                  return DescriptionReviewItemWidget(
+                                      review: state.reviews[index]);
+                                });
+                          }
+                          return Container();
+                        },
+                      ),
                     ],
                   ),
                 ),
               );
-              // Build your widget using bookData
             } else {
-              return const ShimmerLoadingWidget(); // Show a loading indicator while data is being fetched
+              return const DescriptionLoadingWidget(); // Show a loading indicator while data is being fetched
             }
           },
         )));
   }
 
   _navigateToWriteReviewScreen() {
-    Navigator.pushNamed(context, WriteReviewScreen.id);
+    Navigator.pushNamed(context, WriteReviewScreen.id,
+        arguments: widget.bookId);
   }
 
-  int countReviewsPerRating(Book book, int rating) {
-    int count = 0;
-    for (Review review in book.reviews) {
-      if (review.rating == rating) {
-        count++;
-      }
-    }
-    return count;
+  _showAddToLibraryDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => ChooseListDialog(mediaId: widget.bookId),
+    );
+  }
+
+  Future<List<Review>> getReviews() async {
+    final reviews = await ReviewService().getReviews(mediaId: widget.bookId);
+
+    return reviews;
   }
 }

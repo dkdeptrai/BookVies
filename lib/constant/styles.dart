@@ -20,6 +20,11 @@ class AppStyles {
       blurRadius: 4);
 
   // Text
+  static const TextStyle smallSemiBoldText = TextStyle(
+      fontSize: 12,
+      color: AppColors.primaryTextColor,
+      fontWeight: FontWeight.w600);
+
   static const TextStyle authenticationHeader = TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.bold,
@@ -110,10 +115,41 @@ class AppStyles {
       fontSize: 14,
       fontWeight: FontWeight.w400,
       color: AppColors.greyTextColor);
+
   static const writeReviewContentText = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,
       color: AppColors.primaryTextColor);
+
+  static const commentUserNameText = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: AppColors.primaryTextColor);
+
+  static const commentContentText =
+      TextStyle(fontSize: 12, color: AppColors.primaryTextColor);
+
+  static const descriptionReviewUserName = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: AppColors.primaryTextColor);
+
+  static const descriptionReviewTitle = TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+      color: AppColors.primaryTextColor);
+
+  static const descriptionReviewContent = TextStyle(
+    fontSize: 12,
+    color: AppColors.primaryTextColor,
+  );
+
+  static const chartText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.primaryTextColor,
+    shadows: [Shadow(color: Colors.black, blurRadius: 2)],
+  );
 
   // Others
   static BoxDecoration primaryBoxDecoration = BoxDecoration(

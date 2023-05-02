@@ -7,4 +7,5 @@ FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final currentUser = firebaseAuth.currentUser;
 
 final CollectionReference booksRef = firestore.collection('books');
-final CollectionReference userRef = firestore.collection('users');
+final CollectionReference usersRef = firestore.collection('users');
+final CollectionReference reviewsRef = firestore.collection('reviews');

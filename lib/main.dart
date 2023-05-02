@@ -1,6 +1,7 @@
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
+import 'package:bookvies/blocs/description_review_list_bloc/description_review_list_bloc.dart';
 import 'package:bookvies/screens/book_description_screen/book_description_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
@@ -24,6 +25,7 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (_) => NavBarBloc()),
+      BlocProvider(create: (_) => DescriptionReviewListBloc()),
       BlocProvider(create: (_) => AuthBloc(FirebaseAuthProvider())),
     ],
     child: MyApp(appRouter: AppRouter()),
@@ -51,6 +53,8 @@ class MyApp extends StatelessWidget {
 
           BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
+          print("User authentication state: $state");
+
           if (state is AuthStateLoggedIn) {
             return const MainScreen();
           } else if (state is AuthStateLoggedOut) {
@@ -60,9 +64,9 @@ class MyApp extends StatelessWidget {
           } else if (state is AuthStateNeedSignUp) {
             return const SignUpScreen();
           } else {
-            return const Scaffold(
+            return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: Text("User authentication state: $state"),
               ),
             );
           }
