@@ -103,7 +103,11 @@ class _DescriptionReviewItemWidgetState
                     style: AppStyles.smallSemiBoldText),
                 const Spacer(),
                 IconButton(
-                    onPressed: () => _showCommentDialog(context),
+                    onPressed: () {
+                      if (!widget.hasComments) {
+                        _showCommentDialog(context);
+                      }
+                    },
                     icon: SvgPicture.asset(AppAssets.icComment)),
                 const Text("Comment", style: AppStyles.smallSemiBoldText),
               ],
