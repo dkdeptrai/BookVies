@@ -1,3 +1,4 @@
+import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/library_screen/widgets/library_book_item_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
@@ -6,34 +7,52 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BookToReadTab extends StatelessWidget {
-  const BookToReadTab({super.key});
+  final String type;
+  const BookToReadTab({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: usersRef
             .doc(firebaseAuth.currentUser!.uid)
-            .collection("to_read_books")
+            .collection("library")
+            .where("type", isEqualTo: type)
+            .orderBy("addedAt", descending: true)
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return const Text('Something went wrong');
+            return Text('Something went wrong ${snapshot.error}');
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return SpinKitFadingCircle();
+            return SpinKitFadingCircle(color: AppColors.mediumBlue);
           }
 
-          List<Book> books = snapshot.data!.docs
-              .map((e) => Book.fromMap(e.data() as Map<String, dynamic>))
-              .toList();
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: books.length,
-            itemBuilder: (_, index) {
-              return LibraryBookItemWidget(book: books[index]);
-            },
+          List<Widget> widgets = [];
+
+          snapshot.data!.docs.forEach((element) {
+            widgets.add(FutureBuilder(
+                future: booksRef
+                    .doc((element.data() as Map<String, dynamic>)["mediaId"])
+                    .get(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong ${snapshot.error}');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SpinKitFadingCircle(color: AppColors.mediumBlue);
+                  }
+
+                  Book book = Book.fromMap(
+                      snapshot.data!.data() as Map<String, dynamic>);
+
+                  return LibraryBookItemWidget(book: book);
+                }));
+          });
+
+          return Column(
+            children: widgets,
           );
         });
   }

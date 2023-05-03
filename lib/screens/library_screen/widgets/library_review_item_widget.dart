@@ -9,15 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LibraryReviewItemWidget extends StatelessWidget {
-  const LibraryReviewItemWidget({
-    super.key,
-  });
+  final Review review;
+  const LibraryReviewItemWidget({super.key, required this.review});
 
   @override
   Widget build(BuildContext context) {
     final Book book = Book.bookList[0]; // Only need to use Media
     final Size size = MediaQuery.of(context).size;
-    final Review review = Review.reviews[0];
 
     return Container(
       margin:

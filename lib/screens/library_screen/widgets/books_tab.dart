@@ -1,5 +1,6 @@
 import 'package:bookvies/common_widgets/search_bar.dart';
 import 'package:bookvies/constant/colors.dart';
+import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/book_model.dart';
@@ -38,6 +39,8 @@ class _BookTabState extends State<BookTab> with SingleTickerProviderStateMixin {
           margin: const EdgeInsets.only(
               left: AppDimensions.defaultPadding, top: 25),
         ),
+
+        // Currently added book
         Container(
           margin: const EdgeInsets.only(top: 20),
           decoration: BoxDecoration(boxShadow: [AppStyles.secondaryShadow]),
@@ -77,10 +80,10 @@ class _BookTabState extends State<BookTab> with SingleTickerProviderStateMixin {
           child: PageView(
             physics: const NeverScrollableScrollPhysics(),
             controller: pageController,
-            children: const [
-              BookToReadTab(),
-              Placeholder(),
-              Placeholder(),
+            children: [
+              BookToReadTab(type: LibraryBookType.toRead.name),
+              BookToReadTab(type: LibraryBookType.reading.name),
+              BookToReadTab(type: LibraryBookType.read.name),
             ],
           ),
         )
