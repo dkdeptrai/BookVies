@@ -64,12 +64,18 @@ class _LibraryBookItemWidgetState extends State<LibraryBookItemWidget> {
             SizedBox(
               width: size.width * 0.6,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    widget.book.author.toString(),
-                    style: AppStyles.libraryBookItemAuthorText,
+                  Flexible(
+                    child: Text(
+                      widget.book.author.toString(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppStyles.libraryBookItemAuthorText,
+                    ),
                   ),
+                  const SizedBox(width: 20),
                   DropdownButton(
                     value: currentValue,
                     items: List.generate(
