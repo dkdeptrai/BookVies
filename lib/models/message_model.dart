@@ -1,47 +1,43 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class Message {
-  final String id;
   final String senderId;
-  final String message;
+  final String content;
   final DateTime sendTime;
   Message({
-    required this.id,
     required this.senderId,
-    required this.message,
+    required this.content,
     required this.sendTime,
   });
 
   Message copyWith({
-    String? id,
     String? senderId,
-    String? message,
+    String? content,
     DateTime? sendTime,
   }) {
     return Message(
-      id: id ?? this.id,
       senderId: senderId ?? this.senderId,
-      message: message ?? this.message,
+      content: content ?? this.content,
       sendTime: sendTime ?? this.sendTime,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
       'senderId': senderId,
-      'message': message,
+      'content': content,
       'sendTime': sendTime.millisecondsSinceEpoch,
     };
   }
 
   factory Message.fromMap(Map<String, dynamic> map) {
     return Message(
-      id: map['id'] as String,
       senderId: map['senderId'] as String,
-      message: map['message'] as String,
-      sendTime: DateTime.fromMillisecondsSinceEpoch(map['sendTime'] as int),
+      content: map['content'] as String,
+      sendTime: (map['sendTime'] as Timestamp).toDate(),
     );
   }
 
@@ -51,25 +47,18 @@ class Message {
       Message.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() {
-    return 'Message(id: $id, senderId: $senderId, message: $message, sendTime: $sendTime)';
-  }
+  String toString() =>
+      'Message(senderId: $senderId, content: $content, sendTime: $sendTime)';
 
   @override
   bool operator ==(covariant Message other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.senderId == senderId &&
-        other.message == message &&
+    return other.senderId == senderId &&
+        other.content == content &&
         other.sendTime == sendTime;
   }
 
   @override
-  int get hashCode {
-    return id.hashCode ^
-        senderId.hashCode ^
-        message.hashCode ^
-        sendTime.hashCode;
-  }
+  int get hashCode => senderId.hashCode ^ content.hashCode ^ sendTime.hashCode;
 }

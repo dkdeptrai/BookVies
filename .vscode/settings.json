@@ -1,7 +1,9 @@
 {
   "cSpell.words": [
     "bookvies",
-    "Firestore"
+    "Firestore",
+    "LTRB",
+    "rxdart"
   ],
   "java.configuration.updateBuildConfiguration": "interactive"
 }

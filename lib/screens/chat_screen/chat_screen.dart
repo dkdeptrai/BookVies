@@ -34,9 +34,15 @@ class ChatScreen extends StatelessWidget {
         ));
   }
 
-  _buildListOfMessage() {}
+  _buildListOfMessage() {
+    return const Placeholder();
+  }
 
-  _buildInput() {}
+  _buildInput() {
+    return const Placeholder();
+  }
 
-  _buildLoading() {}
+  _buildLoading() {
+    return const Placeholder();
+  }
 }

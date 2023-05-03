@@ -6,7 +6,6 @@ import 'package:bookvies/services/authentication/authentication_firebase_provide
 import 'package:bookvies/services/authentication/authentication_provider.dart';
 import 'package:bookvies/services/authentication/authentication_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -142,7 +141,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         // ignore: use_build_context_synchronously
         showDialog(
           context: event.context,
-          builder: (context) => NotiDiaglog(),
+          builder: (context) => NotiDialog(),
           barrierDismissible: true,
         );
         emit(state);
