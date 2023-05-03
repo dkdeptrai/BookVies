@@ -192,6 +192,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               'imageUrl': imageUrl,
               'name': event.name,
               'description': event.description,
+              'uid': user.uid,
             });
           }
         });
