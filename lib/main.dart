@@ -1,6 +1,7 @@
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
+import 'package:bookvies/blocs/description_review_list_bloc/description_review_list_bloc.dart';
 import 'package:bookvies/screens/book_description_screen/book_description_screen.dart';
 import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
@@ -25,6 +26,7 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (_) => NavBarBloc()),
+      BlocProvider(create: (_) => DescriptionReviewListBloc()),
       BlocProvider(create: (_) => AuthBloc(FirebaseAuthProvider())),
     ],
     child: MyApp(appRouter: AppRouter()),
@@ -42,14 +44,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.onGenerateRoute,
-      title: 'Flutter Demo',
+      title: 'BookVies',
       theme: ThemeData(
           primarySwatch: Colors.blue,
           fontFamily: "Poppins",
           primaryColor: Colors.red),
-      home: BlocBuilder<AuthBloc, AuthState>(
+      home:
+          // MainScreen()
+
+          BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           return const ChatScreen();
+
           if (state is AuthStateLoggedIn) {
             return const MainScreen();
           } else if (state is AuthStateLoggedOut) {
@@ -58,12 +64,10 @@ class MyApp extends StatelessWidget {
             return const ForgotPasswordScreen();
           } else if (state is AuthStateNeedSignUp) {
             return const SignUpScreen();
-          } else if (state is AuthStateNoUserInformation) {
-            return const PersonalInformationScreen();
           } else {
-            return const Scaffold(
+            return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: Text("User authentication state: $state"),
               ),
             );
           }

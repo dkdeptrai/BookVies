@@ -21,6 +21,11 @@ class AppColors {
   static Color baseShimmerLoadingColor = Colors.grey[300]!;
   static Color highlightShimmerLoadingColor = Colors.grey[100]!;
   static Color mediumBlue = const Color(0xFF609DE3);
+  static Color firstChartColor = const Color(0xFF4EFFEF);
+  static Color secondChartColor = const Color(0xFF73A6AD);
+  static Color thirdChartColor = const Color(0xFF9B97B2);
+  static Color fourthChartColor = const Color(0xFFD8A7CA);
+  static Color fifthChartColor = const Color(0xFFC7B8EA);
 
   static const navBarActiveColor = Color(0xFFFfFFFF);
   static const navBarInactiveColor = greyTextColor;
