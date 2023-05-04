@@ -7,7 +7,15 @@ import 'package:flutter/material.dart';
 
 class ChooseListDialog extends StatefulWidget {
   final String mediaId;
-  const ChooseListDialog({super.key, required this.mediaId});
+  final String image;
+  final String name;
+  final String author;
+  const ChooseListDialog(
+      {super.key,
+      required this.mediaId,
+      required this.image,
+      required this.name,
+      required this.author});
 
   @override
   State<ChooseListDialog> createState() => _ChooseListDialogState();
@@ -89,8 +97,13 @@ class _ChooseListDialogState extends State<ChooseListDialog> {
       }
 
       // else, add it to the library
+      print(convertToCamelCase(titles[selectedIndex]));
       await LibraryService.addToLibrary(
-          bookId: widget.mediaId, type: titles[selectedIndex]);
+          mediaId: widget.mediaId,
+          image: widget.image,
+          name: widget.name,
+          author: widget.author,
+          status: convertToCamelCase(titles[selectedIndex]));
 
       if (!mounted) {
         return;

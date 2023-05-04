@@ -151,6 +151,14 @@ class AppStyles {
     shadows: [Shadow(color: Colors.black, blurRadius: 2)],
   );
 
+  static const libraryReviewBookName = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: AppColors.primaryTextColor);
+
+  static const libraryReviewAuthor =
+      TextStyle(fontSize: 12, color: AppColors.greyTextColor);
+
   // Others
   static BoxDecoration primaryBoxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(12),

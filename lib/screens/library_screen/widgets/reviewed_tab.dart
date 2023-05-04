@@ -82,6 +82,7 @@ class _ReviewedTabState extends State<ReviewedTab> {
           StreamBuilder<QuerySnapshot>(
               stream: reviewsRef
                   .where("userId", isEqualTo: currentUser!.uid)
+                  .where("mediaType", isEqualTo: typeCurrentValue.toLowerCase())
                   .where("privacy",
                       isEqualTo: privacyCurrentValue.toUpperCase())
                   .snapshots(),
@@ -96,6 +97,10 @@ class _ReviewedTabState extends State<ReviewedTab> {
                   );
                 }
 
+                if (snapshot.data!.docs.isEmpty) {
+                  return const Center(child: Text("Not have review yet"));
+                }
+
                 final reviews = snapshot.data!.docs
                     .map(
                         (e) => Review.fromMap(e.data() as Map<String, dynamic>))
@@ -105,8 +110,9 @@ class _ReviewedTabState extends State<ReviewedTab> {
                     padding: const EdgeInsets.only(
                         bottom: AppDimensions.defaultPadding),
                     physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (_, index) =>
-                        LibraryReviewItemWidget(review: reviews[index]),
+                    itemBuilder: (_, index) => LibraryReviewItemWidget(
+                        mediaType: typeCurrentValue.toLowerCase(),
+                        review: reviews[index]),
                     separatorBuilder: (_, index) => const SizedBox(height: 25),
                     itemCount: reviews.length);
               })
