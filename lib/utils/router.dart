@@ -1,3 +1,4 @@
+import 'package:bookvies/models/media_model.dart';
 import 'package:bookvies/screens/book_description_screen/book_description_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
@@ -40,10 +41,10 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => BookDescriptionScreen(bookId: bookId));
       case (WriteReviewScreen.id):
-        final mediaId = routeSettings.arguments as String;
+        final media = routeSettings.arguments as Media;
         return MaterialPageRoute(
             builder: (_) => WriteReviewScreen(
-                  mediaId: mediaId,
+                  media: media,
                 ));
 
       default:

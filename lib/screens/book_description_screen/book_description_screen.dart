@@ -1,8 +1,6 @@
 import 'package:bookvies/blocs/description_review_list_bloc/description_review_list_bloc.dart';
-import 'package:bookvies/common_widgets/shimmer_loading_widget.dart';
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
-import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/choose_list_dialog.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/description_loading_widget.dart';
@@ -11,13 +9,9 @@ import 'package:bookvies/screens/book_description_screen/widgets/description_tit
 import 'package:bookvies/screens/book_description_screen/widgets/information_widget.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/reviews_chart.dart';
 import 'package:bookvies/screens/write_review_screen/write_review_screen.dart';
-import 'package:bookvies/services/library_service.dart';
 import 'package:bookvies/services/review_service.dart';
-import 'package:bookvies/services/user_service.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
-import 'package:bookvies/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -44,8 +38,9 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<DescriptionReviewListBloc>(context)
-        .add(LoadDescriptionReviewList(mediaId: widget.bookId));
+    BlocProvider.of<DescriptionReviewListBloc>(context).add(
+        LoadDescriptionReviewList(
+            mediaId: widget.bookId, mediaType: MediaType.book.name));
   }
 
   @override
@@ -84,7 +79,8 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
                 return Text(snapshot.data.toString());
               } else {
                 book =
-                    Book.fromMap(snapshot.data?.data() as Map<String, dynamic>);
+                    Book.fromMap(snapshot.data?.data() as Map<String, dynamic>)
+                        .copyWith(id: snapshot.data?.id);
               }
 
               return SingleChildScrollView(
@@ -99,7 +95,7 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
                         height: 53,
                         width: 200,
                         text: "Add to library",
-                        onPressed: _showAddToLibraryDialog,
+                        onPressed: () => _showAddToLibraryDialog(book),
                       ),
                       const SizedBox(height: 20),
                       const SizedBox(height: 10),
@@ -112,7 +108,7 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
                         height: 53,
                         width: 233,
                         text: "Write your review",
-                        onPressed: _navigateToWriteReviewScreen,
+                        onPressed: () => _navigateToWriteReviewScreen(book),
                       ),
                       const SizedBox(height: 20),
                       BlocBuilder<DescriptionReviewListBloc,
@@ -145,21 +141,24 @@ class _BookDescriptionScreenState extends State<BookDescriptionScreen> {
         )));
   }
 
-  _navigateToWriteReviewScreen() {
-    Navigator.pushNamed(context, WriteReviewScreen.id,
-        arguments: widget.bookId);
+  _navigateToWriteReviewScreen(Book book) {
+    Navigator.pushNamed(context, WriteReviewScreen.id, arguments: book);
   }
 
-  _showAddToLibraryDialog() {
+  _showAddToLibraryDialog(Book book) {
     showDialog(
       context: context,
-      builder: (context) => ChooseListDialog(mediaId: widget.bookId),
+      builder: (context) => ChooseListDialog(
+          mediaId: widget.bookId,
+          image: book.image,
+          name: book.name,
+          author: book.author ?? ""),
     );
   }
 
-  Future<List<Review>> getReviews() async {
-    final reviews = await ReviewService().getReviews(mediaId: widget.bookId);
+  // Future<List<Review>> getReviews() async {
+  //   final reviews = await ReviewService().getReviews(mediaId: widget.bookId);
 
-    return reviews;
-  }
+  //   return reviews;
+  // }
 }
