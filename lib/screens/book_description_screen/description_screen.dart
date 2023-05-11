@@ -120,7 +120,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                         height: 53,
                         width: 233,
                         text: "Write your review",
-                        onPressed: _navigateToWriteReviewScreen,
+                        onPressed: () => _navigateToWriteReviewScreen(),
                       ),
                       const SizedBox(height: 20),
                       BlocBuilder<DescriptionReviewListBloc,
