@@ -27,7 +27,7 @@ class InformationWidget extends StatelessWidget {
 
     if (media is Book) {
       firstLeftSectionTitle = "Author: ";
-      firstLeftSectionContent = (media as Book).author ?? "Unknown";
+      firstLeftSectionContent = (media as Book).author;
       secondLeftSectionTitle = "Number Of Pages: ";
       secondLeftSectionContent = (media as Book).pages.toString();
       // thirdLeftSectionTitle = "Genres: ";

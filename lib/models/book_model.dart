@@ -8,7 +8,7 @@ import 'package:bookvies/models/media_model.dart';
 import 'package:bookvies/models/review_model.dart';
 
 class Book extends Media {
-  final String? author;
+  final String author;
   final String? publisher;
   final String? isbn;
   final DateTime? firstPublishDate;
@@ -121,7 +121,7 @@ class Book extends Media {
         averageRating: map['averageRating'] == null
             ? 0.0
             : map['averageRating'].toDouble(),
-        author: map['author'] as String?,
+        author: map['author'] ?? "Unknown",
         publisher: map['publisher'] as String?,
         isbn: map['isbn'] as String?,
         firstPublishDate: map['firstPublishDate'] == null

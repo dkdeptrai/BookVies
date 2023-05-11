@@ -3,9 +3,8 @@ import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/book_model.dart';
-import 'package:bookvies/screens/book_description_screen/description_screen.dart';
 import 'package:bookvies/screens/books_screen/widgets/rating_badge.dart';
-import 'package:bookvies/utils/router.dart';
+import 'package:bookvies/utils/global_methods.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +17,8 @@ class ExploreBookItemWidget extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return InkWell(
-      onTap: () => _navigateToDescriptionScreen(context, book.id),
+      onTap: () => GlobalMethods().navigateToDescriptionScreen(
+          context: context, mediaId: book.id, mediaType: MediaType.book.name),
       child: SizedBox(
         width: size.width / 2 - 30,
         child: Stack(
@@ -90,10 +90,4 @@ class ExploreBookItemWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-_navigateToDescriptionScreen(BuildContext context, String bookId) {
-  Navigator.pushNamed(context, DescriptionScreen.id,
-      arguments: DescriptionScreenArguments(
-          mediaId: bookId, mediaType: MediaType.book.name));
 }
