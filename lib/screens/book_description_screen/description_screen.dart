@@ -48,8 +48,6 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(50),
@@ -104,7 +102,13 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                         height: 53,
                         width: 200,
                         text: "Add to library",
-                        onPressed: _showAddToLibraryDialog,
+                        onPressed: () {
+                          if (media is Book) {
+                            _showAddToLibraryDialog(media);
+                          } else {
+                            // TODO: Add to favorite movies list
+                          }
+                        },
                       ),
                       const SizedBox(height: 30),
 
@@ -154,7 +158,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
         arguments: widget.mediaId);
   }
 
-  _showAddToLibraryDialog() {
+  _showAddToLibraryDialog(Book book) {
     showDialog(
       context: context,
       builder: (context) => ChooseListDialog(mediaId: widget.mediaId),
