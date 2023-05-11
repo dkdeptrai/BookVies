@@ -2,17 +2,20 @@ import 'package:bookvies/blocs/description_review_list_bloc/description_review_l
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/assets.dart';
+import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/services/review_service.dart';
+import 'package:bookvies/models/book_model.dart';
+import 'package:bookvies/models/media_model.dart';
+import 'package:bookvies/models/movie_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
 class WriteReviewScreen extends StatefulWidget {
-  final String mediaId;
-  const WriteReviewScreen({super.key, required this.mediaId});
+  final Media media;
+  const WriteReviewScreen({super.key, required this.media});
 
   static const id = "/write-review-screen";
 
@@ -157,9 +160,20 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
   }
 
   void addReview() {
+    String author = "";
+    if (widget.media is Book) {
+      author = (widget.media as Book).author ?? "";
+    } else if (widget.media is Movie) {
+      // TODO: assign director, do it when have Movie model
+    }
+
     BlocProvider.of<DescriptionReviewListBloc>(context).add(AddReviewEvent(
         context: context,
-        mediaId: widget.mediaId,
+        mediaId: widget.media.id,
+        mediaType: MediaType.book.name,
+        mediaName: widget.media.name,
+        mediaImage: widget.media.image,
+        mediaAuthor: author,
         rating: rating.toInt(),
         title: titleController.text,
         description: descriptionController.text,

@@ -2,7 +2,6 @@ import 'package:bookvies/blocs/description_review_list_bloc/description_review_l
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/models/movie_model.dart';
-import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/choose_list_dialog.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/description_loading_widget.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/description_review_item_widget.dart';
@@ -10,7 +9,6 @@ import 'package:bookvies/screens/book_description_screen/widgets/description_tit
 import 'package:bookvies/screens/book_description_screen/widgets/information_widget.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/reviews_chart.dart';
 import 'package:bookvies/screens/write_review_screen/write_review_screen.dart';
-import 'package:bookvies/services/review_service.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -42,8 +40,9 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<DescriptionReviewListBloc>(context)
-        .add(LoadDescriptionReviewList(mediaId: widget.mediaId));
+    BlocProvider.of<DescriptionReviewListBloc>(context).add(
+        LoadDescriptionReviewList(
+            mediaId: widget.mediaId, mediaType: MediaType.book.name));
   }
 
   @override
@@ -161,13 +160,17 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
   _showAddToLibraryDialog(Book book) {
     showDialog(
       context: context,
-      builder: (context) => ChooseListDialog(mediaId: widget.mediaId),
+      builder: (context) => ChooseListDialog(
+          mediaId: book.id,
+          image: book.image,
+          name: book.name,
+          author: book.author),
     );
   }
 
-  Future<List<Review>> getReviews() async {
-    final reviews = await ReviewService().getReviews(mediaId: widget.mediaId);
+  // Future<List<Review>> getReviews() async {
+  //   final reviews = await ReviewService().getReviews(mediaId: widget.mediaId);
 
-    return reviews;
-  }
+  //   return reviews;
+  // }
 }

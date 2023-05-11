@@ -1,8 +1,13 @@
 import 'package:bookvies/constant/assets.dart';
+import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/screens/library_screen/widgets/library_review_item_widget.dart';
+import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ReviewedTab extends StatefulWidget {
@@ -43,7 +48,7 @@ class _ReviewedTabState extends State<ReviewedTab> {
                     alignment: Alignment.centerRight,
                     style: AppStyles.libraryReviewedDropdownText,
                     items: typeDropdownValues
-                        .map((e) => DropdownMenuItem(child: Text(e), value: e))
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                         .toList(),
                     onChanged: (value) {
                       setState(() {
@@ -62,7 +67,7 @@ class _ReviewedTabState extends State<ReviewedTab> {
                     alignment: Alignment.centerRight,
                     style: AppStyles.libraryReviewedDropdownText,
                     items: privacyDropdownValues
-                        .map((e) => DropdownMenuItem(child: Text(e), value: e))
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                         .toList(),
                     onChanged: (value) {
                       setState(() {
@@ -74,14 +79,43 @@ class _ReviewedTabState extends State<ReviewedTab> {
               ],
             ),
           ),
-          ListView.separated(
-              shrinkWrap: true,
-              padding:
-                  const EdgeInsets.only(bottom: AppDimensions.defaultPadding),
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (_, index) => const LibraryReviewItemWidget(),
-              separatorBuilder: (_, index) => const SizedBox(height: 25),
-              itemCount: 5)
+          StreamBuilder<QuerySnapshot>(
+              stream: reviewsRef
+                  .where("userId", isEqualTo: currentUser!.uid)
+                  .where("mediaType", isEqualTo: typeCurrentValue.toLowerCase())
+                  .where("privacy",
+                      isEqualTo: privacyCurrentValue.toUpperCase())
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SpinKitFadingCircle(
+                    color: AppColors.primaryBackgroundColor,
+                  );
+                }
+
+                if (snapshot.data!.docs.isEmpty) {
+                  return const Center(child: Text("Not have review yet"));
+                }
+
+                final reviews = snapshot.data!.docs
+                    .map(
+                        (e) => Review.fromMap(e.data() as Map<String, dynamic>))
+                    .toList();
+                return ListView.separated(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(
+                        bottom: AppDimensions.defaultPadding),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (_, index) => LibraryReviewItemWidget(
+                        mediaType: typeCurrentValue.toLowerCase(),
+                        review: reviews[index]),
+                    separatorBuilder: (_, index) => const SizedBox(height: 25),
+                    itemCount: reviews.length);
+              })
         ],
       ),
     );

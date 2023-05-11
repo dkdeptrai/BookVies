@@ -102,11 +102,16 @@ class ReviewsChartWidget extends StatelessWidget {
   List<PieChartSectionData> showingSections({required List<Review> reviews}) {
     const radius = 50.0;
     List<double> values = [
-      countReviewsPerRating(reviews, 1) / reviews.length,
-      countReviewsPerRating(reviews, 2) / reviews.length,
-      countReviewsPerRating(reviews, 3) / reviews.length,
-      countReviewsPerRating(reviews, 4) / reviews.length,
-      countReviewsPerRating(reviews, 5) / reviews.length,
+      double.parse((countReviewsPerRating(reviews, 1) / reviews.length)
+          .toStringAsFixed(4)),
+      double.parse((countReviewsPerRating(reviews, 2) / reviews.length)
+          .toStringAsFixed(4)),
+      double.parse((countReviewsPerRating(reviews, 3) / reviews.length)
+          .toStringAsFixed(4)),
+      double.parse((countReviewsPerRating(reviews, 4) / reviews.length)
+          .toStringAsFixed(4)),
+      double.parse((countReviewsPerRating(reviews, 5) / reviews.length)
+          .toStringAsFixed(4)),
     ];
     List<Color> colors = [
       AppColors.firstChartColor,
