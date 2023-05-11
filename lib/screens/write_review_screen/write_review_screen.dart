@@ -162,7 +162,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
   void addReview() {
     String author = "";
     if (widget.media is Book) {
-      author = (widget.media as Book).author ?? "";
+      author = (widget.media as Book).author;
     } else if (widget.media is Movie) {
       // TODO: assign director, do it when have Movie model
     }

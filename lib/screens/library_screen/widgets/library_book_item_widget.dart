@@ -3,9 +3,8 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/models/book_model.dart';
-import 'package:bookvies/screens/book_description_screen/book_description_screen.dart';
 import 'package:bookvies/services/library_service.dart';
+import 'package:bookvies/utils/global_methods.dart';
 import 'package:bookvies/utils/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -52,10 +51,10 @@ class _LibraryBookItemWidgetState extends State<LibraryBookItemWidget> {
     final Size size = MediaQuery.of(context).size;
 
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, BookDescriptionScreen.id,
-            arguments: widget.bookId);
-      },
+      onTap: () => GlobalMethods().navigateToDescriptionScreen(
+          context: context,
+          mediaId: widget.bookId,
+          mediaType: MediaType.book.name),
       child: Container(
         margin: const EdgeInsets.fromLTRB(20, 16, 20, 0),
         padding: const EdgeInsets.all(15),

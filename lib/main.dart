@@ -2,7 +2,8 @@ import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
 import 'package:bookvies/blocs/description_review_list_bloc/description_review_list_bloc.dart';
-import 'package:bookvies/screens/book_description_screen/book_description_screen.dart';
+import 'package:bookvies/constant/colors.dart';
+import 'package:bookvies/screens/book_description_screen/description_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
 import 'package:bookvies/screens/movies_screen/movies_screen.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bookvies/blocs/nav_bar_bloc/nav_bar_bloc.dart';
 import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:bookvies/utils/router.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,7 +68,7 @@ class MyApp extends StatelessWidget {
           } else {
             return Scaffold(
               body: Center(
-                child: Text("User authentication state: $state"),
+                child: SpinKitFadingCircle(color: AppColors.mediumBlue),
               ),
             );
           }

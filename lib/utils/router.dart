@@ -1,5 +1,5 @@
+import 'package:bookvies/screens/book_description_screen/description_screen.dart';
 import 'package:bookvies/models/media_model.dart';
-import 'package:bookvies/screens/book_description_screen/book_description_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
 import 'package:bookvies/screens/recommend_movies_screen/recommend_movies_screen.dart';
@@ -36,10 +36,11 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const RecommendMoviesScreen());
       case (TopRatingMoviesScreen.id):
         return MaterialPageRoute(builder: (_) => const TopRatingMoviesScreen());
-      case (BookDescriptionScreen.id):
-        final bookId = routeSettings.arguments as String;
+      case (DescriptionScreen.id):
+        final args = routeSettings.arguments as DescriptionScreenArguments;
         return MaterialPageRoute(
-            builder: (_) => BookDescriptionScreen(bookId: bookId));
+            builder: (_) => DescriptionScreen(
+                mediaId: args.mediaId, mediaType: args.mediaType));
       case (WriteReviewScreen.id):
         final media = routeSettings.arguments as Media;
         return MaterialPageRoute(
@@ -56,4 +57,11 @@ class AppRouter {
                 ));
     }
   }
+}
+
+class DescriptionScreenArguments {
+  final String mediaId;
+  final String mediaType;
+  const DescriptionScreenArguments(
+      {required this.mediaId, required this.mediaType});
 }

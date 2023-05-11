@@ -97,7 +97,6 @@ class _ChooseListDialogState extends State<ChooseListDialog> {
       }
 
       // else, add it to the library
-      print(convertToCamelCase(titles[selectedIndex]));
       await LibraryService.addToLibrary(
           mediaId: widget.mediaId,
           image: widget.image,

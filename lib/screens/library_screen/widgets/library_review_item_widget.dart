@@ -4,7 +4,7 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
-import 'package:bookvies/screens/book_description_screen/book_description_screen.dart';
+import 'package:bookvies/utils/global_methods.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,10 +20,8 @@ class LibraryReviewItemWidget extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, BookDescriptionScreen.id,
-            arguments: review.mediaId);
-      },
+      onTap: () => GlobalMethods().navigateToDescriptionScreen(
+          context: context, mediaId: review.mediaId, mediaType: mediaType),
       child: Container(
         margin: const EdgeInsets.symmetric(
             horizontal: AppDimensions.defaultPadding),

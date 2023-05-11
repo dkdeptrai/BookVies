@@ -1,6 +1,6 @@
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/models/book_model.dart';
+import 'package:bookvies/models/media_model.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/rating_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,15 +8,15 @@ import 'package:flutter/material.dart';
 class DescriptionTitleWidget extends StatelessWidget {
   const DescriptionTitleWidget({
     super.key,
-    required this.size,
-    required this.book,
+    required this.media,
   });
 
-  final Size size;
-  final Book book;
+  final Media media;
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Container(
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.only(bottom: 58),
@@ -27,7 +27,7 @@ class DescriptionTitleWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: AppDimensions.defaultBorderRadius,
             child: CachedNetworkImage(
-              imageUrl: book.image,
+              imageUrl: media.image,
               width: 108,
               fit: BoxFit.fill,
             ),
@@ -40,18 +40,19 @@ class DescriptionTitleWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    book.name,
+                    media.name,
                     style: AppStyles.bookNameForDescriptionHeader,
                     overflow: TextOverflow.ellipsis,
                     softWrap: true,
                     maxLines: 4,
+                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
                   RatingWidget(
-                    rating: book.averageRating,
+                    rating: media.averageRating,
                   ),
                   const SizedBox(height: 16),
-                  Text("${book.numberReviews} Reviews"),
+                  Text("${media.numberReviews} Reviews"),
                 ],
               ),
             ),

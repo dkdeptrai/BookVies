@@ -3,7 +3,7 @@ import 'package:bookvies/common_widgets/section_header.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/screens/movies_screen/widgets/recommend_movies_widget.dart';
-import 'package:bookvies/screens/movies_screen/widgets/top_movies_carousel_widget.dart';
+import 'package:bookvies/screens/movies_screen/widgets/top_movies_widget.dart';
 import 'package:bookvies/screens/movies_screen/widgets/top_rating_movies_widget.dart';
 import 'package:bookvies/screens/search_movies_screen/search_movies_screen.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
             padding: const EdgeInsets.symmetric(
                 vertical: AppDimensions.defaultPadding),
             child: Column(children: const [
-              TopMoviesCarouselWidget(),
+              TopMoviesWidget(),
               SizedBox(height: 20.0),
               RecommendMoviesWidget(),
               TopRatingMoviesWidget(),
