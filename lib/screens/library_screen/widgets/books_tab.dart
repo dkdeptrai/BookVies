@@ -4,7 +4,6 @@ import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/library_screen/widgets/book_to_read_tab.dart';
-import 'package:bookvies/screens/search_books_screen/widgets/search_book_item_widget.dart';
 import 'package:flutter/material.dart';
 
 class BookTab extends StatefulWidget {

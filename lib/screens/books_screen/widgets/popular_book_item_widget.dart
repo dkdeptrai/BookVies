@@ -1,9 +1,11 @@
 import 'package:bookvies/constant/colors.dart';
+import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/book_model.dart';
-import 'package:bookvies/screens/book_description_screen/book_description_screen.dart';
+import 'package:bookvies/screens/book_description_screen/description_screen.dart';
 import 'package:bookvies/screens/books_screen/widgets/rating_badge.dart';
+import 'package:bookvies/utils/router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -100,6 +102,8 @@ class PopularBookItem extends StatelessWidget {
   }
 
   _navigateToDescriptionScreen(BuildContext context) {
-    Navigator.pushNamed(context, BookDescriptionScreen.id, arguments: book.id);
+    Navigator.pushNamed(context, DescriptionScreen.id,
+        arguments: DescriptionScreenArguments(
+            mediaId: book.id, mediaType: MediaType.book.name));
   }
 }

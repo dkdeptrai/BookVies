@@ -1,11 +1,15 @@
 import 'package:bookvies/constant/colors.dart';
+import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/models/movie_model.dart';
+import 'package:bookvies/screens/book_description_screen/description_screen.dart';
+import 'package:bookvies/utils/router.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class TopMoviesCarouselWidget extends StatefulWidget {
-  const TopMoviesCarouselWidget({super.key});
+  final List<Movie> movies;
+  const TopMoviesCarouselWidget({super.key, required this.movies});
 
   @override
   State<TopMoviesCarouselWidget> createState() =>
@@ -13,23 +17,25 @@ class TopMoviesCarouselWidget extends StatefulWidget {
 }
 
 class _TopMoviesCarouselWidgetState extends State<TopMoviesCarouselWidget> {
-  int currentPageIndex = 0;
-  final List<Movie> movies = Movie.movieList;
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    int currentPageIndex = 0;
 
     return Column(
       children: [
         CarouselSlider(
             items: List.generate(
-                movies.length,
-                (index) => ClipRRect(
-                    borderRadius: AppDimensions.defaultBorderRadius,
-                    child: Image.network(
-                      movies[index].image,
-                    ))),
+                widget.movies.length,
+                (index) => InkWell(
+                      onTap: () =>
+                          _navigateToDescriptionScreen(widget.movies[index].id),
+                      child: ClipRRect(
+                          borderRadius: AppDimensions.defaultBorderRadius,
+                          child: Image.network(
+                            widget.movies[index].image,
+                          )),
+                    )),
             options: CarouselOptions(
                 height: size.height * 0.35,
                 aspectRatio: 16 / 9,
@@ -49,9 +55,9 @@ class _TopMoviesCarouselWidgetState extends State<TopMoviesCarouselWidget> {
         Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
-                movies.length,
+                widget.movies.length,
                 (index) => Container(
-                    margin: index < movies.length - 1
+                    margin: index < widget.movies.length - 1
                         ? const EdgeInsets.only(right: 5)
                         : const EdgeInsets.only(right: 0),
                     height: 8,
@@ -66,5 +72,11 @@ class _TopMoviesCarouselWidgetState extends State<TopMoviesCarouselWidget> {
                             : AppColors.greyTextColor))))
       ],
     );
+  }
+
+  _navigateToDescriptionScreen(String mediaId) {
+    Navigator.pushNamed(context, DescriptionScreen.id,
+        arguments: DescriptionScreenArguments(
+            mediaId: mediaId, mediaType: MediaType.movie.name));
   }
 }
