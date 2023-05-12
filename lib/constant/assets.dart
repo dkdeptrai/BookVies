@@ -31,6 +31,7 @@ class AppAssets {
   static const String icUpVoteOutline = "$iconPath/ic_upvote_outline.svg";
   static const String icDownVoteOutline = "$iconPath/ic_downvote_outline.svg";
   static const String icComment = "$iconPath/ic_comment.svg";
+  static const String icSend = "$iconPath/ic_send.svg";
 
   // images
   static const String imgForgotPassword = "$imagePath/img_forgot_password.svg";

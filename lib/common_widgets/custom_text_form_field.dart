@@ -61,6 +61,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 prefixIcon: widget.prefixIcon,
                 prefixIconConstraints: widget.prefixIconConstraints,
                 suffixIcon: widget.suffixIcon,
+                focusedBorder: AppStyles.authenticateFieldBorder,
+                enabledBorder: AppStyles.authenticateFieldBorder,
                 border: AppStyles.authenticateFieldBorder,
                 fillColor: AppColors.primaryBackgroundColor,
                 filled: true,

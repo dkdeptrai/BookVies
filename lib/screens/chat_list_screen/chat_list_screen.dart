@@ -4,12 +4,10 @@ import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/screens/chat_list_screen/widget/chat_title.dart';
+import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
@@ -28,8 +26,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
         .orderBy('lastTime', descending: true)
         .snapshots()
         .map((querySnapshot) => querySnapshot.docs
-            .map((docSnapshot) =>
-                Chat.fromMap(docSnapshot.data()! as Map<String, dynamic>))
+            .map((docSnapshot) => Chat.fromMap(
+                docSnapshot.data()! as Map<String, dynamic>, docSnapshot.id))
             .toList());
 
     final chatSubject = BehaviorSubject<List<Chat>>.seeded([]);
@@ -41,10 +39,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
             .snapshots()
             .listen((querySnapshot) {
           final updatedChat = querySnapshot.docs
-              .map((docSnapshot) =>
-                  Chat.fromMap(docSnapshot.data()! as Map<String, dynamic>))
+              .map((docSnapshot) => Chat.fromMap(
+                  docSnapshot.data()! as Map<String, dynamic>, docSnapshot.id))
               .first;
-
           final chatIndex = chats.indexWhere((c) => c.id == updatedChat.id);
           if (chatIndex != -1) {
             chats[chatIndex] = updatedChat;
@@ -90,6 +87,15 @@ class _ChatListScreenState extends State<ChatListScreen> {
               final chat = chats[index];
               return ChatTile(
                 chat: chat,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChatScreen(
+                              chat: chat,
+                            )),
+                  );
+                },
               );
             },
           );

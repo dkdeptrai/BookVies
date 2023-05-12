@@ -1,20 +1,23 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
+
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/bookvies_user_model.dart';
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/models/message_model.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
 class ChatTile extends StatelessWidget {
   final Chat chat;
+  final Function onTap;
   const ChatTile({
-    super.key,
+    Key? key,
     required this.chat,
-  });
+    required this.onTap,
+  }) : super(key: key);
   Stream<BookviesUser> getChatPartner() async* {
     String partnerId = chat.usersId.where((id) => id != currentUser!.uid).first;
     yield* FirebaseFirestore.instance
@@ -77,6 +80,7 @@ class ChatTile extends StatelessWidget {
               ],
             ),
             child: ListTile(
+              onTap: onTap as void Function()?,
               leading: CircleAvatar(
                 radius: 40,
                 backgroundImage: NetworkImage(partner.imageUrl),
