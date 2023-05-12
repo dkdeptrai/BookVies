@@ -17,10 +17,17 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final List<Widget> screen = [
     const BookScreen(),
+<<<<<<< Updated upstream
     const Placeholder(), // Replace with movies screen
     const Placeholder(), // Replace with library screen
     const Placeholder(), // Replace with chat screen
     const Placeholder() // Replace with profile screen
+=======
+    const MoviesScreen(),
+    const LibraryScreen(),
+    const ChatScreen(),
+    const Placeholder()
+>>>>>>> Stashed changes
   ];
 
   @override
