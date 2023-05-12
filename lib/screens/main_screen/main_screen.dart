@@ -2,8 +2,8 @@ import 'package:bookvies/blocs/nav_bar_bloc/nav_bar_bloc.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/screens/books_screen/book_screen.dart';
-import 'package:bookvies/screens/library_screen/library_screen.dart';
 import 'package:bookvies/screens/chat_screen/chat_screen.dart';
+import 'package:bookvies/screens/library_screen/library_screen.dart';
 import 'package:bookvies/screens/movies_screen/movies_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,8 +11,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MainScreen extends StatefulWidget {
-  static const id = '/main-screen';
   const MainScreen({super.key});
+
+  static const id = '/main-screen';
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -21,10 +22,20 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final List<Widget> screen = [
     const BookScreen(),
-    const MoviesScreen(), // Replace with movies screen
-    const LibraryScreen(), // Replace with library screen
-    const ChatScreen(), // Replace with chat screen
-    const Placeholder() // Replace with profile screen
+    const MoviesScreen(),
+    const LibraryScreen(),
+    const ChatScreen(),
+    const Placeholder()
+  ];
+
+  final List<String> titles = ["Books", "Movies", "Library", "Chat", "Profile"];
+
+  final List<String> icons = [
+    AppAssets.icBook,
+    AppAssets.icMovie,
+    AppAssets.icLibrary,
+    AppAssets.icMessage,
+    AppAssets.icProfile
   ];
 
   @override
@@ -53,60 +64,21 @@ class _MainScreenState extends State<MainScreen> {
                       .read<NavBarBloc>()
                       .add(UpdateIndex(newIndex: newIndex));
                 },
-                tabs: [
-                  GButton(
-                    iconActiveColor: Colors.red,
-                    iconColor: Colors.blue,
-                    icon: Icons.home,
-                    leading: SvgPicture.asset(
-                      AppAssets.icBook,
-                      height: 24,
-                      width: 24,
-                      colorFilter: colorFilter(state.currentIndex == 0),
-                    ),
-                    text: "Books",
-                  ),
-                  GButton(
-                    icon: Icons.home,
-                    leading: SvgPicture.asset(
-                      AppAssets.icMovie,
-                      height: 24,
-                      width: 24,
-                      colorFilter: colorFilter(state.currentIndex == 1),
-                    ),
-                    text: "Movies",
-                  ),
-                  GButton(
-                    icon: Icons.home,
-                    leading: SvgPicture.asset(
-                      AppAssets.icLibrary,
-                      height: 24,
-                      width: 24,
-                      colorFilter: colorFilter(state.currentIndex == 2),
-                    ),
-                    text: "Library",
-                  ),
-                  GButton(
-                    icon: Icons.home,
-                    leading: SvgPicture.asset(
-                      AppAssets.icMessage,
-                      height: 24,
-                      width: 24,
-                      colorFilter: colorFilter(state.currentIndex == 3),
-                    ),
-                    text: "Chat",
-                  ),
-                  GButton(
-                    icon: Icons.home,
-                    leading: SvgPicture.asset(
-                      AppAssets.icMovie,
-                      height: 24,
-                      width: 24,
-                      colorFilter: colorFilter(state.currentIndex == 4),
-                    ),
-                    text: "Profile",
-                  ),
-                ]),
+                tabs: List.generate(
+                    titles.length,
+                    (index) => GButton(
+                          iconActiveColor: Colors.red,
+                          iconColor: Colors.blue,
+                          icon: Icons.home,
+                          leading: SvgPicture.asset(
+                            icons[index],
+                            height: 24,
+                            width: 24,
+                            colorFilter:
+                                colorFilter(state.currentIndex == index),
+                          ),
+                          text: titles[index],
+                        ))),
           ),
         );
       },
