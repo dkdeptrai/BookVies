@@ -5,6 +5,7 @@ import 'package:bookvies/screens/books_screen/book_screen.dart';
 import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:bookvies/screens/library_screen/library_screen.dart';
 import 'package:bookvies/screens/movies_screen/movies_screen.dart';
+import 'package:bookvies/screens/profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
     const MoviesScreen(),
     const LibraryScreen(),
     const ChatScreen(),
-    const Placeholder()
+    const ProfileScreen()
   ];
 
   final List<String> titles = ["Books", "Movies", "Library", "Chat", "Profile"];
