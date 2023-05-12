@@ -28,6 +28,16 @@ class _MainScreenState extends State<MainScreen> {
     const Placeholder()
   ];
 
+  final List<String> titles = ["Books", "Movies", "Library", "Chat", "Profile"];
+
+  final List<String> icons = [
+    AppAssets.icBook,
+    AppAssets.icMovie,
+    AppAssets.icLibrary,
+    AppAssets.icMessage,
+    AppAssets.icProfile
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavBarBloc, NavBarState>(
@@ -54,60 +64,21 @@ class _MainScreenState extends State<MainScreen> {
                       .read<NavBarBloc>()
                       .add(UpdateIndex(newIndex: newIndex));
                 },
-                tabs: [
-                  GButton(
-                    iconActiveColor: Colors.red,
-                    iconColor: Colors.blue,
-                    icon: Icons.home,
-                    leading: SvgPicture.asset(
-                      AppAssets.icBook,
-                      height: 24,
-                      width: 24,
-                      colorFilter: colorFilter(state.currentIndex == 0),
-                    ),
-                    text: "Books",
-                  ),
-                  GButton(
-                    icon: Icons.home,
-                    leading: SvgPicture.asset(
-                      AppAssets.icMovie,
-                      height: 24,
-                      width: 24,
-                      colorFilter: colorFilter(state.currentIndex == 1),
-                    ),
-                    text: "Movies",
-                  ),
-                  GButton(
-                    icon: Icons.home,
-                    leading: SvgPicture.asset(
-                      AppAssets.icLibrary,
-                      height: 24,
-                      width: 24,
-                      colorFilter: colorFilter(state.currentIndex == 2),
-                    ),
-                    text: "Library",
-                  ),
-                  GButton(
-                    icon: Icons.home,
-                    leading: SvgPicture.asset(
-                      AppAssets.icMessage,
-                      height: 24,
-                      width: 24,
-                      colorFilter: colorFilter(state.currentIndex == 3),
-                    ),
-                    text: "Chat",
-                  ),
-                  GButton(
-                    icon: Icons.home,
-                    leading: SvgPicture.asset(
-                      AppAssets.icMovie,
-                      height: 24,
-                      width: 24,
-                      colorFilter: colorFilter(state.currentIndex == 4),
-                    ),
-                    text: "Profile",
-                  ),
-                ]),
+                tabs: List.generate(
+                    titles.length,
+                    (index) => GButton(
+                          iconActiveColor: Colors.red,
+                          iconColor: Colors.blue,
+                          icon: Icons.home,
+                          leading: SvgPicture.asset(
+                            icons[index],
+                            height: 24,
+                            width: 24,
+                            colorFilter:
+                                colorFilter(state.currentIndex == index),
+                          ),
+                          text: titles[index],
+                        ))),
           ),
         );
       },

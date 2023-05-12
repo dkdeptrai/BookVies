@@ -2,6 +2,7 @@ import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
 import 'package:bookvies/blocs/description_review_list_bloc/description_review_list_bloc.dart';
+import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
@@ -22,6 +23,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MultiBlocProvider(
     providers: [
+      BlocProvider(create: (_) => UserBloc()),
       BlocProvider(create: (_) => NavBarBloc()),
       BlocProvider(create: (_) => DescriptionReviewListBloc()),
       BlocProvider(create: (_) => AuthBloc(FirebaseAuthProvider())),
@@ -52,7 +54,22 @@ class MyApp extends StatelessWidget {
           BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is AuthStateLoggedIn) {
-            return const MainScreen();
+            context.read<UserBloc>().add(const LoadUser());
+            return BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is UserLoaded) {
+                  return const MainScreen();
+                } else if (state is UserLoading) {
+                  return const SplashScreen();
+                } else if (state is UserLoadFailed) {
+                  return Scaffold(
+                    body: Center(child: Text(state.message)),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            );
           } else if (state is AuthStateLoggedOut) {
             return const LoginScreen();
           } else if (state is AuthStateForgotPassword) {
