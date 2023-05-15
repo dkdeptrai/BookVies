@@ -102,11 +102,11 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                         width: 200,
                         text: "Add to library",
                         onPressed: () {
-                          if (media is Book) {
-                            _showAddToLibraryDialog(media);
-                          } else {
-                            // TODO: Add to favorite movies list
-                          }
+                          // if (media is Book) {
+                          _showAddToLibraryDialog(media);
+                          // } else {
+                          // TODO: Add to favorite movies list
+                          // }
                         },
                       ),
                       const SizedBox(height: 30),
@@ -157,14 +157,16 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
         arguments: widget.mediaId);
   }
 
-  _showAddToLibraryDialog(Book book) {
+  _showAddToLibraryDialog(Media media) {
     showDialog(
       context: context,
       builder: (context) => ChooseListDialog(
-          mediaId: book.id,
-          image: book.image,
-          name: book.name,
-          author: book.author),
+        media: media,
+        // mediaId: media.id,
+        // image: media.image,
+        // name: media.name,
+        // author: media.author
+      ),
     );
   }
 
