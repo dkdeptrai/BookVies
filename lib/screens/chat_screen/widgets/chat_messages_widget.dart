@@ -38,9 +38,11 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
         .map((snapshot) =>
             snapshot.docs.map((doc) => Message.fromMap(doc.data())).toList())
         .listen((messages) {
-      setState(() {
-        _messagesSubject.add([...messages, ..._messagesSubject.value]);
-      });
+      if (mounted) {
+        setState(() {
+          _messagesSubject.add([...messages, ..._messagesSubject.value]);
+        });
+      }
     });
   }
 

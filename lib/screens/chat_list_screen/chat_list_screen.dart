@@ -3,7 +3,7 @@ import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/models/chat_model.dart';
-import 'package:bookvies/screens/chat_list_screen/widget/chat_title.dart';
+import 'package:bookvies/screens/chat_list_screen/widget/chat_tile.dart';
 import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -6,12 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
-import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/screens/chat_screen/widgets/chat_messages_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class ChatScreen extends StatefulWidget {
   final Chat chat;
@@ -73,33 +71,31 @@ class _ChatScreenState extends State<ChatScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: CustomTextFormField(
-                    keyboardType: TextInputType.multiline,
-                    controller: messageController,
-                    maxLines: 4,
-                    hintText: 'Type your message here...',
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 200,
+                      minHeight: 52,
+                    ),
+                    child: TextFormField(
+                      keyboardType: TextInputType.multiline,
+                      autofocus: false,
+                      textAlignVertical: TextAlignVertical.center,
+                      minLines: 1,
+                      maxLines: 5,
+                      controller: messageController,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintText: 'Type your message here...',
+                        hintStyle: AppStyles.hintTextStyle,
+                        focusedBorder: AppStyles.authenticateFieldBorder,
+                        enabledBorder: AppStyles.authenticateFieldBorder,
+                        border: AppStyles.authenticateFieldBorder,
+                        fillColor: AppColors.primaryBackgroundColor,
+                        filled: true,
+                      ),
+                    ),
                   ),
                 ),
-                Expanded(child: TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  controller: messageController,
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                    hintText: 'Type your message here...',
-                hintStyle: AppStyles.hintTextStyle,
-                focusedBorder:  GradientBoxBorder(
-        gradient: AppColors.primaryGradient,
-        width: 2),
-                    gradient: AppColors.primaryGradient,
-                    strokeWidth: 2.0,
-                    strokeCap: StrokeCap.round,
-                    borderRadius: BorderRadius.circular(10.0))
-                enabledBorder: AppStyles.authenticateFieldBorder,
-                border: AppStyles.authenticateFieldBorder,
-                fillColor: AppColors.primaryBackgroundColor,
-                filled: true,
-                )
-                ))
                 IconButton(
                   icon: SvgPicture.asset(AppAssets.icSend),
                   onPressed: () async =>

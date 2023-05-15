@@ -181,6 +181,13 @@ class AppStyles {
     color: AppColors.secondaryColor,
   );
 
+  static OutlineInputBorder chatInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(12),
+    borderSide: BorderSide(
+      color: AppColors.mediumBlue,
+    ),
+  );
+
   static BoxDecoration chatMessageDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(12),
     boxShadow: [AppStyles.primaryShadow],
