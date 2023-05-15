@@ -82,10 +82,12 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
               } else {
                 if (widget.mediaType == MediaType.book.name) {
                   media = Book.fromMap(
-                      snapshot.data?.data() as Map<String, dynamic>);
+                          snapshot.data?.data() as Map<String, dynamic>)
+                      .copyWith(id: snapshot.data!.id);
                 } else {
                   media = Movie.fromMap(
-                      snapshot.data?.data() as Map<String, dynamic>);
+                          snapshot.data?.data() as Map<String, dynamic>)
+                      .copyWith(id: snapshot.data!.id);
                 }
               }
 
@@ -101,13 +103,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                         height: 53,
                         width: 200,
                         text: "Add to library",
-                        onPressed: () {
-                          if (media is Book) {
-                            _showAddToLibraryDialog(media);
-                          } else {
-                            // TODO: Add to favorite movies list
-                          }
-                        },
+                        onPressed: () => _showAddToLibraryDialog(media),
                       ),
                       const SizedBox(height: 30),
 
@@ -119,7 +115,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                         height: 53,
                         width: 233,
                         text: "Write your review",
-                        onPressed: () => _navigateToWriteReviewScreen(),
+                        onPressed: () => _navigateToWriteReviewScreen(media),
                       ),
                       const SizedBox(height: 20),
                       BlocBuilder<DescriptionReviewListBloc,
@@ -152,25 +148,16 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
         )));
   }
 
-  _navigateToWriteReviewScreen() {
-    Navigator.pushNamed(context, WriteReviewScreen.id,
-        arguments: widget.mediaId);
+  _navigateToWriteReviewScreen(Media media) {
+    Navigator.pushNamed(context, WriteReviewScreen.id, arguments: media);
   }
 
-  _showAddToLibraryDialog(Book book) {
+  _showAddToLibraryDialog(Media media) {
     showDialog(
       context: context,
       builder: (context) => ChooseListDialog(
-          mediaId: book.id,
-          image: book.image,
-          name: book.name,
-          author: book.author),
+        media: media,
+      ),
     );
   }
-
-  // Future<List<Review>> getReviews() async {
-  //   final reviews = await ReviewService().getReviews(mediaId: widget.mediaId);
-
-  //   return reviews;
-  // }
 }

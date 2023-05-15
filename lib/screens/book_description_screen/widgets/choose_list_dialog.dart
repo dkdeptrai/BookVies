@@ -1,29 +1,38 @@
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/colors.dart';
+import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/models/book_model.dart';
+import 'package:bookvies/models/media_model.dart';
+import 'package:bookvies/models/movie_model.dart';
 import 'package:bookvies/services/library_service.dart';
 import 'package:bookvies/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ChooseListDialog extends StatefulWidget {
-  final String mediaId;
-  final String image;
-  final String name;
-  final String author;
-  const ChooseListDialog(
-      {super.key,
-      required this.mediaId,
-      required this.image,
-      required this.name,
-      required this.author});
+  // final String mediaId;
+  // final String image;
+  // final String name;
+  // final String author;
+  final Media media;
+  const ChooseListDialog({super.key, required this.media});
 
   @override
   State<ChooseListDialog> createState() => _ChooseListDialogState();
 }
 
 class _ChooseListDialogState extends State<ChooseListDialog> {
-  final List<String> titles = ["Read", "Reading", "To read"];
+  List<String> titles = ["Read", "Reading", "To read", "Favorite"];
   int selectedIndex = 0;
+  final libraryService = LibraryService();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.media is Movie) {
+      titles = ["Favorite"];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +81,13 @@ class _ChooseListDialogState extends State<ChooseListDialog> {
                 CustomButtonWithGradientBackground(
                     height: 53,
                     text: "Add to library",
-                    onPressed: _addToLibrary)
+                    onPressed: () {
+                      if (selectedIndex == titles.length - 1) {
+                        _addToFavorite();
+                      } else {
+                        _addToLibrary();
+                      }
+                    })
               ],
             ),
           )
@@ -81,11 +96,50 @@ class _ChooseListDialogState extends State<ChooseListDialog> {
     );
   }
 
+  _addToFavorite() async {
+    try {
+      // check if this book is already in the library
+      final bool isExistedInFavorites =
+          await libraryService.isThisBookInFavorites(mediaId: widget.media.id);
+
+      if (isExistedInFavorites) {
+        if (!mounted) {
+          return;
+        }
+        showWarningDialog(
+            context: context,
+            message: "This book is already in your favorite list.");
+        return;
+      }
+
+      // else, add it to the library
+      await libraryService.addToFavorites(
+          mediaId: widget.media.id,
+          image: widget.media.image,
+          name: widget.media.name,
+          author: widget.media is Book
+              ? (widget.media as Book).author
+              : (widget.media as Movie).director,
+          mediaType: widget.media is Book
+              ? MediaType.book.name
+              : MediaType.movie.name);
+
+      if (!mounted) {
+        return;
+      }
+      Navigator.pop(context);
+      showSuccessDialog(
+          context: context, message: "Added to library successfully");
+    } catch (error) {
+      showErrorDialog(context: context, message: "Something went wrong.");
+    }
+  }
+
   _addToLibrary() async {
     try {
       // check if this book is already in the library
       final bool isExistedInLibrary =
-          await LibraryService.isThisBookInLibrary(widget.mediaId);
+          await libraryService.isThisBookInLibrary(widget.media.id);
 
       if (isExistedInLibrary) {
         if (!mounted) {
@@ -97,11 +151,13 @@ class _ChooseListDialogState extends State<ChooseListDialog> {
       }
 
       // else, add it to the library
-      await LibraryService.addToLibrary(
-          mediaId: widget.mediaId,
-          image: widget.image,
-          name: widget.name,
-          author: widget.author,
+      await libraryService.addToLibrary(
+          mediaId: widget.media.id,
+          image: widget.media.image,
+          name: widget.media.name,
+          author: widget.media is Book
+              ? (widget.media as Book).author
+              : (widget.media as Movie).director,
           status: convertToCamelCase(titles[selectedIndex]));
 
       if (!mounted) {

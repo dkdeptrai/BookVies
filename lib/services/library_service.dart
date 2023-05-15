@@ -3,7 +3,7 @@ import 'package:bookvies/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class LibraryService {
-  static Future<bool> isThisBookInLibrary(String bookId) async {
+  Future<bool> isThisBookInLibrary(String bookId) async {
     final items = await usersRef
         .doc(currentUser?.uid)
         .collection("library")
@@ -13,11 +13,11 @@ class LibraryService {
     return items.docs.isNotEmpty;
   }
 
-  static Future<void> addToLibrary(
+  Future<void> addToLibrary(
       {required String mediaId,
       required String image,
       required String name,
-      required String author,
+      required Object author,
       required String status}) async {
     final libraryRef =
         usersRef.doc(currentUser?.uid).collection("library").doc();
@@ -36,7 +36,6 @@ class LibraryService {
 
   Future<void> updateBookStatus(
       BuildContext context, String bookId, String newStatus) async {
-    print(bookId);
     try {
       await usersRef
           .doc(currentUser?.uid)
@@ -47,5 +46,38 @@ class LibraryService {
       showErrorDialog(context: context, message: "Something went wrong");
       print("Update book status error: $error");
     }
+  }
+
+  Future<bool> isThisBookInFavorites({required String mediaId}) async {
+    final items = await usersRef
+        .doc(currentUser?.uid)
+        .collection("favorites")
+        .where("mediaId", isEqualTo: mediaId)
+        .get();
+
+    return items.docs.isNotEmpty;
+  }
+
+  Future<void> addToFavorites(
+      {required String mediaId,
+      required String image,
+      required String name,
+      required Object author,
+      required String mediaType}) async {
+    final libraryItem = {
+      "mediaId": mediaId,
+      "image": image,
+      "name": name,
+      "author": author,
+      "addedAt": DateTime.now(),
+      "mediaType": mediaType,
+    };
+
+    await usersRef
+        .doc(currentUser?.uid)
+        .collection("favorites")
+        .add(libraryItem);
+
+    // await libraryRef.set(libraryItem);
   }
 }
