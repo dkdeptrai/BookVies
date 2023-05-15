@@ -1,5 +1,6 @@
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/constant/assets.dart';
+import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/books_screen/widgets/explore_book_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class PopularBookScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: AppDimensions.defaultAppBarPreferredSize,
           child: CustomAppBar(
             title: "Popular Books",
             leading: IconButton(

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/models/comment_model.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/services/review_service.dart';
@@ -24,7 +23,8 @@ class DescriptionReviewListBloc
     try {
       List<Review> reviews = [];
 
-      reviews = await ReviewService().getReviews(mediaId: event.mediaId);
+      reviews = await ReviewService()
+          .getReviews(mediaId: event.mediaId, mediaType: event.mediaType);
 
       emit(DescriptionReviewListLoaded(
           reviews: reviews, lastUpdated: DateTime.now()));
@@ -72,7 +72,11 @@ class DescriptionReviewListBloc
     final reviewService = ReviewService();
     try {
       final Review? review = await reviewService.addReview(
+        mediaType: event.mediaType,
         mediaId: event.mediaId,
+        mediaName: event.mediaName,
+        mediaImage: event.mediaImage,
+        mediaAuthor: event.mediaAuthor,
         rating: event.rating,
         title: event.title,
         description: event.description,

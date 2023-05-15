@@ -1,9 +1,10 @@
 import 'package:bookvies/constant/colors.dart';
+import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/book_model.dart';
-import 'package:bookvies/screens/book_description_screen/book_description_screen.dart';
 import 'package:bookvies/screens/books_screen/widgets/rating_badge.dart';
+import 'package:bookvies/utils/global_methods.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,8 @@ class PopularBookItem extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return InkWell(
-      onTap: () => _navigateToDescriptionScreen(context),
+      onTap: () => GlobalMethods().navigateToDescriptionScreen(
+          context: context, mediaId: book.id, mediaType: MediaType.book.name),
       child: Padding(
         padding: const EdgeInsets.only(right: 15),
         child: Stack(
@@ -97,9 +99,5 @@ class PopularBookItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _navigateToDescriptionScreen(BuildContext context) {
-    Navigator.pushNamed(context, BookDescriptionScreen.id, arguments: book.id);
   }
 }

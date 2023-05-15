@@ -2,12 +2,13 @@
 
 import 'dart:convert';
 
-import 'package:bookvies/models/media_model.dart';
-import 'package:bookvies/models/review_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:bookvies/models/media_model.dart';
+import 'package:bookvies/models/review_model.dart';
+
 class Book extends Media {
-  final String? author;
+  final String author;
   final String? publisher;
   final String? isbn;
   final DateTime? firstPublishDate;
@@ -120,7 +121,7 @@ class Book extends Media {
         averageRating: map['averageRating'] == null
             ? 0.0
             : map['averageRating'].toDouble(),
-        author: map['author'] as String?,
+        author: map['author'] ?? "Unknown",
         publisher: map['publisher'] as String?,
         isbn: map['isbn'] as String?,
         firstPublishDate: map['firstPublishDate'] == null
@@ -141,4 +142,36 @@ class Book extends Media {
 
   factory Book.fromJson(String source) =>
       Book.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  Book copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? image,
+    List<Review>? reviews,
+    int? numberReviews,
+    double? averageRating,
+    List<String>? genres,
+    String? author,
+    String? publisher,
+    String? isbn,
+    DateTime? firstPublishDate,
+    int? pages,
+  }) {
+    return Book(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      image: image ?? this.image,
+      reviews: reviews ?? this.reviews,
+      numberReviews: numberReviews ?? this.numberReviews,
+      averageRating: averageRating ?? this.averageRating,
+      genres: genres ?? this.genres,
+      author: author ?? this.author,
+      publisher: publisher ?? this.publisher,
+      isbn: isbn ?? this.isbn,
+      firstPublishDate: firstPublishDate ?? this.firstPublishDate,
+      pages: pages ?? this.pages,
+    );
+  }
 }

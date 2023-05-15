@@ -6,6 +6,12 @@ enum MediaType { book, movie }
 
 enum LibraryBookType { read, reading, toRead }
 
+const Map<String, String> libraryBookTypeText = {
+  "read": "Read",
+  "reading": "Reading",
+  "toRead": "To Read",
+};
+
 enum PrivacyValues { public, personal }
 
 const Map<String, String> privacyText = {

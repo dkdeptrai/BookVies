@@ -1,8 +1,5 @@
-import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
-import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
+import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -11,11 +8,19 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: ElevatedButton(
-        child: const Text('logout'),
-        onPressed: () => context.read<AuthBloc>().add(const AuthEventLogOut()),
-      )),
+      body: SafeArea(
+        child: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) {
+            if (state is UserLoaded) {
+              return Text(state.user.toJson());
+            } else if (state is UserLoadFailed) {
+              return Text(state.message);
+            } else {
+              return Container();
+            }
+          },
+        ),
+      ),
     );
   }
 }
