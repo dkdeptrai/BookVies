@@ -56,6 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Column(
                       children: [
                         CustomTextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           hintText: "Email",
                           prefixIcon: Container(

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bookvies/models/user_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show immutable;
 

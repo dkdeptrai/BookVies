@@ -9,6 +9,7 @@ class CustomTextFormField extends StatefulWidget {
     Key? key,
     required this.controller,
     required this.hintText,
+    this.keyboardType = TextInputType.text,
     this.prefixIcon,
     this.suffixIcon,
     this.obscureText = false,
@@ -17,8 +18,10 @@ class CustomTextFormField extends StatefulWidget {
     this.prefixIconConstraints,
     this.errorText,
   }) : super(key: key);
+  final TextInputType keyboardType;
+
   final TextEditingController controller;
-  final String hintText;
+  String hintText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   late final bool obscureText;
@@ -50,6 +53,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           SizedBox(
             height: widget.height,
             child: TextFormField(
+              keyboardType: widget.keyboardType,
+              autofocus: false,
               textAlignVertical: TextAlignVertical.center,
               maxLines: widget.maxLines,
               obscureText: widget.obscureText,
@@ -61,6 +66,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 prefixIcon: widget.prefixIcon,
                 prefixIconConstraints: widget.prefixIconConstraints,
                 suffixIcon: widget.suffixIcon,
+                focusedBorder: AppStyles.authenticateFieldBorder,
+                enabledBorder: AppStyles.authenticateFieldBorder,
                 border: AppStyles.authenticateFieldBorder,
                 fillColor: AppColors.primaryBackgroundColor,
                 filled: true,

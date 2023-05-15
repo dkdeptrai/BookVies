@@ -3,8 +3,11 @@ import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/screens/books_screen/book_screen.dart';
 import 'package:bookvies/screens/chat_screen/chat_screen.dart';
+import 'package:bookvies/screens/chat_list_screen/chat_list_screen.dart';
+import 'package:bookvies/screens/library_screen/library_screen.dart';
 import 'package:bookvies/screens/library_screen/library_screen.dart';
 import 'package:bookvies/screens/movies_screen/movies_screen.dart';
+import 'package:bookvies/screens/profile_screen/profile_screen.dart';
 import 'package:bookvies/screens/profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
     const BookScreen(),
     const MoviesScreen(),
     const LibraryScreen(),
-    const ChatScreen(),
+    const ChatListScreen(),
     const ProfileScreen()
   ];
 

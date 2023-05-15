@@ -56,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Column(
                     children: [
                       CustomTextFormField(
+                        keyboardType: TextInputType.emailAddress,
                         controller: _emailController,
                         hintText: "Email",
                         prefixIcon: Container(

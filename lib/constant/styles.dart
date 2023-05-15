@@ -1,5 +1,6 @@
 import 'package:bookvies/constant/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class AppStyles {
   // Shadow
@@ -181,5 +182,21 @@ class AppStyles {
     borderRadius: BorderRadius.circular(12),
     boxShadow: [AppStyles.primaryShadow],
     color: AppColors.secondaryColor,
+  );
+
+  static OutlineInputBorder chatInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(12),
+    borderSide: BorderSide(
+      color: AppColors.mediumBlue,
+    ),
+  );
+
+  static BoxDecoration chatMessageDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [AppStyles.primaryShadow],
+    color: Colors.transparent,
+    border: const GradientBoxBorder(
+        gradient: AppColors.primaryGradient,
+        width: 2), // Set a solid border color and width
   );
 }

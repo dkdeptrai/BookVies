@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
+import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
+import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,6 +37,21 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     final double bottomMargin = size.height * 0.03;
 
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50),
+        child: CustomAppBar(
+          title: "",
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: AppColors.primaryTextColor,
+            ),
+            onPressed: () {
+              context.read<AuthBloc>().add(const AuthEventLogOut());
+            },
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
