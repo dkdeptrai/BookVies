@@ -70,6 +70,7 @@ class LibraryService {
       "name": name,
       "author": author,
       "addedAt": DateTime.now(),
+      "mediaType": mediaType,
     };
 
     await usersRef

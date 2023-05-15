@@ -81,7 +81,13 @@ class _ChooseListDialogState extends State<ChooseListDialog> {
                 CustomButtonWithGradientBackground(
                     height: 53,
                     text: "Add to library",
-                    onPressed: _addToLibrary)
+                    onPressed: () {
+                      if (selectedIndex == titles.length - 1) {
+                        _addToFavorite();
+                      } else {
+                        _addToLibrary();
+                      }
+                    })
               ],
             ),
           )

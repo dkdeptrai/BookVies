@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:bookvies/models/media_model.dart';
+import 'package:bookvies/models/review_model.dart';
 
 class Movie extends Media {
   final List<String> director;
@@ -88,4 +89,36 @@ class Movie extends Media {
 
   factory Movie.fromJson(String source) =>
       Movie.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  Movie copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? image,
+    List<Review>? reviews,
+    int? numberReviews,
+    double? averageRating,
+    List<String>? genres,
+    List<String>? director,
+    String? rating,
+    int? duration,
+    int? releaseYear,
+    List<String>? actors,
+  }) {
+    return Movie(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      image: image ?? this.image,
+      reviews: reviews ?? this.reviews,
+      numberReviews: numberReviews ?? this.numberReviews,
+      averageRating: averageRating ?? this.averageRating,
+      genres: genres ?? this.genres,
+      director: director ?? this.director,
+      rating: rating ?? this.rating,
+      duration: duration ?? this.duration,
+      releaseYear: releaseYear ?? this.releaseYear,
+      actors: actors ?? this.actors,
+    );
+  }
 }

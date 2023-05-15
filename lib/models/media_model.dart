@@ -66,4 +66,26 @@ class Media {
 
   factory Media.fromJson(String source) =>
       Media.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  Media copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? image,
+    List<Review>? reviews,
+    int? numberReviews,
+    double? averageRating,
+    List<String>? genres,
+  }) {
+    return Media(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      image: image ?? this.image,
+      reviews: reviews ?? this.reviews,
+      numberReviews: numberReviews ?? this.numberReviews,
+      averageRating: averageRating ?? this.averageRating,
+      genres: genres ?? this.genres,
+    );
+  }
 }

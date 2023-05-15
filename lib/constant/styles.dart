@@ -159,6 +159,9 @@ class AppStyles {
   static const libraryReviewAuthor =
       TextStyle(fontSize: 12, color: AppColors.greyTextColor);
 
+  static const libraryFavoritesSectionHeader =
+      TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
+
   // Others
   static BoxDecoration primaryBoxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(12),
