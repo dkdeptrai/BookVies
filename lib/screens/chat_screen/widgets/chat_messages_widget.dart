@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/models/message_model.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ChatMessagesWidget extends StatefulWidget {
   final Chat chat;
@@ -23,87 +24,85 @@ class ChatMessagesWidget extends StatefulWidget {
 
 class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
   final ScrollController _scrollController = ScrollController();
+  final BehaviorSubject<List<Message>> _messagesSubject =
+      BehaviorSubject<List<Message>>.seeded([]);
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection('chat')
+        .doc(widget.chat.docId)
+        .collection('messages')
+        .orderBy('sendTime', descending: true)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Message.fromMap(doc.data())).toList())
+        .listen((messages) {
+      setState(() {
+        _messagesSubject.add([...messages, ..._messagesSubject.value]);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _messagesSubject.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QueryDocumentSnapshot>(
-      stream: _getChatDocumentStream(widget.chat.id),
+    return StreamBuilder<List<Message>>(
+      stream: _messagesSubject.stream,
+      initialData: [],
+      // stream: _getChatDocumentStream(widget.chat.id),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Text('Error: \${snapshot.error}');
         }
 
-        final chatDocument = snapshot.data;
-        if (chatDocument != null) {
-          return StreamBuilder<List<Message>>(
-            stream: FirebaseFirestore.instance
-                .collection('chat')
-                .doc(chatDocument.id)
-                .collection('messages')
-                .orderBy('sendTime', descending: true)
-                .snapshots()
-                .map((snapshot) => snapshot.docs
-                    .map((doc) => Message.fromMap(doc.data()))
-                    .toList()),
-            builder: (context, messageSnapshot) {
-              if (messageSnapshot.hasError) {
-                return const Text('Error: \${messageSnapshot.error}');
-              }
-
-              if (messageSnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              var messages = messageSnapshot.data!;
-              messages = messages.reversed.toList();
-              WidgetsBinding.instance
-                  .addPostFrameCallback((_) => _scrollToBottom());
-              return ListView.builder(
-                controller: _scrollController,
-                itemCount: messages.length,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                shrinkWrap: widget.shrinkWrap,
-                itemBuilder: (context, index) {
-                  bool showSendTime = index == 0 ||
-                      messages[index]
-                              .sendTime
-                              .difference(messages[index - 1].sendTime)
-                              .inMinutes >
-                          5;
-                  return MessageWidget(
-                    message: messages[index],
-                    showSendTime: showSendTime,
-                  );
-                },
-              );
-            },
-          );
-        } else {
-          return const Text('No chat found with the given ID');
-        }
+        var messages = snapshot.data!;
+        // WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+        return ListView.builder(
+          reverse: true,
+          controller: _scrollController,
+          itemCount: messages.length,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          shrinkWrap: widget.shrinkWrap,
+          itemBuilder: (context, index) {
+            bool showSendTime = index == 0 ||
+                messages[index]
+                        .sendTime
+                        .difference(messages[index - 1].sendTime)
+                        .inMinutes >
+                    5;
+            return MessageWidget(
+              message: messages[index],
+              showSendTime: showSendTime,
+            );
+          },
+        );
       },
     );
   }
-
-  void _scrollToBottom() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
-  Stream<QueryDocumentSnapshot> _getChatDocumentStream(String chatId) {
-    return FirebaseFirestore.instance
-        .collection('chat')
-        .where('id', isEqualTo: chatId)
-        .orderBy('lastTime', descending: true)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.first);
-  }
 }
+//   void _scrollToBottom() {
+//     if (_scrollController.hasClients) {
+//       _scrollController.animateTo(
+//         _scrollController.position.maxScrollExtent,
+//         duration: const Duration(milliseconds: 200),
+//         curve: Curves.easeInOut,
+//       );
+//     }
+//   }
+
+//   Stream<QueryDocumentSnapshot> _getChatDocumentStream(String chatId) {
+//     return FirebaseFirestore.instance
+//         .collection('chat')
+//         .where('id', isEqualTo: chatId)
+//         .orderBy('lastTime', descending: true)
+//         .snapshots()
+//         .map((snapshot) => snapshot.docs.first);
+//   }
+// }

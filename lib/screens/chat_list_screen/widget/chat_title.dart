@@ -31,20 +31,16 @@ class ChatTile extends StatelessWidget {
   Stream<Message> getLastMessage() async* {
     yield* FirebaseFirestore.instance
         .collection('chat')
-        .where('id', isEqualTo: chat.id)
+        .doc(chat.docId)
+        .collection('messages')
+        .orderBy('sendTime', descending: true)
         .limit(1)
         .snapshots()
-        .asyncMap((messagesSnapshot) async {
-      if (messagesSnapshot.docs.isEmpty) {
+        .map((messageSnapshot) {
+      if (messageSnapshot.docs.isEmpty) {
         return Message(
             content: 'No messages yet', senderId: '', sendTime: DateTime.now());
       }
-      DocumentSnapshot chatDoc = messagesSnapshot.docs.first;
-      QuerySnapshot messageSnapshot = await chatDoc.reference
-          .collection('messages')
-          .orderBy('sendTime', descending: true)
-          .limit(1)
-          .get();
       DocumentSnapshot messageDoc = messageSnapshot.docs.first;
       return Message.fromMap(messageDoc.data() as Map<String, dynamic>);
     });
