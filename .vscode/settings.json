@@ -1,6 +1,10 @@
 {
   "cSpell.words": [
-    "bookvies"
+    "autofocus",
+    "bookvies",
+    "Firestore",
+    "LTRB",
+    "rxdart"
   ],
   "java.configuration.updateBuildConfiguration": "interactive"
 }

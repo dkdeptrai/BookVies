@@ -10,3 +10,4 @@ final CollectionReference booksRef = firestore.collection('books');
 final CollectionReference moviesRef = firestore.collection('movies');
 final CollectionReference usersRef = firestore.collection('users');
 final CollectionReference reviewsRef = firestore.collection('reviews');
+final CollectionReference chatRef = firestore.collection('chat');
