@@ -59,3 +59,9 @@ class AuthEventAddUserInformation extends AuthEvent {
     required this.description,
   });
 }
+
+class AuthEventAddUserFavoriteGenres extends AuthEvent {
+  final List<String> genres;
+
+  const AuthEventAddUserFavoriteGenres(this.genres);
+}

@@ -1,5 +1,6 @@
 import 'package:bookvies/screens/book_description_screen/description_screen.dart';
 import 'package:bookvies/models/media_model.dart';
+import 'package:bookvies/screens/favorite_genres_screen/favorite_genres_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
 import 'package:bookvies/screens/recommend_movies_screen/recommend_movies_screen.dart';
@@ -22,6 +23,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case (SearchBooksScreen.id):
         return MaterialPageRoute(builder: (_) => const SearchBooksScreen());
+      case (FavoriteGenresScreen.id):
+        return MaterialPageRoute(builder: (_) => const FavoriteGenresScreen());
       case (PopularBookScreen.id):
         return MaterialPageRoute(builder: (_) => const PopularBookScreen());
       case (ExploreBooksScreen.id):

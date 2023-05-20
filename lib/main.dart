@@ -3,8 +3,10 @@ import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
 import 'package:bookvies/blocs/description_review_list_bloc/description_review_list_bloc.dart';
 import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
+import 'package:bookvies/screens/favorite_genres_screen/favorite_genres_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
+import 'package:bookvies/screens/personal_information_screen/personal_information_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/screens/splash_screen/splash_screen.dart';
 import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
@@ -53,6 +55,7 @@ class MyApp extends StatelessWidget {
 
           BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
+          // return FavoriteGenresScreen();
           if (state is AuthStateLoggedIn) {
             context.read<UserBloc>().add(const LoadUser());
             return BlocBuilder<UserBloc, UserState>(
@@ -70,13 +73,27 @@ class MyApp extends StatelessWidget {
                 }
               },
             );
+            return const MainScreen();
           } else if (state is AuthStateLoggedOut) {
             return const LoginScreen();
+          } else if (state is AuthStateSignUpFailure) {
+            return const SignUpScreen();
           } else if (state is AuthStateForgotPassword) {
             return const ForgotPasswordScreen();
           } else if (state is AuthStateNeedSignUp) {
             return const SignUpScreen();
+          } else if (state is AuthStateNoUserInformation) {
+            return const PersonalInformationScreen();
+          } else if (state is AuthStateNoFavoritesGenres) {
+            return const FavoriteGenresScreen();
           } else {
+            return Scaffold(
+              body: Center(
+                child: Text(
+                  state.toString(),
+                ),
+              ),
+            );
             return const SplashScreen();
           }
         },

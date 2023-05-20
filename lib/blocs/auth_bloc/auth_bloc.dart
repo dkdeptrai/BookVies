@@ -114,6 +114,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       } on Exception catch (e) {
         emit(AuthStateSignUpFailure(e));
+        return;
       }
       try {
         await provider.logIn(email: event.email, password: event.password);
@@ -192,8 +193,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               'name': event.name,
               'description': event.description,
               'uid': user.uid,
+              'favoriteGenres': [],
             });
           }
+        });
+
+        emit(const AuthStateNoFavoritesGenres());
+      },
+    );
+    on<AuthEventAddUserFavoriteGenres>(
+      (event, emit) async {
+        AuthUser? user = FirebaseAuthProvider().currentUser;
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .update({
+          'favoriteGenres': event.genres,
         });
         emit(AuthStateLoggedIn(user));
       },

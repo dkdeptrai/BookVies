@@ -85,3 +85,7 @@ class AuthStateUserInformation extends AuthState {
     this.description,
   );
 }
+
+class AuthStateNoFavoritesGenres extends AuthState {
+  const AuthStateNoFavoritesGenres();
+}

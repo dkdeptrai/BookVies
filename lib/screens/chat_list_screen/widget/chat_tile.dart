@@ -86,14 +86,12 @@ class ChatTile extends StatelessWidget {
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
               ),
-              subtitle: Expanded(
-                child: Text(
-                  subtitle,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
-                  ),
+              subtitle: Text(
+                subtitle,
+                maxLines: 1,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ));

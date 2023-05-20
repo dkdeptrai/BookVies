@@ -73,7 +73,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
         stream: chatUpdates(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
+            return const Center(
+                child: Text("Looks like you haven't chat with anyone yet!"));
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.data == null || snapshot.data!.isEmpty) {
