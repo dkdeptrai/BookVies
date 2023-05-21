@@ -5,6 +5,7 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
+import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -86,31 +87,50 @@ class _DescriptionReviewItemWidgetState
                 maxLines: 5,
                 textAlign: TextAlign.justify,
                 style: AppStyles.descriptionReviewContent),
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      //TODO: share upvote
-                    },
-                    icon: SvgPicture.asset(AppAssets.icUpVoteOutline)),
-                IconButton(
-                    onPressed: () {
-                      //TODO: share downvote
-                    },
-                    icon: SvgPicture.asset(AppAssets.icDownVoteOutline)),
-                Text(
-                    "${widget.review.upVoteNumber - widget.review.downVoteNumber}",
-                    style: AppStyles.smallSemiBoldText),
-                const Spacer(),
-                IconButton(
-                    onPressed: () {
-                      if (!widget.hasComments) {
-                        _showCommentDialog(context);
-                      }
-                    },
-                    icon: SvgPicture.asset(AppAssets.icComment)),
-                const Text("Comment", style: AppStyles.smallSemiBoldText),
-              ],
+            BlocBuilder<DescriptionReviewListBloc, DescriptionReviewListState>(
+              builder: (context, state) {
+                if (state is DescriptionReviewListLoaded) {
+                  final review = state.reviews
+                      .firstWhere((element) => element.id == widget.review.id);
+
+                  return Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            context
+                                .read<DescriptionReviewListBloc>()
+                                .add(UpVote(reviewId: widget.review.id));
+                          },
+                          icon: review.upVoteUsers.contains(currentUser!.uid)
+                              ? SvgPicture.asset(AppAssets.icUpVoteFill)
+                              : SvgPicture.asset(AppAssets.icUpVoteOutline)),
+                      Text("${review.upVoteNumber}",
+                          style: AppStyles.smallSemiBoldText),
+                      IconButton(
+                          onPressed: () {
+                            context
+                                .read<DescriptionReviewListBloc>()
+                                .add(DownVote(reviewId: widget.review.id));
+                          },
+                          icon: review.downVoteUsers.contains(currentUser!.uid)
+                              ? SvgPicture.asset(AppAssets.icDownVoteFill)
+                              : SvgPicture.asset(AppAssets.icDownVoteOutline)),
+                      Text("${review.downVoteNumber}",
+                          style: AppStyles.smallSemiBoldText),
+                      const Spacer(),
+                      IconButton(
+                          onPressed: () {
+                            if (!widget.hasComments) {
+                              _showCommentDialog(context);
+                            }
+                          },
+                          icon: SvgPicture.asset(AppAssets.icComment)),
+                      const Text("Comment", style: AppStyles.smallSemiBoldText),
+                    ],
+                  );
+                }
+                return const SizedBox();
+              },
             ),
 
             // Comment box
@@ -201,14 +221,14 @@ class _DescriptionReviewItemWidgetState
   }
 
   void _comment() {
-    // validate
-
     if (_commentController.text.isNotEmpty) {
       BlocProvider.of<DescriptionReviewListBloc>(context).add(AddCommentEvent(
           context: context,
           reviewId: widget.review.id,
           mediaId: widget.review.mediaId,
           comment: _commentController.text));
+
+      _commentController.clear();
     }
   }
 

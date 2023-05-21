@@ -103,28 +103,48 @@ class Review {
 
   factory Review.fromJson(String source) =>
       Review.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  Review copyWith({
+    String? id,
+    String? userId,
+    String? userName,
+    String? userAvatarUrl,
+    String? mediaType,
+    String? mediaId,
+    String? mediaName,
+    String? mediaImage,
+    //? mediaAuthor,
+    int? rating,
+    String? title,
+    String? description,
+    int? upVoteNumber,
+    List<String>? upVoteUsers,
+    int? downVoteNumber,
+    List<String>? downVoteUsers,
+    List<Comment>? comments,
+    DateTime? createdTime,
+    String? privacy,
+  }) {
+    return Review(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      userName: userName ?? this.userName,
+      userAvatarUrl: userAvatarUrl ?? this.userAvatarUrl,
+      mediaType: mediaType ?? this.mediaType,
+      mediaId: mediaId ?? this.mediaId,
+      mediaName: mediaName ?? this.mediaName,
+      mediaImage: mediaImage ?? this.mediaImage,
+      mediaAuthor: mediaAuthor ?? this.mediaAuthor,
+      rating: rating ?? this.rating,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      upVoteNumber: upVoteNumber ?? this.upVoteNumber,
+      upVoteUsers: upVoteUsers ?? this.upVoteUsers,
+      downVoteNumber: downVoteNumber ?? this.downVoteNumber,
+      downVoteUsers: downVoteUsers ?? this.downVoteUsers,
+      comments: comments ?? this.comments,
+      createdTime: createdTime ?? this.createdTime,
+      privacy: privacy ?? this.privacy,
+    );
+  }
 }
-
-
-  // static List<Review> reviews = [
-  //   Review(
-  //       id: "1",
-  //       userId: "abc",
-  //       userName: "Tien Vi",
-  //       userAvatarUrl: "",
-  //       mediaId: "1",
-  //       mediaName: null,
-  //       mediaImage: null,
-  //       mediaAuthor: null,
-  //       rating: 4,
-  //       title: "This book is very fascinated",
-  //       description:
-  //           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  //       upVoteNumber: 0,
-  //       upVoteUsers: [],
-  //       downVoteNumber: 0,
-  //       downVoteUsers: [],
-  //       comments: [],
-  //       createdTime: DateTime.now(),
-  //       privacy: 'public'),
-  // ];
