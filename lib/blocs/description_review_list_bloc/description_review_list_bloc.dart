@@ -16,6 +16,100 @@ class DescriptionReviewListBloc
     on<LoadDescriptionReviewList>(_onLoadDescriptionReviewList);
     on<AddCommentEvent>(_onCommentEvent);
     on<AddReviewEvent>(_onAddReviewEvent);
+    on<UpVote>(_onUpVote);
+    on<DownVote>(_onDownVote);
+  }
+
+  _onDownVote(event, emit) async {
+    if (state is DescriptionReviewListLoaded) {
+      final reviews = (state as DescriptionReviewListLoaded).reviews;
+      final index =
+          reviews.indexWhere((element) => element.id == event.reviewId);
+      Review review = reviews[index];
+      // store original numbers to use to revert if update data failed
+      final originalDownVoteUsers = review.downVoteUsers;
+      final originalDownVoteNumber = review.downVoteNumber;
+
+      try {
+        // if user have already down voted, remove it from downVoteUsers list and decrease downVoteNumber. Else
+        if (review.downVoteUsers.contains(currentUser!.uid)) {
+          review.downVoteUsers.remove(currentUser!.uid);
+          review = review.copyWith(downVoteNumber: review.downVoteNumber - 1);
+        } else {
+          review.downVoteUsers.add(currentUser!.uid);
+          review = review.copyWith(downVoteNumber: review.downVoteNumber + 1);
+          // if user is having up vote, remove it from upVoteUsers list and decrease upVoteNumber
+          if (review.upVoteUsers.contains(currentUser!.uid)) {
+            review.upVoteUsers.remove(currentUser!.uid);
+            review = review.copyWith(upVoteNumber: review.upVoteNumber - 1);
+            ReviewService().deleteUpVoteReview(reviewId: event.reviewId);
+          }
+        }
+        reviews[index] = review;
+        emit(DescriptionReviewListLoaded(
+            reviews: reviews, lastUpdated: DateTime.now()));
+
+        if (review.downVoteUsers.contains(currentUser!.uid)) {
+          await ReviewService().downVoteReview(reviewId: event.reviewId);
+        } else {
+          await ReviewService().deleteDownVoteReview(reviewId: event.reviewId);
+        }
+      } catch (error) {
+        // Revert if error occurred
+        review = review.copyWith(
+            downVoteNumber: originalDownVoteNumber,
+            downVoteUsers: originalDownVoteUsers);
+        reviews[index] = review;
+        emit(DescriptionReviewListLoaded(
+            reviews: reviews, lastUpdated: DateTime.now()));
+      }
+    }
+  }
+
+  _onUpVote(event, emit) async {
+    if (state is DescriptionReviewListLoaded) {
+      final reviews = (state as DescriptionReviewListLoaded).reviews;
+      final index =
+          reviews.indexWhere((element) => element.id == event.reviewId);
+      Review review = reviews[index];
+      // store original numbers to use to revert if update data failed
+      final originalUpVoteUsers = review.upVoteUsers;
+      final originalUpVoteNumber = review.upVoteNumber;
+
+      try {
+        // if user have already up voted, remove it from upVoteUsers list and decrease upVoteNumber. Else
+        if (review.upVoteUsers.contains(currentUser!.uid)) {
+          review.upVoteUsers.remove(currentUser!.uid);
+          review = review.copyWith(upVoteNumber: review.upVoteNumber - 1);
+        } else {
+          review.upVoteUsers.add(currentUser!.uid);
+          review = review.copyWith(upVoteNumber: review.upVoteNumber + 1);
+          // if user is having down vote, remove it from downVoteUsers list and decrease downVoteNumber
+          if (review.downVoteUsers.contains(currentUser!.uid)) {
+            review.downVoteUsers.remove(currentUser!.uid);
+            review = review.copyWith(downVoteNumber: review.downVoteNumber - 1);
+            ReviewService().deleteDownVoteReview(reviewId: event.reviewId);
+          }
+        }
+        reviews[index] = review;
+        emit(DescriptionReviewListLoaded(
+            reviews: reviews, lastUpdated: DateTime.now()));
+
+        if (review.upVoteUsers.contains(currentUser!.uid)) {
+          await ReviewService().upVoteReview(reviewId: event.reviewId);
+        } else {
+          await ReviewService().deleteUpVoteReview(reviewId: event.reviewId);
+        }
+      } catch (error) {
+        // Revert if error occurred
+        review = review.copyWith(
+            upVoteNumber: originalUpVoteNumber,
+            upVoteUsers: originalUpVoteUsers);
+        reviews[index] = review;
+        emit(DescriptionReviewListLoaded(
+            reviews: reviews, lastUpdated: DateTime.now()));
+      }
+    }
   }
 
   _onLoadDescriptionReviewList(event, emit) async {
@@ -35,21 +129,14 @@ class DescriptionReviewListBloc
 
   _onCommentEvent(event, emit) async {
     try {
-      final doc = reviewsRef.doc(event.reviewId).collection('comments').doc();
-
-      Comment comment = Comment(
-          id: doc.id,
-          userId: currentUser!.uid,
-          userName: "Tien Vi",
-          userAvatarUrl:
-              "https://images.unsplash.com/photo-1488371934083-edb7857977df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=380&q=80",
-          mediaId: event.mediaId,
+      Comment? comment = await ReviewService().commentOnReview(
           reviewId: event.reviewId,
-          content: event.comment,
-          createdTime: DateTime.now());
-      await doc.set(comment.toMap());
+          context: event.context,
+          mediaId: event.mediaId,
+          content: event.comment);
 
-      if (state is DescriptionReviewListLoaded) {
+      // add comment to the review in bloc
+      if (state is DescriptionReviewListLoaded && comment != null) {
         final reviews = (state as DescriptionReviewListLoaded).reviews;
         final index =
             reviews.indexWhere((element) => element.id == event.reviewId);
@@ -59,7 +146,6 @@ class DescriptionReviewListBloc
         ];
         emit(DescriptionReviewListLoaded(
             reviews: reviews, lastUpdated: DateTime.now()));
-        print(reviews[index].comments);
       }
 
       showSnackBar(context: event.context, message: "Add comment successfully");
@@ -72,6 +158,7 @@ class DescriptionReviewListBloc
     final reviewService = ReviewService();
     try {
       final Review? review = await reviewService.addReview(
+        context: event.context,
         mediaType: event.mediaType,
         mediaId: event.mediaId,
         mediaName: event.mediaName,

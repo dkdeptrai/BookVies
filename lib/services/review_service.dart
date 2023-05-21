@@ -1,12 +1,18 @@
+import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/models/comment_model.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:bookvies/utils/utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReviewService {
   Future<Review?> addReview(
-      {required String mediaType,
+      {required BuildContext context,
+      required String mediaType,
       required String mediaId,
       required String mediaName,
       required String mediaImage,
@@ -18,31 +24,38 @@ class ReviewService {
     try {
       final doc = reviewsRef.doc();
 
-      // TODO: Retrieve user data and replace these properties
-      final Review review = Review(
-          id: doc.id,
-          userId: currentUser!.uid,
-          userName: "Tien Vi",
-          userAvatarUrl:
-              "https://images.unsplash.com/photo-1488371934083-edb7857977df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=380&q=80",
-          mediaType: mediaType,
-          mediaId: mediaId,
-          mediaName: mediaName,
-          mediaImage: mediaImage,
-          mediaAuthor: mediaAuthor,
-          rating: rating.toInt(),
-          title: title,
-          description: description,
-          upVoteNumber: 0,
-          upVoteUsers: [],
-          downVoteNumber: 0,
-          downVoteUsers: [],
-          comments: [],
-          createdTime: DateTime.now(),
-          privacy: privacy);
+      final userState = context.read<UserBloc>().state;
 
-      await doc.set(review.toMap());
-      return review;
+      if (userState is UserLoaded) {
+        final Review review = Review(
+            id: doc.id,
+            userId: currentUser!.uid,
+            userName: "Tien Vi",
+            userAvatarUrl:
+                "https://images.unsplash.com/photo-1488371934083-edb7857977df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=380&q=80",
+            mediaType: mediaType,
+            mediaId: mediaId,
+            mediaName: mediaName,
+            mediaImage: mediaImage,
+            mediaAuthor: mediaAuthor,
+            rating: rating.toInt(),
+            title: title,
+            description: description,
+            upVoteNumber: 0,
+            upVoteUsers: [],
+            downVoteNumber: 0,
+            downVoteUsers: [],
+            comments: [],
+            createdTime: DateTime.now(),
+            privacy: privacy);
+
+        await doc.set(review.toMap());
+        return review;
+      } else {
+        showSnackBar(
+            context: context,
+            message: "Something went wrong. Please try again.");
+      }
     } catch (error) {
       print("Add review error: $error");
       return null;
@@ -53,7 +66,6 @@ class ReviewService {
       {required String mediaId, required String mediaType}) async {
     List<Review> reviews = [];
 
-    print(PrivacyValues.public.name.toUpperCase());
     try {
       final snapshot = await reviewsRef
           .where('mediaId', isEqualTo: mediaId)
@@ -94,5 +106,88 @@ class ReviewService {
       "averageRating": (book.numberReviews * book.averageRating + newRating) /
           (book.numberReviews + 1),
     });
+  }
+
+  Future<Comment?> commentOnReview(
+      {required String reviewId,
+      required BuildContext context,
+      required String mediaId,
+      required String content}) async {
+    Comment? result;
+    try {
+      final doc = reviewsRef.doc(reviewId).collection('comments').doc();
+      final userState = context.read<UserBloc>().state;
+
+      if (userState is UserLoaded) {
+        Comment comment = Comment(
+            id: doc.id,
+            userId: currentUser!.uid,
+            userName: userState.user.name,
+            userAvatarUrl: userState.user.imageUrl,
+            mediaId: mediaId,
+            reviewId: reviewId,
+            content: content,
+            createdTime: DateTime.now());
+        await doc.set(comment.toMap());
+        result = comment;
+      } else {
+        showSnackBar(
+            context: context,
+            message: "Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      print("Comment on review error: ${error.toString()}");
+    }
+
+    return result;
+  }
+
+  Future<void> upVoteReview({required String reviewId}) async {
+    try {
+      await reviewsRef.doc(reviewId).update({
+        "upVoteNumber": FieldValue.increment(1),
+        "upVoteUsers": FieldValue.arrayUnion([currentUser!.uid])
+      });
+    } catch (error) {
+      print("Up vote error: ${error.toString()}");
+      return Future.error(error);
+    }
+  }
+
+  Future<void> deleteUpVoteReview({required String reviewId}) async {
+    try {
+      await reviewsRef.doc(reviewId).update({
+        "upVoteNumber": FieldValue.increment(-1),
+        "upVoteUsers": FieldValue.arrayRemove([currentUser!.uid])
+      });
+      print("Delete up vote successfully");
+    } catch (error) {
+      print("Delete up vote error: ${error.toString()}");
+      return Future.error(error);
+    }
+  }
+
+  Future<void> downVoteReview({required String reviewId}) async {
+    try {
+      await reviewsRef.doc(reviewId).update({
+        "downVoteNumber": FieldValue.increment(1),
+        "downVoteUsers": FieldValue.arrayUnion([currentUser!.uid])
+      });
+    } catch (error) {
+      print("Down vote error: ${error.toString()}");
+      return Future.error(error);
+    }
+  }
+
+  Future<void> deleteDownVoteReview({required String reviewId}) async {
+    try {
+      await reviewsRef.doc(reviewId).update({
+        "downVoteNumber": FieldValue.increment(-1),
+        "downVoteUsers": FieldValue.arrayRemove([currentUser!.uid])
+      });
+    } catch (error) {
+      print("Delete down vote error: ${error.toString()}");
+      return Future.error(error);
+    }
   }
 }
