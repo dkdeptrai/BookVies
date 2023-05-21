@@ -160,6 +160,7 @@ class ReviewService {
         "upVoteNumber": FieldValue.increment(-1),
         "upVoteUsers": FieldValue.arrayRemove([currentUser!.uid])
       });
+      print("Delete up vote successfully");
     } catch (error) {
       print("Delete up vote error: ${error.toString()}");
       return Future.error(error);

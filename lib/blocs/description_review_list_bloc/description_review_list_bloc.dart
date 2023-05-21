@@ -20,7 +20,7 @@ class DescriptionReviewListBloc
     on<DownVote>(_onDownVote);
   }
 
-  _onDownVote(event, emit) {
+  _onDownVote(event, emit) async {
     if (state is DescriptionReviewListLoaded) {
       final reviews = (state as DescriptionReviewListLoaded).reviews;
       final index =
@@ -38,15 +38,21 @@ class DescriptionReviewListBloc
         } else {
           review.downVoteUsers.add(currentUser!.uid);
           review = review.copyWith(downVoteNumber: review.downVoteNumber + 1);
+          // if user is having up vote, remove it from upVoteUsers list and decrease upVoteNumber
+          if (review.upVoteUsers.contains(currentUser!.uid)) {
+            review.upVoteUsers.remove(currentUser!.uid);
+            review = review.copyWith(upVoteNumber: review.upVoteNumber - 1);
+            ReviewService().deleteUpVoteReview(reviewId: event.reviewId);
+          }
         }
         reviews[index] = review;
         emit(DescriptionReviewListLoaded(
             reviews: reviews, lastUpdated: DateTime.now()));
 
         if (review.downVoteUsers.contains(currentUser!.uid)) {
-          ReviewService().downVoteReview(reviewId: event.reviewId);
+          await ReviewService().downVoteReview(reviewId: event.reviewId);
         } else {
-          ReviewService().deleteDownVoteReview(reviewId: event.reviewId);
+          await ReviewService().deleteDownVoteReview(reviewId: event.reviewId);
         }
       } catch (error) {
         // Revert if error occurred
@@ -78,6 +84,12 @@ class DescriptionReviewListBloc
         } else {
           review.upVoteUsers.add(currentUser!.uid);
           review = review.copyWith(upVoteNumber: review.upVoteNumber + 1);
+          // if user is having down vote, remove it from downVoteUsers list and decrease downVoteNumber
+          if (review.downVoteUsers.contains(currentUser!.uid)) {
+            review.downVoteUsers.remove(currentUser!.uid);
+            review = review.copyWith(downVoteNumber: review.downVoteNumber - 1);
+            ReviewService().deleteDownVoteReview(reviewId: event.reviewId);
+          }
         }
         reviews[index] = review;
         emit(DescriptionReviewListLoaded(
