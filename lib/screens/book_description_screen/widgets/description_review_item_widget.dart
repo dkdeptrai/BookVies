@@ -5,6 +5,7 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
+import 'package:bookvies/screens/book_description_screen/widgets/comment_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,12 +47,9 @@ class _DescriptionReviewItemWidgetState
             Row(
               children: [
                 CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(widget.review.userAvatarUrl),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
+                    radius: 20,
+                    backgroundImage: NetworkImage(widget.review.userAvatarUrl)),
+                const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -129,6 +127,7 @@ class _DescriptionReviewItemWidgetState
                     ],
                   );
                 }
+
                 return const SizedBox();
               },
             ),
@@ -173,7 +172,6 @@ class _DescriptionReviewItemWidgetState
                               height: 30, width: 30))
                     ],
                   ),
-                  const SizedBox(height: 20),
 
                   // Comment list
                   BlocBuilder<DescriptionReviewListBloc,
@@ -189,26 +187,7 @@ class _DescriptionReviewItemWidgetState
                             itemCount: review.comments.length,
                             itemBuilder: (_, index) {
                               final comment = review.comments[index];
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 15,
-                                        backgroundImage:
-                                            NetworkImage(comment.userAvatarUrl),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(comment.userName,
-                                          style: AppStyles.commentUserNameText),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(comment.content,
-                                      style: AppStyles.commentContentText),
-                                ],
-                              );
+                              return CommentWidget(comment: comment);
                             });
                       }
                       return Container();
