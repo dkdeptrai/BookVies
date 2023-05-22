@@ -5,19 +5,21 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 
 class CustomButtonWithGradientBackground extends StatelessWidget {
-  const CustomButtonWithGradientBackground({
-    Key? key,
-    this.margin,
-    required this.height,
-    this.width = double.infinity,
-    required this.text,
-    required this.onPressed,
-  }) : super(key: key);
+  const CustomButtonWithGradientBackground(
+      {Key? key,
+      this.margin,
+      required this.height,
+      this.width = double.infinity,
+      required this.text,
+      required this.onPressed,
+      this.gradient = AppColors.primaryGradient})
+      : super(key: key);
   final EdgeInsetsGeometry? margin;
   final double height;
   final double width;
   final String text;
   final Function? onPressed;
+  final Gradient gradient;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +28,7 @@ class CustomButtonWithGradientBackground extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-          gradient: AppColors.primaryGradient,
-          borderRadius: BorderRadius.circular(12)),
+          gradient: gradient, borderRadius: BorderRadius.circular(12)),
       child: ElevatedButton(
         onPressed: onPressed as void Function()?,
         style: ElevatedButton.styleFrom(

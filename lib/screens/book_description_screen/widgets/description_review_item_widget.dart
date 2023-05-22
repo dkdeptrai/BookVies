@@ -6,6 +6,7 @@ import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/comment_widget.dart';
+import 'package:bookvies/screens/book_description_screen/widgets/report_dialog.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,8 +73,11 @@ class _DescriptionReviewItemWidgetState
                 ),
                 const Spacer(),
                 IconButton(
+                    onPressed: () => showReportDialog(context),
+                    icon: SvgPicture.asset(AppAssets.icReport)),
+                IconButton(
                     onPressed: () {
-                      //TODO: share review
+                      // TODO: share review
                     },
                     icon: SvgPicture.asset(AppAssets.icShareGradient))
               ],
@@ -230,5 +234,23 @@ class _DescriptionReviewItemWidgetState
                 ]),
               ),
             ));
+  }
+
+  void showReportDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            insetPadding: const EdgeInsets.all(20),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: SingleChildScrollView(
+              child: Column(children: const [ReportDialog()]),
+            ),
+          );
+        });
   }
 }
