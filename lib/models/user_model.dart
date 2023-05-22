@@ -55,7 +55,7 @@ class UserModel {
           : List<String>.from(map['followers'] as List<String>),
       following: map['following'] == null
           ? []
-          : List<String>.from(map['following'] as List<String>),
+          : List<String>.from(map['following'] as List),
     );
   }
 
