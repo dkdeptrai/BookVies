@@ -8,11 +8,8 @@ import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/screens/favorite_genres_screen/favorite_genres_screen.dart';
-import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter/services.dart';

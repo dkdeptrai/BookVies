@@ -4,10 +4,7 @@ import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteGenresScreen extends StatefulWidget {

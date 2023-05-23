@@ -3,12 +3,7 @@ import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/user_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class UserDescriptionWidget extends StatelessWidget {
@@ -18,7 +13,7 @@ class UserDescriptionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: 254),
+      constraints: const BoxConstraints(maxHeight: 254),
       child: Stack(
         children: [
           Positioned(

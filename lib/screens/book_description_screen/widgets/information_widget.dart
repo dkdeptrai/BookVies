@@ -5,7 +5,6 @@ import 'package:bookvies/models/media_model.dart';
 import 'package:bookvies/models/movie_model.dart';
 import 'package:bookvies/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class InformationWidget extends StatelessWidget {
   final Media media;

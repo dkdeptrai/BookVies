@@ -8,16 +8,14 @@ import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/models/user_model.dart';
 import 'package:bookvies/screens/profile_screen/widgets/user_description_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const id = '/profile-screen';
   final String userId;
-  ProfileScreen({super.key, required this.userId});
+  const ProfileScreen({super.key, required this.userId});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();

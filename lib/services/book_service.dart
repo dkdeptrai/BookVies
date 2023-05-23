@@ -10,11 +10,11 @@ class BookService {
         .limit(limit)
         .get();
 
-    ref.docs.forEach((item) {
+    for (var item in ref.docs) {
       Book book = Book.fromMap(item.data() as Map<String, dynamic>);
       book.id = item.id;
       books.add(book);
-    });
+    }
 
     return books;
   }
@@ -30,14 +30,15 @@ class BookService {
         // .where('name', isGreaterThanOrEqualTo: keyword)
         // .where('name', isLessThan: keyword + 'z')
         .startAt([keyword])
-        .endAt([keyword + '\uf8ff'])
+        .endAt(['$keyword\uf8ff'])
         .limit(10)
         .get();
 
     print(ref.docs.length);
 
-    ref.docs.forEach(
-        (item) => books.add(Book.fromMap(item.data() as Map<String, dynamic>)));
+    for (var item in ref.docs) {
+      books.add(Book.fromMap(item.data() as Map<String, dynamic>));
+    }
 
     return books;
   }
@@ -45,7 +46,7 @@ class BookService {
   Future<void> updateKeywordsField() async {
     final snapshot = await booksRef.get();
 
-    snapshot.docs.forEach((item) {
+    for (var item in snapshot.docs) {
       final book = Book.fromMap(item.data() as Map<String, dynamic>);
 
       final String bookName = book.name;
@@ -58,6 +59,6 @@ class BookService {
       }
 
       booksRef.doc(item.id).update({'keywords': keywords});
-    });
+    }
   }
 }

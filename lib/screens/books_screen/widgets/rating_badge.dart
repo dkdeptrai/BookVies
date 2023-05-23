@@ -25,7 +25,7 @@ class RatingBadge extends StatelessWidget {
         children: [
           Text(
             rating.toString(),
-            style: TextStyle(fontSize: 8, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w600),
           ),
           const SizedBox(width: 5),
           SvgPicture.asset(AppAssets.icRatingStar)

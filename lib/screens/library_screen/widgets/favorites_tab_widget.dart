@@ -1,4 +1,3 @@
-import 'package:bookvies/common_widgets/search_bar.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';

@@ -8,7 +8,6 @@ import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
-import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

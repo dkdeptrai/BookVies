@@ -142,7 +142,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         // ignore: use_build_context_synchronously
         showDialog(
           context: event.context,
-          builder: (context) => NotiDialog(),
+          builder: (context) => const NotiDialog(),
           barrierDismissible: true,
         );
         emit(state);

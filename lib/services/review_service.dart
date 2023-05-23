@@ -71,9 +71,9 @@ class ReviewService {
             .collection('comments')
             .orderBy('createdTime', descending: true)
             .get();
-        commentsSnapshot.docs.forEach((element) {
+        for (var element in commentsSnapshot.docs) {
           review.comments.add(Comment.fromMap(element.data()));
-        });
+        }
 
         reviews.add(review);
       }

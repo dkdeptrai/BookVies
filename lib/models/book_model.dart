@@ -143,6 +143,7 @@ class Book extends Media {
   factory Book.fromJson(String source) =>
       Book.fromMap(json.decode(source) as Map<String, dynamic>);
 
+  @override
   Book copyWith({
     String? id,
     String? name,

@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NotiDialog extends StatelessWidget {
-  NotiDialog({Key? key}) : super(key: key);
+  const NotiDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
