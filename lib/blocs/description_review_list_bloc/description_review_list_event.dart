@@ -70,3 +70,21 @@ class AddReviewEvent extends DescriptionReviewListEvent {
         privacy
       ];
 }
+
+class UpVote extends DescriptionReviewListEvent {
+  final String reviewId;
+
+  const UpVote({required this.reviewId});
+
+  @override
+  List<Object> get props => [reviewId];
+}
+
+class DownVote extends DescriptionReviewListEvent {
+  final String reviewId;
+
+  const DownVote({required this.reviewId});
+
+  @override
+  List<Object> get props => [reviewId];
+}
