@@ -104,7 +104,9 @@ class _ReportDialogState extends State<ReportDialog> {
                   gradient: AppColors.secondaryGradient,
                   height: 50,
                   text: "Report",
-                  onPressed: () {}),
+                  onPressed: () {
+                    // TODO: Add report to fb
+                  }),
             )
           ],
         ));
