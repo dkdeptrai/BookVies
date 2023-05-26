@@ -5,6 +5,7 @@ import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/library_screen/widgets/book_to_read_tab.dart';
 import 'package:bookvies/screens/library_screen/widgets/currently_added_book_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:bookvies/common_widgets/search_bar.dart';
 
 class BookTab extends StatefulWidget {
   const BookTab({super.key});
@@ -28,7 +29,7 @@ class _BookTabState extends State<BookTab> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
-        SearchBar(
+        CustomSearchBar(
           hint: "Book title, author,...",
           onSearch: () {},
           noBackButton: true,

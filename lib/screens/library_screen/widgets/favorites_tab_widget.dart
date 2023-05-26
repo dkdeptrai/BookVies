@@ -1,3 +1,4 @@
+import 'package:bookvies/common_widgets/search_bar.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
@@ -15,7 +16,7 @@ class FavoritesTabWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
-        SearchBar(
+        CustomSearchBar(
             hint: "Search",
             onSearch: () {},
             noBackButton: true,

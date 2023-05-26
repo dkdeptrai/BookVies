@@ -65,3 +65,12 @@ class AuthEventAddUserFavoriteGenres extends AuthEvent {
 
   const AuthEventAddUserFavoriteGenres(this.genres);
 }
+
+class AuthEventChangePassword extends AuthEvent {
+  final String oldPassword;
+  final String newPassword;
+  final String confirmNewPassword;
+
+  const AuthEventChangePassword(
+      this.oldPassword, this.newPassword, this.confirmNewPassword);
+}

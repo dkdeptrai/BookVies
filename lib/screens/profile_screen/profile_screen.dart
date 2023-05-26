@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
+import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/models/user_model.dart';
 import 'package:bookvies/screens/profile_screen/widgets/user_description_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -186,69 +188,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               SizedBox(
-                                  height: 80,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: user.following.length,
-                                    itemBuilder: (context, index) {
-                                      return FutureBuilder(
-                                        future: _fetchUserData(
-                                            user.following.elementAt(index)),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.done) {
-                                            if (snapshot.hasData) {
-                                              var followingUser = snapshot.data;
-                                              return Container(
-                                                margin: const EdgeInsets.only(
-                                                    left: 20),
-                                                child: Row(
-                                                  children: [
-                                                    CircleAvatar(
-                                                      radius: 40,
-                                                      backgroundImage:
-                                                          NetworkImage(
-                                                              followingUser!
-                                                                  .imageUrl),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            } else {
-                                              return const SizedBox();
-                                            }
+                                height: 80,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: user.following.length,
+                                  itemBuilder: (context, index) {
+                                    return FutureBuilder(
+                                      future: _fetchUserData(
+                                          user.following.elementAt(index)),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.done) {
+                                          if (snapshot.hasData) {
+                                            var followingUser = snapshot.data;
+                                            return Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 20),
+                                              child: Row(
+                                                children: [
+                                                  CircleAvatar(
+                                                    radius: 40,
+                                                    backgroundImage:
+                                                        NetworkImage(
+                                                            followingUser!
+                                                                .imageUrl),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
                                           } else {
                                             return const SizedBox();
                                           }
-                                        },
-                                      );
-                                    },
-                                  )
-                                  // FutureBuilder(
-                                  //   future: _fetchUserReviews(),
-                                  //   builder: ((context, snapshot) {
-                                  //     if (snapshot.connectionState ==
-                                  //         ConnectionState.done) {
-                                  //       if (snapshot.hasData) {
-                                  //         List<Review> userReviews =
-                                  //             snapshot.data as List<Review>;
-                                  //         return ListView.builder(
-                                  //           itemBuilder: (context, index) {
-                                  //             return CircleAvatar(
-                                  //               radius: 40,
-                                  //               backgroundImage: NetworkImage(userReviews[index].),
-                                  //             );
-                                  //           },
-                                  //         );
-                                  //       } else {
-                                  //         return const CircularProgressIndicator();
-                                  //       }
-                                  //     } else {
-                                  //       return const CircularProgressIndicator();
-                                  //     }
-                                  //   }),
-                                  // ),
-                                  ),
+                                        } else {
+                                          return const SizedBox();
+                                        }
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -267,4 +245,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  // Future<void> _updateStatusForDocuments() async {
+  //   // Reference to the Firestore collection
+  //   CollectionReference collectionRef =
+  //       FirebaseFirestore.instance.collection('books');
+
+  //   // Set the maximum number of documents to process at once
+  //   int batchSize =
+  //       500; // Reduced to 500, since Firestore has a limit of 500 operations per batch
+
+  //   // Get the first batch of documents
+  //   QuerySnapshot querySnapshot = await collectionRef.limit(batchSize).get();
+
+  //   // Continue processing documents until all are updated
+  //   while (querySnapshot.docs.isNotEmpty) {
+  //     // Create a write batch
+  //     WriteBatch batch = FirebaseFirestore.instance.batch();
+
+  //     // Iterate through each document and update the status field
+  //     for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+  //       var currentString = (doc.data() as Map<String, dynamic>)['genres'];
+  //       var array =
+  //           (currentString).replaceAll(RegExp(r"[\[\]']"), "").split(", ");
+  //       // Update the document in the batch
+  //       batch.update(collectionRef.doc(doc.id), {
+  //         'genres': array,
+  //         'averageRating': 0.0,
+  //         'numberOfReviews': 0,
+  //       });
+  //     }
+
+  //     // Commit the batch
+  //     await batch.commit();
+
+  //     // Get the next batch of documents, starting after the last document in the current batch
+  //     querySnapshot = await collectionRef
+  //         .startAfterDocument(querySnapshot.docs.last)
+  //         .limit(batchSize)
+  //         .get();
+  //   }
+  // }
 }

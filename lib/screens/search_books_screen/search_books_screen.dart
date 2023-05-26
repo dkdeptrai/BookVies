@@ -1,3 +1,4 @@
+import 'package:bookvies/common_widgets/search_bar.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/search_books_screen/widgets/search_book_item_widget.dart';
@@ -25,7 +26,7 @@ class _SearchBooksScreenState extends State<SearchBooksScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            SearchBar(
+            CustomSearchBar(
               hint: "Search books, authors, ISBN...",
               onSearch: onSearch,
               controller: searchController,

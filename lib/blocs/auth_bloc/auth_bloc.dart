@@ -213,5 +213,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthStateLoggedIn(user));
       },
     );
+    on<AuthEventChangePassword>((event, emit) async {
+      AuthUser? user = FirebaseAuthProvider().currentUser;
+    });
   }
 }
