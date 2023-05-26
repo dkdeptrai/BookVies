@@ -39,7 +39,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] ?? "",
+      id: map['uid'] ?? "",
       name: map['name'] as String,
       description: map['description'] ?? "",
       email: map['email'] ?? "",

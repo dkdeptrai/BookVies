@@ -3,6 +3,7 @@ import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/user_model.dart';
+import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -57,22 +58,24 @@ class UserDescriptionWidget extends StatelessWidget {
                         horizontal: 30,
                         vertical: 10,
                       ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CustomButtonWithGradientBackground(
-                                margin: const EdgeInsets.only(right: 15),
-                                height: 40,
-                                width: 247,
-                                text: 'Follow',
-                                onPressed: () {}),
-                          ),
-                          IconButton(
-                              onPressed: () {},
-                              icon: SvgPicture.asset(AppAssets.icSend))
-                        ],
-                      ),
-                    )
+                      child: user.id == currentUser!.uid
+                          ? Row(
+                              children: [
+                                Expanded(
+                                  child: CustomButtonWithGradientBackground(
+                                      margin: const EdgeInsets.only(right: 15),
+                                      height: 40,
+                                      width: 247,
+                                      text: 'Follow',
+                                      onPressed: () {}),
+                                ),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: SvgPicture.asset(AppAssets.icSend))
+                              ],
+                            )
+                          : null,
+                    ),
                   ],
                 ),
               ),

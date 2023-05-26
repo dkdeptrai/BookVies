@@ -8,6 +8,7 @@ import 'package:bookvies/services/authentication/authentication_provider.dart';
 import 'package:bookvies/services/authentication/authentication_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -138,6 +139,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventForgotPasswordSent>((event, emit) async {
       try {
         await provider.sendPasswordResetEmail(email: event.email);
+        print(event.email);
         // ignore: use_build_context_synchronously
         await showDialog(
           context: event.context,
