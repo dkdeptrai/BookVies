@@ -3,14 +3,13 @@ import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
-import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class NotiDialog extends StatelessWidget {
-  const NotiDialog({Key? key}) : super(key: key);
+class ChangePasswordNotificationDialog extends StatelessWidget {
+  const ChangePasswordNotificationDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +53,7 @@ class NotiDialog extends StatelessWidget {
                 width: 135,
                 text: "OK",
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      LoginScreen.id, (route) => false);
+                  Navigator.of(context).pop();
                   context.read<AuthBloc>().add(const AuthEventLogOut());
                 }),
             Container(
@@ -65,8 +63,7 @@ class NotiDialog extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          ForgotPasswordScreen.id, (route) => false);
+                      Navigator.of(context).pop();
                     },
                     child: const Text(
                       "Cancel",

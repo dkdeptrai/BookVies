@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
-import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/models/user_model.dart';
 import 'package:bookvies/screens/profile_screen/widgets/user_description_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -77,7 +75,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ListTile(
                                   leading: SvgPicture.asset(AppAssets.icKey),
                                   title: const Text("Change Password"),
-                                  onTap: () {},
+                                  onTap: () {
+                                    context.read<AuthBloc>().add(
+                                        AuthEventForgotPasswordSent(
+                                            user.email, context));
+                                  },
                                 ),
                                 ListTile(
                                   leading: SvgPicture.asset(AppAssets.icImage),

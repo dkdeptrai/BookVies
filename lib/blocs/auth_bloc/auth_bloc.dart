@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
+import 'package:bookvies/screens/forgot_password_screen/widgets/change_password_notification_dialog.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
 import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
 import 'package:bookvies/services/authentication/authentication_provider.dart';
@@ -8,8 +9,6 @@ import 'package:bookvies/services/authentication/authentication_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
-import '../../screens/forgot_password_screen/widgets/noti_dialog.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthProvider provider) : super(const AuthStateUninitialized()) {
@@ -140,12 +139,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await provider.sendPasswordResetEmail(email: event.email);
         // ignore: use_build_context_synchronously
-        showDialog(
+        await showDialog(
           context: event.context,
-          builder: (context) => const NotiDialog(),
+          builder: (context) => const ChangePasswordNotificationDialog(),
           barrierDismissible: true,
         );
-        emit(state);
       } on Exception catch (e) {
         emit(
           AuthStateLoggedOut(

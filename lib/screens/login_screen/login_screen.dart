@@ -1,6 +1,7 @@
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
+import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/common_widgets/dialogs/loading_dialog.dart';
@@ -231,6 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
             password,
           ),
         );
+    context.read<UserBloc>().add(const LoadUser());
   }
 
   void _handleLoginExceptions(AuthState state) async {
