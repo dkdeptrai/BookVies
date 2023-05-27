@@ -159,17 +159,6 @@ class DescriptionReviewListBloc
   _onAddReviewEvent(event, emit) async {
     final reviewService = ReviewService();
     try {
-      if (state is DescriptionReviewListLoaded) {
-        if ((state as DescriptionReviewListLoaded).reviews.any((element) =>
-            element.userId == currentUser!.uid &&
-            element.mediaId == event.mediaId)) {
-          showWarningDialog(
-              context: event.context,
-              message: "You have already reviewed this ${event.mediaType}");
-          return;
-        }
-      }
-
       final Review? review = await reviewService.addReview(
         context: event.context,
         mediaType: event.mediaType,
