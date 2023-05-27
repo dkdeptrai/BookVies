@@ -3,6 +3,8 @@ import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/models/comment_model.dart';
 import 'package:bookvies/models/review_model.dart';
+import 'package:bookvies/models/user_model.dart';
+import 'package:bookvies/services/goal_service.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:bookvies/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,34 +29,44 @@ class ReviewService {
       final userState = context.read<UserBloc>().state;
 
       if (userState is UserLoaded) {
+        final UserModel user = userState.user;
+
         final Review review = Review(
-            id: doc.id,
-            userId: currentUser!.uid,
-            userName: "Tien Vi",
-            userAvatarUrl:
-                "https://images.unsplash.com/photo-1488371934083-edb7857977df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=380&q=80",
-            mediaType: mediaType,
-            mediaId: mediaId,
-            mediaName: mediaName,
-            mediaImage: mediaImage,
-            mediaAuthor: mediaAuthor,
-            rating: rating.toInt(),
-            title: title,
-            description: description,
-            upVoteNumber: 0,
-            upVoteUsers: [],
-            downVoteNumber: 0,
-            downVoteUsers: [],
-            comments: [],
-            createdTime: DateTime.now(),
-            privacy: privacy);
+          id: doc.id,
+          userId: currentUser!.uid,
+          userName: user.name,
+          userAvatarUrl: user.imageUrl,
+          mediaType: mediaType,
+          mediaId: mediaId,
+          mediaName: mediaName,
+          mediaImage: mediaImage,
+          mediaAuthor: mediaAuthor,
+          rating: rating.toInt(),
+          title: title,
+          description: description,
+          upVoteNumber: 0,
+          upVoteUsers: [],
+          downVoteNumber: 0,
+          downVoteUsers: [],
+          comments: [],
+          createdTime: DateTime.now(),
+          privacy: privacy,
+        );
 
         await doc.set(review.toMap());
+
+        // update challenge
+        GoalService().updateReadingGoal(
+            type: mediaType == MediaType.book.name
+                ? GoalType.reading.name
+                : GoalType.watching.name);
+
         return review;
       } else {
         showSnackBar(
             context: context,
             message: "Something went wrong. Please try again.");
+        return null;
       }
     } catch (error) {
       print("Add review error: $error");
@@ -102,7 +114,7 @@ class ReviewService {
     final bookSnapshot = await ref.get();
     final book = Book.fromMap(bookSnapshot.data() as Map<String, dynamic>);
     await ref.update({
-      "numberReviews": book.numberReviews + 1,
+      "numberOfReviews": book.numberReviews + 1,
       "averageRating": (book.numberReviews * book.averageRating + newRating) /
           (book.numberReviews + 1),
     });

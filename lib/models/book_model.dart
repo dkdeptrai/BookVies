@@ -29,46 +29,6 @@ class Book extends Media {
     required super.genres,
   });
 
-  static final List<Book> bookList = [
-    // Book(
-    //     id: "1",
-    //     name: "Lesson in Chemistry",
-    //     description: "Hello",
-    //     image:
-    //         "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg",
-    //     author: "Bonnie Garmus"),
-
-    Book(
-        id: "1",
-        name: "Lesson in Chemistry",
-        description: "Hello",
-        image:
-            "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg",
-        reviews: [],
-        numberReviews: 0,
-        averageRating: 4.5,
-        genres: [],
-        author: "Tien Vi",
-        publisher: "Publisher",
-        isbn: "123",
-        firstPublishDate: DateTime.now(),
-        pages: 100)
-    // Book(
-    //     id: "2",
-    //     name: "Lesson in Chemistry",
-    //     description: "Hello",
-    //     image:
-    //         "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg",
-    //     author: "Bonnie Garmus"),
-    // Book(
-    //     id: "3",
-    //     name: "Lesson in Chemistry",
-    //     description: "Hello",
-    //     image:
-    //         "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg",
-    //     author: "Bonnie Garmus"),
-  ];
-
   @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -77,7 +37,7 @@ class Book extends Media {
       'description': description,
       'image': image,
       'reviews': reviews,
-      'numberReviews': numberReviews,
+      'numberOfReviews': numberReviews,
       'averageRating': averageRating,
       'genres': genres,
       'author': author,

@@ -12,7 +12,7 @@ class ExploreBooksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Book> books = Book.bookList;
+    List<Book> books = [];
 
     return Scaffold(
         appBar: PreferredSize(

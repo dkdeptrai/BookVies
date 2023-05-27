@@ -28,7 +28,7 @@ class PopularBookItem extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-                width: size.width / 3,
+                // width: size.width / 3,
                 padding: const EdgeInsets.only(
                     left: 15, top: 15, right: 10, bottom: 15),
                 decoration: BoxDecoration(
@@ -49,6 +49,7 @@ class PopularBookItem extends StatelessWidget {
                           errorWidget: (context, index, error) =>
                               const Icon(Icons.error),
                         ),
+                        const SizedBox(width: 10),
                         RatingBadge(
                           rating: book.averageRating,
                           borderColor: AppColors.greyTextColor,
@@ -56,21 +57,27 @@ class PopularBookItem extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    Text(
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      book.name,
-                      style: const TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.w500),
+                    SizedBox(
+                      width: size.width * 0.26,
+                      child: Text(
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        book.name,
+                        style: const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.w500),
+                      ),
                     ),
-                    Text(
-                      book.author.toString(),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.greyTextColor),
+                    SizedBox(
+                      width: size.width * 0.26,
+                      child: Text(
+                        book.author.toString(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.greyTextColor),
+                      ),
                     ),
                     const SizedBox(height: 20),
                   ],

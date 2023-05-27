@@ -1,20 +1,24 @@
+import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:bookvies/models/book_model.dart';
+import 'package:bookvies/models/user_model.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookService {
   Future<List<Book>> getPopularBooks({required int limit}) async {
     List<Book> books = [];
 
     final ref = await booksRef
-        // .orderBy("averageRating", descending: true)
+        .orderBy("averageRating", descending: true)
         .limit(limit)
         .get();
 
-    for (var item in ref.docs) {
-      Book book = Book.fromMap(item.data() as Map<String, dynamic>);
-      book.id = item.id;
-      books.add(book);
-    }
+    books = ref.docs
+        .map((e) => Book.fromMap(e.data() as Map<String, dynamic>).copyWith(
+              id: e.id,
+            ))
+        .toList();
 
     return books;
   }
@@ -22,8 +26,6 @@ class BookService {
   Future<List<Book>> searchBooks(
       {required String keyword, required int limit}) async {
     List<Book> books = [];
-
-    print(keyword);
 
     final ref = await booksRef
         .orderBy('name')
@@ -34,31 +36,35 @@ class BookService {
         .limit(10)
         .get();
 
-    print(ref.docs.length);
-
-    for (var item in ref.docs) {
-      books.add(Book.fromMap(item.data() as Map<String, dynamic>));
-    }
+    books = ref.docs
+        .map((e) =>
+            Book.fromMap(e.data() as Map<String, dynamic>).copyWith(id: e.id))
+        .toList();
 
     return books;
   }
 
-  Future<void> updateKeywordsField() async {
-    final snapshot = await booksRef.get();
+  Future<List<Book>> getRecommendBooks(
+      {required BuildContext context, required int limit}) async {
+    List<Book> books = [];
+    try {
+      final UserState userState = context.read<UserBloc>().state;
+      if (userState is UserLoaded) {
+        final UserModel user = userState.user;
+        final ref = await booksRef
+            .where("genres", arrayContainsAny: user.favoriteGenres)
+            .limit(limit)
+            .get();
 
-    for (var item in snapshot.docs) {
-      final book = Book.fromMap(item.data() as Map<String, dynamic>);
-
-      final String bookName = book.name;
-      List<String> keywords = [];
-      String keyword = "";
-
-      for (int i = 0; i < bookName.length; i++) {
-        keyword += bookName[i];
-        keywords.add(keyword);
+        books = ref.docs
+            .map((e) => Book.fromMap(e.data() as Map<String, dynamic>)
+                .copyWith(id: e.id))
+            .toList();
       }
-
-      booksRef.doc(item.id).update({'keywords': keywords});
+    } catch (error) {
+      print("Get recommend books error: $error");
     }
+
+    return books;
   }
 }
