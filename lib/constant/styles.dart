@@ -111,6 +111,9 @@ class AppStyles {
   static const writeReviewSectionTitle =
       TextStyle(fontSize: 16, fontWeight: FontWeight.w600);
 
+  static const reportSectionTitle =
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w600);
+
   static const writeReviewHintText = TextStyle(
       height: 1,
       fontSize: 14,
@@ -162,6 +165,9 @@ class AppStyles {
 
   static const libraryFavoritesSectionHeader =
       TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
+
+  static const reportDialogTitle =
+      TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
 
   // Others
   static BoxDecoration primaryBoxDecoration = BoxDecoration(

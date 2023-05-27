@@ -18,3 +18,7 @@ const Map<String, String> privacyText = {
   "public": "PUBLIC",
   "personal": "PERSONAL"
 };
+
+enum GoalStatus { inProgress, finished }
+
+enum GoalType { reading, watching }

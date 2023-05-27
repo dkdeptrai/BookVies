@@ -10,6 +10,7 @@ import 'package:bookvies/screens/book_description_screen/widgets/information_wid
 import 'package:bookvies/screens/book_description_screen/widgets/reviews_chart.dart';
 import 'package:bookvies/screens/write_review_screen/write_review_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:bookvies/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,7 +116,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                         height: 53,
                         width: 233,
                         text: "Write your review",
-                        onPressed: () => _navigateToWriteReviewScreen(media),
+                        onPressed: () => _handleWriteReview(media),
                       ),
                       const SizedBox(height: 20),
                       BlocBuilder<DescriptionReviewListBloc,
@@ -148,7 +149,16 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
         )));
   }
 
-  _navigateToWriteReviewScreen(Media media) {
+  _handleWriteReview(Media media) {
+    final reviewState = context.read<DescriptionReviewListBloc>().state;
+    if (reviewState is DescriptionReviewListLoaded) {
+      if (reviewState.reviews.any((element) =>
+          element.userId == currentUser!.uid && element.mediaId == media.id)) {
+        showWarningDialog(
+            context: context, message: "You have already reviewed this");
+        return;
+      }
+    }
     Navigator.pushNamed(context, WriteReviewScreen.id, arguments: media);
   }
 

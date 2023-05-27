@@ -7,8 +7,7 @@ class UserModel {
   String description;
   String email;
   String imageUrl;
-  List<String> favoriteBookGenres;
-  List<String> favoriteMovieGenres;
+  List<String> favoriteGenres;
   List<String> followers;
   List<String> following;
   UserModel({
@@ -17,8 +16,7 @@ class UserModel {
     required this.description,
     required this.email,
     required this.imageUrl,
-    required this.favoriteBookGenres,
-    required this.favoriteMovieGenres,
+    required this.favoriteGenres,
     required this.followers,
     required this.following,
   });
@@ -30,8 +28,7 @@ class UserModel {
       'description': description,
       'email': email,
       'imageUrl': imageUrl,
-      'favoriteBookGenres': favoriteBookGenres,
-      'favoriteMovieGenres': favoriteMovieGenres,
+      'favoriteGenres': favoriteGenres,
       'followers': followers,
       'following': following,
     };
@@ -44,12 +41,9 @@ class UserModel {
       description: map['description'] ?? "",
       email: map['email'] ?? "",
       imageUrl: map['imageUrl'] as String,
-      favoriteBookGenres: map['favoriteBookGenres'] == null
+      favoriteGenres: map['favoriteGenres'] == null
           ? []
-          : List<String>.from((map['favoriteBookGenres'] as List<String>)),
-      favoriteMovieGenres: map['favoriteMovieGenres'] == null
-          ? []
-          : List<String>.from((map['favoriteMovieGenres'] as List<String>)),
+          : List<String>.from(map['favoriteGenres'].map((e) => e.toString())),
       followers: map['followers'] == null
           ? []
           : List<String>.from(map['followers'] as List<String>),
@@ -70,8 +64,7 @@ class UserModel {
     String? description,
     String? email,
     String? imageUrl,
-    List<String>? favoriteBookGenres,
-    List<String>? favoriteMovieGenres,
+    List<String>? favoriteGenres,
     List<String>? followers,
     List<String>? following,
   }) {
@@ -81,8 +74,7 @@ class UserModel {
       description: description ?? this.description,
       email: email ?? this.email,
       imageUrl: imageUrl ?? this.imageUrl,
-      favoriteBookGenres: favoriteBookGenres ?? this.favoriteBookGenres,
-      favoriteMovieGenres: favoriteMovieGenres ?? this.favoriteMovieGenres,
+      favoriteGenres: favoriteGenres ?? this.favoriteGenres,
       followers: followers ?? this.followers,
       following: following ?? this.following,
     );

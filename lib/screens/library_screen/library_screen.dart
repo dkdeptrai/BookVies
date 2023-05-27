@@ -2,6 +2,7 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/library_screen/widgets/books_tab.dart';
 import 'package:bookvies/screens/library_screen/widgets/favorites_tab_widget.dart';
+import 'package:bookvies/screens/library_screen/widgets/personal_tab.dart';
 import 'package:bookvies/screens/library_screen/widgets/reviewed_tab.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,7 @@ class _LibraryScreenState extends State<LibraryScreen>
                 BookTab(),
                 ReviewedTab(),
                 FavoritesTabWidget(),
-                Placeholder(),
+                LibraryPersonalTab(),
               ]),
             ),
           ],

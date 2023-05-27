@@ -2,7 +2,6 @@ import 'package:bookvies/common_widgets/search_bar.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
-import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/library_screen/widgets/book_to_read_tab.dart';
 import 'package:bookvies/screens/library_screen/widgets/currently_added_book_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,6 @@ class BookTab extends StatefulWidget {
 }
 
 class _BookTabState extends State<BookTab> with SingleTickerProviderStateMixin {
-  final Book book = Book.bookList[0];
   late TabController readTabController;
   final PageController pageController = PageController();
 

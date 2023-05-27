@@ -8,6 +8,8 @@ class AppColors {
     const Color(0xFF6FE3E1).withOpacity(0.5),
     const Color(0xFF5257E5).withOpacity(0.5)
   ]);
+  static LinearGradient secondaryGradient =
+      const LinearGradient(colors: [Color(0xFFE36FD7), Color(0xFFE5526C)]);
 
   static const Color primaryBackgroundColor = Color(0xFFF9F9F9);
   static const Color secondaryColor = Color(0xFFFFFFFF);

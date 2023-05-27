@@ -45,28 +45,35 @@ class HighestRatingBookWidget extends StatelessWidget {
                         gradient: AppColors.topRatingBookBackgroundGradient,
                         borderRadius: BorderRadius.circular(12)),
                     alignment: Alignment.centerRight,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(book.name,
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.primaryTextColor)),
-                        Text(book.author.toString(),
-                            style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.primaryTextColor)),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        RatingBadge(
-                          rating: book.averageRating,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 4),
-                        )
-                      ],
+                    child: SizedBox(
+                      width: size.width * 0.43,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(book.name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primaryTextColor)),
+                          Text(book.author.toString(),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.primaryTextColor)),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          RatingBadge(
+                            rating: book.averageRating,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Positioned(
@@ -77,7 +84,7 @@ class HighestRatingBookWidget extends StatelessWidget {
                           BoxDecoration(boxShadow: [AppStyles.tertiaryShadow]),
                       child: CachedNetworkImage(
                         imageUrl: book.image,
-                        width: 80,
+                        width: size.width * 0.21,
                         fit: BoxFit.cover,
                       ),
                     ),
