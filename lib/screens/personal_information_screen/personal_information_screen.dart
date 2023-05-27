@@ -8,10 +8,8 @@ import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter/services.dart';
@@ -40,7 +38,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: CustomAppBar(
-          title: "",
+          title: "Personal information",
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -60,15 +58,6 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                 left: 20, right: 20, top: topMargin, bottom: bottomMargin),
             child: Column(
               children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 6),
-                  width: double.infinity,
-                  child: const Text(
-                    "Personal information",
-                    style: AppStyles.authenticationHeader,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 33, top: 6),
                   child: const Text(
@@ -94,8 +83,8 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: _pickedImage == null
-                          ? SvgPicture.asset(
-                              AppAssets.icUser,
+                          ? Image.asset(
+                              AppAssets.imgGenericUser,
                               width: 100,
                               height: 100,
                               fit: BoxFit.cover,
@@ -133,6 +122,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                   ),
                 ),
                 CustomTextFormField(
+                  keyboardType: TextInputType.multiline,
                   controller: _descriptionController,
                   hintText: "Your description",
                   prefixIconConstraints:
@@ -145,7 +135,6 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                 CustomButtonWithGradientBackground(
                   height: 52,
                   text: "Submit",
-                  margin: EdgeInsets.only(bottom: bottomMargin),
                   onPressed: () {
                     _uploadUserInfo();
                   },

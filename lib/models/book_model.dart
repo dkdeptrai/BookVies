@@ -67,31 +67,29 @@ class Book extends Media {
           genres: []);
     } else {
       return Book(
-        id: map['id'] as String,
-        name: map['name'] as String,
-        description: map['description'] as String,
-        image: map['coverImg'] ?? "",
-        reviews: map['reviews'] == null
-            ? []
-            : (map['reviews'] as List<dynamic>)
-                .map((e) => Review.fromMap(e as Map<String, dynamic>))
-                .toList(),
-        numberReviews:
-            map['numberOfReviews'] == null ? 0 : map['numberOfReviews'] as int,
-        averageRating: map['averageRating'] == null
-            ? 0.0
-            : map['averageRating'].toDouble(),
-        author: map['author'] ?? "Unknown",
-        publisher: map['publisher'] as String?,
-        isbn: map['isbn'] as String?,
-        firstPublishDate: map['firstPublishDate'] == null
-            ? null
-            : (map['firstPublishDate'] as Timestamp).toDate(),
-        pages: map['pages'] as int?,
-        genres: map['genres'] == null
-            ? []
-            : List<String>.from(map['genres'].map((e) => e.toString())),
-      );
+          id: map['id'] as String,
+          name: map['name'] as String,
+          description: map['description'] as String,
+          image: map['coverImg'] == null ? "" : map['coverImg'] as String,
+          reviews: map['reviews'] == null
+              ? []
+              : (map['reviews'] as List<dynamic>)
+                  .map((e) => Review.fromMap(e as Map<String, dynamic>))
+                  .toList(),
+          numberReviews: map['numberOfReviews'] == null
+              ? 0
+              : map['numberOfReviews'] as int,
+          averageRating: map['averageRating'] == null
+              ? 0.0
+              : map['averageRating'].toDouble(),
+          author: map['author'] ?? "Unknown",
+          publisher: map['publisher'] as String?,
+          isbn: map['isbn'] as String?,
+          firstPublishDate: map['firstPublishDate'] == null
+              ? null
+              : (map['firstPublishDate'] as Timestamp).toDate(),
+          pages: map['pages'] as int?,
+          genres: (map['genres'] as List).map((e) => e.toString()).toList());
     }
   }
 
@@ -101,6 +99,7 @@ class Book extends Media {
   factory Book.fromJson(String source) =>
       Book.fromMap(json.decode(source) as Map<String, dynamic>);
 
+  @override
   Book copyWith({
     String? id,
     String? name,

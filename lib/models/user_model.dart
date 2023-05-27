@@ -36,7 +36,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] ?? "",
+      id: map['uid'] ?? "",
       name: map['name'] as String,
       description: map['description'] ?? "",
       email: map['email'] ?? "",
@@ -49,7 +49,7 @@ class UserModel {
           : List<String>.from(map['followers'] as List<String>),
       following: map['following'] == null
           ? []
-          : List<String>.from(map['following'] as List<String>),
+          : List<String>.from(map['following'] as List),
     );
   }
 

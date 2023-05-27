@@ -26,7 +26,7 @@ class _SearchBooksScreenState extends State<SearchBooksScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            SearchBar(
+            CustomSearchBar(
               hint: "Search books, authors, ISBN...",
               onSearch: onSearch,
               controller: searchController,

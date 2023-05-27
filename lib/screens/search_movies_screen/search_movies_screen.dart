@@ -1,8 +1,8 @@
-import 'package:bookvies/common_widgets/search_bar.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/models/movie_model.dart';
 import 'package:bookvies/screens/search_movies_screen/widgets/search_movies_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:bookvies/common_widgets/search_bar.dart' show CustomSearchBar;
 
 class SearchMoviesScreen extends StatelessWidget {
   const SearchMoviesScreen({super.key});
@@ -17,10 +17,7 @@ class SearchMoviesScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
             child: Column(children: [
-          SearchBar(
-            hint: "Search movies, actors,...",
-            onSearch: () {},
-          ),
+          CustomSearchBar(hint: "Search movies, actors,...", onSearch: () {}),
           GridView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(

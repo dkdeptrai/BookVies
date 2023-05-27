@@ -48,6 +48,7 @@ class Movie extends Media {
     required this.actors,
   });
 
+  @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
@@ -85,11 +86,13 @@ class Movie extends Media {
     );
   }
 
+  @override
   String toJson() => json.encode(toMap());
 
   factory Movie.fromJson(String source) =>
       Movie.fromMap(json.decode(source) as Map<String, dynamic>);
 
+  @override
   Movie copyWith({
     String? id,
     String? name,

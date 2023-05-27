@@ -2,7 +2,6 @@
 import 'package:bookvies/screens/chat_screen/widgets/messages_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/models/message_model.dart';
@@ -57,7 +56,7 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
   Widget build(BuildContext context) {
     return StreamBuilder<List<Message>>(
       stream: _messagesSubject.stream,
-      initialData: [],
+      initialData: const [],
       // stream: _getChatDocumentStream(widget.chat.id),
       builder: (context, snapshot) {
         if (snapshot.hasError) {

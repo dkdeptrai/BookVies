@@ -6,7 +6,6 @@ import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/screens/chat_list_screen/widget/chat_tile.dart';
 import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -73,7 +72,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
         stream: chatUpdates(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
+            return const Center(
+                child: Text("Looks like you haven't chat with anyone yet!"));
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.data == null || snapshot.data!.isEmpty) {

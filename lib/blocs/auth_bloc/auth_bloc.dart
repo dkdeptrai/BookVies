@@ -1,15 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
+import 'package:bookvies/screens/forgot_password_screen/widgets/change_password_notification_dialog.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
 import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
 import 'package:bookvies/services/authentication/authentication_provider.dart';
 import 'package:bookvies/services/authentication/authentication_user.dart';
+import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../../screens/forgot_password_screen/widgets/noti_dialog.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthProvider provider) : super(const AuthStateUninitialized()) {
@@ -114,6 +115,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       } on Exception catch (e) {
         emit(AuthStateSignUpFailure(e));
+        return;
       }
       try {
         await provider.logIn(email: event.email, password: event.password);
@@ -138,13 +140,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventForgotPasswordSent>((event, emit) async {
       try {
         await provider.sendPasswordResetEmail(email: event.email);
+        print(event.email);
         // ignore: use_build_context_synchronously
-        showDialog(
+        await showDialog(
           context: event.context,
-          builder: (context) => NotiDialog(),
+          builder: (context) => const ChangePasswordNotificationDialog(),
           barrierDismissible: true,
         );
-        emit(state);
       } on Exception catch (e) {
         emit(
           AuthStateLoggedOut(
@@ -192,10 +194,72 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               'name': event.name,
               'description': event.description,
               'uid': user.uid,
+              'favoriteGenres': [],
             });
           }
         });
+
+        emit(const AuthStateNoFavoritesGenres());
+      },
+    );
+    on<AuthEventAddUserFavoriteGenres>(
+      (event, emit) async {
+        AuthUser? user = FirebaseAuthProvider().currentUser;
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .update({
+          'favoriteGenres': event.genres,
+        });
         emit(AuthStateLoggedIn(user));
+      },
+    );
+    on<AuthEventEditUserInformation>((event, emit) async {
+      AuthUser? user = FirebaseAuthProvider().currentUser!;
+
+      // Check if the document exists
+      var docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (docSnapshot.exists) {
+        // Update the existing document
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .update({
+          'name': event.name,
+          'description': event.description,
+        });
+      }
+    });
+    on<AuthEventEditUserAvatar>(
+      (event, emit) async {
+        AuthUser? user = FirebaseAuthProvider().currentUser;
+
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref = storage.ref().child("user_images").child(user!.uid);
+        UploadTask uploadTask = ref.putFile(event.image);
+
+        await uploadTask.whenComplete(() async {
+          // Get the image URL
+          String imageUrl = await ref.getDownloadURL();
+
+          var docSnapshot = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+
+          if (docSnapshot.exists) {
+            var oldImageRef = FirebaseStorage.instance
+                .refFromURL(await docSnapshot.get('imageUrl'));
+            // await oldImageRef.delete();
+            await usersRef.doc(user.uid).update({
+              'imageUrl': imageUrl,
+            });
+          }
+        });
       },
     );
   }

@@ -1,6 +1,5 @@
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/dimensions..dart';
-import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/movie_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,7 +35,7 @@ class SearchMovieItemWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5)),
                 child: Row(children: [
                   Text(movie.averageRating.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
                       )),
