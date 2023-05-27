@@ -58,7 +58,7 @@ class UserDescriptionWidget extends StatelessWidget {
                         horizontal: 30,
                         vertical: 10,
                       ),
-                      child: user.id == currentUser!.uid
+                      child: user.id != currentUser!.uid
                           ? Row(
                               children: [
                                 Expanded(

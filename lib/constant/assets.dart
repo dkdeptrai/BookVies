@@ -45,6 +45,7 @@ class AppAssets {
   static const String imgEmailSent = "$imagePath/img_email_sent.svg";
   static const String imgProfileBackground = "$imagePath/img_profile.png";
   static const String imgGenericUser = "$imagePath/img_generic_user.png";
+  static const String imgEditProfile = "$imagePath/img_edit_profile.png";
 
   // lotties
   static const String lottieWarning = "$lottiePath/warning_sign.json";

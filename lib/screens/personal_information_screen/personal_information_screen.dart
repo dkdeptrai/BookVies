@@ -122,6 +122,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
                   ),
                 ),
                 CustomTextFormField(
+                  keyboardType: TextInputType.multiline,
                   controller: _descriptionController,
                   hintText: "Your description",
                   prefixIconConstraints:

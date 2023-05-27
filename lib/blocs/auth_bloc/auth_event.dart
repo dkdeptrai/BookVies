@@ -60,6 +60,22 @@ class AuthEventAddUserInformation extends AuthEvent {
   });
 }
 
+class AuthEventEditUserAvatar extends AuthEvent {
+  final File image;
+
+  const AuthEventEditUserAvatar(this.image);
+}
+
+class AuthEventEditUserInformation extends AuthEvent {
+  final String name;
+  final String description;
+
+  const AuthEventEditUserInformation({
+    required this.name,
+    required this.description,
+  });
+}
+
 class AuthEventAddUserFavoriteGenres extends AuthEvent {
   final List<String> genres;
 

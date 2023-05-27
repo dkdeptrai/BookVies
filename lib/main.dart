@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
 
           BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          return ProfileScreen(userId: currentUser!.uid);
+          // return ProfileScreen(userId: currentUser!.uid);
           if (state is AuthStateLoggedIn) {
             context.read<UserBloc>().add(const LoadUser());
             return BlocBuilder<UserBloc, UserState>(

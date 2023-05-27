@@ -6,6 +6,7 @@ import 'package:bookvies/services/authentication/authentication_exceptions.dart'
 import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
 import 'package:bookvies/services/authentication/authentication_provider.dart';
 import 'package:bookvies/services/authentication/authentication_user.dart';
+import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -213,8 +214,53 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthStateLoggedIn(user));
       },
     );
-    on<AuthEventChangePassword>((event, emit) async {
-      AuthUser? user = FirebaseAuthProvider().currentUser;
+    on<AuthEventEditUserInformation>((event, emit) async {
+      AuthUser? user = FirebaseAuthProvider().currentUser!;
+
+      // Check if the document exists
+      var docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (docSnapshot.exists) {
+        // Update the existing document
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .update({
+          'name': event.name,
+          'description': event.description,
+        });
+      }
     });
+    on<AuthEventEditUserAvatar>(
+      (event, emit) async {
+        AuthUser? user = FirebaseAuthProvider().currentUser;
+
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref = storage.ref().child("user_images").child(user!.uid);
+        UploadTask uploadTask = ref.putFile(event.image);
+
+        await uploadTask.whenComplete(() async {
+          // Get the image URL
+          String imageUrl = await ref.getDownloadURL();
+
+          var docSnapshot = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+
+          if (docSnapshot.exists) {
+            var oldImageRef = FirebaseStorage.instance
+                .refFromURL(await docSnapshot.get('imageUrl'));
+            // await oldImageRef.delete();
+            await usersRef.doc(user.uid).update({
+              'imageUrl': imageUrl,
+            });
+          }
+        });
+      },
+    );
   }
 }

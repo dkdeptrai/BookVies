@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
@@ -6,12 +7,14 @@ import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/models/user_model.dart';
+import 'package:bookvies/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:bookvies/screens/profile_screen/widgets/review_overview_widget.dart';
 import 'package:bookvies/screens/profile_screen/widgets/user_description_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const id = '/profile-screen';
@@ -27,9 +30,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int _reviewNum = 0;
   late Future<UserModel> _userData;
   late Future<List<Review>> _userReviews;
+
   Future<UserModel> _fetchUserData(String id) async {
     var user = await usersRef.doc(id).get();
     return UserModel.fromMap(user.data()! as Map<String, dynamic>);
+  }
+
+  Future<void> _refreshData() async {
+    if (mounted) {
+      setState(() {
+        _userData = _fetchUserData(widget.userId);
+        _userReviews = _fetchUserReviews();
+      });
+    }
   }
 
   Future<List<Review>> _fetchUserReviews() async {
@@ -39,10 +52,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     for (var review in reviews.docs) {
       userReviews.add(Review.fromMap(review.data()! as Map<String, dynamic>));
     }
-    setState(() {
-      _reviewNum = userReviews.length;
-    });
+    if (mounted) {
+      setState(() {
+        _reviewNum = userReviews.length;
+      });
+    }
     return userReviews;
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile == null) {
+      return;
+    }
+    File file = File(pickedFile.path);
+    context.read<AuthBloc>().add(AuthEventEditUserAvatar(file));
   }
 
   @override
@@ -99,13 +124,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             SvgPicture.asset(AppAssets.icImage),
                                         title: const Text(
                                             "Change Profile Picture"),
-                                        onTap: () {},
+                                        onTap: () => _pickImage(),
                                       ),
                                       ListTile(
                                         leading: SvgPicture.asset(
                                             AppAssets.icGradientUser),
                                         title: const Text("Edit Profile"),
-                                        onTap: () {},
+                                        onTap: () {
+                                          Navigator.of(context).pushNamed(
+                                              EditProfileScreen.id,
+                                              arguments: user);
+                                        },
                                       ),
                                       ListTile(
                                         leading: SvgPicture.asset(
@@ -137,25 +166,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fit: BoxFit.fill,
                       ),
                     ),
-                    Positioned(
-                      top: 20,
-                      right: 20,
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          AppAssets.icHamburgerMenu,
-                        ),
-                        onPressed: () =>
-                            _scaffoldKey.currentState?.openEndDrawer(),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 60),
+                    RefreshIndicator(
+                      onRefresh: _refreshData,
                       child: SingleChildScrollView(
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: IconButton(
+                                  onPressed: () => _scaffoldKey.currentState
+                                      ?.openEndDrawer(),
+                                  icon: SvgPicture.asset(
+                                      AppAssets.icHamburgerMenu),
+                                ),
+                              ),
                               Center(
                                 child: UserDescriptionWidget(
                                   user: user,
@@ -253,7 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 child: const Text(
                                   'Reviews',
-                                  style: AppStyles.sectionHeaderText,
+                                  style: AppStyles.subHeaderTextStyle,
                                 ),
                               ),
                               SizedBox(

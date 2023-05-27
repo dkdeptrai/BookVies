@@ -2,12 +2,19 @@ import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
+import 'package:bookvies/utils/global_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ReviewOverviewWidget extends StatelessWidget {
+class ReviewOverviewWidget extends StatefulWidget {
   const ReviewOverviewWidget({super.key, required this.review});
   final Review review;
+
+  @override
+  State<ReviewOverviewWidget> createState() => _ReviewOverviewWidgetState();
+}
+
+class _ReviewOverviewWidgetState extends State<ReviewOverviewWidget> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -25,64 +32,98 @@ class ReviewOverviewWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image(
-              image: NetworkImage(review.mediaImage!),
-              fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () => _navigateToDescriptionScreen(),
+              child: Image(
+                image: NetworkImage(widget.review.mediaImage!),
+                fit: BoxFit.cover,
+              ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             Flexible(
               // Wrap the Column with Flexible
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    review.mediaName!,
-                    style: AppStyles.bookNameForDescriptionHeader,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        review.rating.toString(),
-                        style: AppStyles.subHeaderTextStyle,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      SvgPicture.asset(
-                        AppAssets.icStar,
-                        height: 16,
-                        width: 16,
-                      ),
-                    ],
-                  ),
-                  Text(
-                    review.title,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 12,
-                        fontFamily: "Poppins",
-                        color: AppColors.primaryTextColor,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    review.description,
-                    style: const TextStyle(
-                        fontSize: 12,
-                        fontFamily: "Poppins",
-                        color: AppColors.primaryTextColor,
-                        fontWeight: FontWeight.normal),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                  ),
-                ],
+              child: GestureDetector(
+                onTap: () => _navigateToDescriptionScreen(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.review.mediaName!,
+                      style: AppStyles.bookNameForDescriptionHeader,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          widget.review.rating.toString(),
+                          style: AppStyles.subHeaderTextStyle,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        SvgPicture.asset(
+                          AppAssets.icStar,
+                          height: 16,
+                          width: 16,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      widget.review.title,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 12,
+                          fontFamily: "Poppins",
+                          color: AppColors.primaryTextColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      widget.review.description,
+                      style: const TextStyle(
+                          fontSize: 12,
+                          fontFamily: "Poppins",
+                          color: AppColors.primaryTextColor,
+                          fontWeight: FontWeight.normal),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    ),
+                    const Spacer(),
+                    Row(
+                      children: [
+                        if (widget.review.upVoteNumber -
+                                widget.review.downVoteNumber >=
+                            0)
+                          SvgPicture.asset(AppAssets.icUpVoteFill)
+                        else
+                          SvgPicture.asset(AppAssets.icDownVoteFill),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          (widget.review.upVoteNumber -
+                                  widget.review.downVoteNumber)
+                              .toString(),
+                          style: AppStyles.subHeaderTextStyle,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             )
           ],
         ),
       ),
+    );
+  }
+
+  void _navigateToDescriptionScreen() async {
+    GlobalMethods().navigateToDescriptionScreen(
+      context: context,
+      mediaId: widget.review.mediaId,
+      mediaType: widget.review.mediaType,
     );
   }
 }
