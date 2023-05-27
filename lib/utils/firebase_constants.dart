@@ -13,3 +13,7 @@ final CollectionReference reviewsRef = firestore.collection('reviews');
 final CollectionReference favoritesRef =
     usersRef.doc(currentUser!.uid).collection("favorites");
 final CollectionReference chatRef = firestore.collection('chat');
+final CollectionReference readingGoalsRef =
+    usersRef.doc(currentUser!.uid).collection('readingGoals');
+final CollectionReference watchingGoalsRef =
+    usersRef.doc(currentUser!.uid).collection('watchingGoals');

@@ -31,6 +31,7 @@ class ExploreBooksWidget extends StatelessWidget {
                   return Center(
                       child: SpinKitFadingCircle(color: AppColors.mediumBlue));
                 }
+
                 final books = snapshot.data!;
                 return GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
@@ -46,7 +47,7 @@ class ExploreBooksWidget extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return ExploreBookItemWidget(book: books[index]);
                     });
-              })
+              }),
         ],
       ),
     );

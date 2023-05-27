@@ -37,7 +37,8 @@ class BookService {
         .get();
 
     books = ref.docs
-        .map((e) => Book.fromMap(e.data() as Map<String, dynamic>))
+        .map((e) =>
+            Book.fromMap(e.data() as Map<String, dynamic>).copyWith(id: e.id))
         .toList();
 
     return books;
@@ -56,7 +57,8 @@ class BookService {
             .get();
 
         books = ref.docs
-            .map((e) => Book.fromMap(e.data() as Map<String, dynamic>))
+            .map((e) => Book.fromMap(e.data() as Map<String, dynamic>)
+                .copyWith(id: e.id))
             .toList();
       }
     } catch (error) {

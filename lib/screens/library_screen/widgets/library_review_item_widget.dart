@@ -40,41 +40,44 @@ class LibraryReviewItemWidget extends StatelessWidget {
                   width: size.width * 0.13,
                   height: size.width * 0.2)),
           const SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(review.mediaName ?? "",
-                  style: AppStyles.libraryReviewBookName),
-              Text(review.mediaAuthor ?? "",
-                  style: AppStyles.libraryReviewAuthor),
-              const SizedBox(height: 20),
-              Text(review.title, style: AppStyles.smallSemiBoldText),
-              Row(
-                children: [
-                  ...List.generate(
-                      review.rating,
-                      (index) => Padding(
-                            padding: const EdgeInsets.only(right: 2.0),
-                            child: SvgPicture.asset(AppAssets.icRatingStar),
-                          )),
-                  ...List.generate(
-                      5 - review.rating,
-                      (index) => Padding(
-                            padding: const EdgeInsets.only(right: 2.0),
-                            child:
-                                SvgPicture.asset(AppAssets.icRatingStarOutline),
-                          )),
-                ],
-              ),
-              const SizedBox(height: 7),
-              SizedBox(
-                  width: size.width * 0.63,
-                  child: ExpandableText(
-                      text: review.description,
-                      maxLines: 5,
-                      textAlign: TextAlign.justify,
-                      style: AppStyles.descriptionReviewContent)),
-            ],
+          SizedBox(
+            width: size.width * 0.6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(review.mediaName ?? "",
+                    style: AppStyles.libraryReviewBookName),
+                Text(review.mediaAuthor ?? "",
+                    style: AppStyles.libraryReviewAuthor),
+                const SizedBox(height: 20),
+                Text(review.title, style: AppStyles.smallSemiBoldText),
+                Row(
+                  children: [
+                    ...List.generate(
+                        review.rating,
+                        (index) => Padding(
+                              padding: const EdgeInsets.only(right: 2.0),
+                              child: SvgPicture.asset(AppAssets.icRatingStar),
+                            )),
+                    ...List.generate(
+                        5 - review.rating,
+                        (index) => Padding(
+                              padding: const EdgeInsets.only(right: 2.0),
+                              child: SvgPicture.asset(
+                                  AppAssets.icRatingStarOutline),
+                            )),
+                  ],
+                ),
+                const SizedBox(height: 7),
+                SizedBox(
+                    width: size.width * 0.63,
+                    child: ExpandableText(
+                        text: review.description,
+                        maxLines: 5,
+                        textAlign: TextAlign.justify,
+                        style: AppStyles.descriptionReviewContent)),
+              ],
+            ),
           )
         ]),
       ),

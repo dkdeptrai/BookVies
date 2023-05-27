@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/models/comment_model.dart';
 import 'package:bookvies/models/review_model.dart';
+import 'package:bookvies/services/goal_service.dart';
 import 'package:bookvies/services/review_service.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:bookvies/utils/utils.dart';
@@ -157,6 +159,17 @@ class DescriptionReviewListBloc
   _onAddReviewEvent(event, emit) async {
     final reviewService = ReviewService();
     try {
+      if (state is DescriptionReviewListLoaded) {
+        if ((state as DescriptionReviewListLoaded).reviews.any((element) =>
+            element.userId == currentUser!.uid &&
+            element.mediaId == event.mediaId)) {
+          showWarningDialog(
+              context: event.context,
+              message: "You have already reviewed this ${event.mediaType}");
+          return;
+        }
+      }
+
       final Review? review = await reviewService.addReview(
         context: event.context,
         mediaType: event.mediaType,
@@ -182,6 +195,12 @@ class DescriptionReviewListBloc
       // Update rating in book document after add review completely
       reviewService.updateRatingAfterAddReview(
           mediaId: event.mediaId, newRating: event.rating);
+
+      // update challenge after add review
+      GoalService().updateReadingGoal(
+          type: event.mediaType == MediaType.book.name
+              ? GoalType.reading.name
+              : GoalType.watching.name);
     } catch (error) {
       emit(DescriptionReviewListError(message: error.toString()));
     }

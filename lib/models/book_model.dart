@@ -29,46 +29,6 @@ class Book extends Media {
     required super.genres,
   });
 
-  static final List<Book> bookList = [
-    // Book(
-    //     id: "1",
-    //     name: "Lesson in Chemistry",
-    //     description: "Hello",
-    //     image:
-    //         "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg",
-    //     author: "Bonnie Garmus"),
-
-    Book(
-        id: "1",
-        name: "Lesson in Chemistry",
-        description: "Hello",
-        image:
-            "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg",
-        reviews: [],
-        numberReviews: 0,
-        averageRating: 4.5,
-        genres: [],
-        author: "Tien Vi",
-        publisher: "Publisher",
-        isbn: "123",
-        firstPublishDate: DateTime.now(),
-        pages: 100)
-    // Book(
-    //     id: "2",
-    //     name: "Lesson in Chemistry",
-    //     description: "Hello",
-    //     image:
-    //         "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg",
-    //     author: "Bonnie Garmus"),
-    // Book(
-    //     id: "3",
-    //     name: "Lesson in Chemistry",
-    //     description: "Hello",
-    //     image:
-    //         "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg",
-    //     author: "Bonnie Garmus"),
-  ];
-
   @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -77,7 +37,7 @@ class Book extends Media {
       'description': description,
       'image': image,
       'reviews': reviews,
-      'numberReviews': numberReviews,
+      'numberOfReviews': numberReviews,
       'averageRating': averageRating,
       'genres': genres,
       'author': author,
@@ -110,14 +70,14 @@ class Book extends Media {
         id: map['id'] as String,
         name: map['name'] as String,
         description: map['description'] as String,
-        image: map['coverImg'] == null ? "" : map['coverImg'] as String,
+        image: map['coverImg'] ?? "",
         reviews: map['reviews'] == null
             ? []
             : (map['reviews'] as List<dynamic>)
                 .map((e) => Review.fromMap(e as Map<String, dynamic>))
                 .toList(),
         numberReviews:
-            map['numberReviews'] == null ? 0 : map['numberReviews'] as int,
+            map['numberOfReviews'] == null ? 0 : map['numberOfReviews'] as int,
         averageRating: map['averageRating'] == null
             ? 0.0
             : map['averageRating'].toDouble(),
@@ -130,9 +90,7 @@ class Book extends Media {
         pages: map['pages'] as int?,
         genres: map['genres'] == null
             ? []
-            : (map['genres'] as String)
-                .replaceAll(RegExp(r"[\[\]']"), "")
-                .split(", "),
+            : List<String>.from(map['genres'].map((e) => e.toString())),
       );
     }
   }
