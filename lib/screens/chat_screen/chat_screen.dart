@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,6 +13,7 @@ import 'package:bookvies/screens/chat_screen/widgets/chat_messages_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 
 class ChatScreen extends StatefulWidget {
+  static const id = '/chat_screen';
   final Chat chat;
   const ChatScreen({
     Key? key,
@@ -25,6 +27,16 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   var messageController = TextEditingController();
 
+  Future<UserModel> _getUser() async {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.chat.usersId.where((id) => id != currentUser!.uid).first)
+        .get()
+        .then(
+          (value) => UserModel.fromMap(value.data() as Map<String, dynamic>),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -33,24 +45,41 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50.0),
         child: FutureBuilder(
-            future: _getUserName(),
+            future: _getUser(),
             builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CustomAppBar(
                   centerTitle: false,
                   title: 'Loading...',
                   leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {},
+                    icon: SvgPicture.asset(AppAssets.icArrowLeft),
+                    onPressed: () => Navigator.pop(context),
                   ),
                 );
               } else {
                 return CustomAppBar(
-                  centerTitle: false,
-                  title: snapshot.data as String,
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {},
+                  centerTitle: true,
+                  title: null,
+                  leading: Row(
+                    children: [
+                      IconButton(
+                        icon: SvgPicture.asset(AppAssets.icArrowLeft),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      const SizedBox(width: 20),
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(
+                          snapshot.data!.imageUrl,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        snapshot.data!.name,
+                        style: AppStyles.actionBarText,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
                   ),
                 );
               }
@@ -107,14 +136,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
     );
-  }
-
-  Future<String> _getUserName() async {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(widget.chat.usersId.where((id) => id != currentUser!.uid).first)
-        .get()
-        .then((value) => value.data()!['name']);
   }
 
   Future<void> _sendMessage(String text) async {

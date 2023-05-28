@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,11 +14,9 @@ import 'package:bookvies/utils/firebase_constants.dart';
 
 class ChatTile extends StatelessWidget {
   final Chat chat;
-  final Function onTap;
   const ChatTile({
     Key? key,
     required this.chat,
-    required this.onTap,
   }) : super(key: key);
   Stream<BookviesUser> getChatPartner() async* {
     String partnerId = chat.usersId.where((id) => id != currentUser!.uid).first;
@@ -76,23 +76,34 @@ class ChatTile extends StatelessWidget {
               ],
             ),
             child: ListTile(
-              onTap: onTap as void Function()?,
+              onTap: () => Navigator.pushNamed(
+                context,
+                ChatScreen.id,
+                arguments: chat,
+              ),
               leading: CircleAvatar(
                 radius: 40,
                 backgroundImage: NetworkImage(partner.imageUrl),
               ),
               title: Text(
                 partner.name,
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                style: chat.read
+                    ? const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)
+                    : const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w700),
               ),
               subtitle: Text(
                 subtitle,
                 maxLines: 1,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
-                ),
+                style: chat.read
+                    ? const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      )
+                    : const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
               ),
             ));
       },

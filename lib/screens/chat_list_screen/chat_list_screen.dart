@@ -1,14 +1,8 @@
-import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
-import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
-import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/screens/chat_list_screen/widget/chat_tile.dart';
-import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ChatListScreen extends StatefulWidget {
@@ -60,12 +54,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
         preferredSize: const Size.fromHeight(50.0),
         child: CustomAppBar(
           title: 'Chat',
-          leading: IconButton(
-            onPressed: () {
-              context.read<AuthBloc>().add(const AuthEventLogOut());
-            },
-            icon: SvgPicture.asset(AppAssets.icArrowLeft),
-          ),
         ),
       ),
       body: StreamBuilder<List<Chat>>(
@@ -87,15 +75,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
               final chat = chats[index];
               return ChatTile(
                 chat: chat,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChatScreen(
-                              chat: chat,
-                            )),
-                  );
-                },
               );
             },
           );
