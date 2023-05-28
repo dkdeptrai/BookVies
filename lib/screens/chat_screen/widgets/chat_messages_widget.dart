@@ -70,10 +70,10 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           shrinkWrap: widget.shrinkWrap,
           itemBuilder: (context, index) {
-            bool showSendTime = index == 0 ||
+            bool showSendTime = index == messages.length - 1 ||
                 messages[index]
                         .sendTime
-                        .difference(messages[index - 1].sendTime)
+                        .difference(messages[index + 1].sendTime)
                         .inMinutes >
                     5;
             return MessageWidget(
