@@ -1,15 +1,10 @@
-import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
-import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
-import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/screens/chat_list_screen/widget/chat_tile.dart';
-import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tuple/tuple.dart';
 
 class ChatListScreen extends StatefulWidget {
   const ChatListScreen({super.key});
@@ -19,38 +14,21 @@ class ChatListScreen extends StatefulWidget {
 }
 
 class _ChatListScreenState extends State<ChatListScreen> {
-  Stream<List<Chat>> chatUpdates() {
-    final collectionStream = chatRef
-        .where('usersId', arrayContains: currentUser!.uid)
-        .orderBy('lastTime', descending: true)
-        .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-            .map((docSnapshot) => Chat.fromMap(
-                docSnapshot.data()! as Map<String, dynamic>, docSnapshot.id))
-            .toList());
+  late final Stream<List<Chat>> _chatStream;
+  late BehaviorSubject<List<Chat>> _chatSubject;
 
-    final chatSubject = BehaviorSubject<List<Chat>>.seeded([]);
+  @override
+  void initState() {
+    super.initState();
+    final chatUpdatesResult = chatUpdates();
+    _chatStream = chatUpdatesResult.item1;
+    _chatSubject = chatUpdatesResult.item2;
+  }
 
-    collectionStream.listen((chats) {
-      for (var chat in chats) {
-        chatRef
-            .where('id', isEqualTo: chat.id)
-            .snapshots()
-            .listen((querySnapshot) {
-          final updatedChat = querySnapshot.docs
-              .map((docSnapshot) => Chat.fromMap(
-                  docSnapshot.data()! as Map<String, dynamic>, docSnapshot.id))
-              .first;
-          final chatIndex = chats.indexWhere((c) => c.id == updatedChat.id);
-          if (chatIndex != -1) {
-            chats[chatIndex] = updatedChat;
-          }
-          chatSubject.add(chats);
-        });
-      }
-    });
-
-    return chatSubject.stream.asBroadcastStream();
+  @override
+  void dispose() {
+    _chatSubject.close();
+    super.dispose();
   }
 
   @override
@@ -60,16 +38,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
         preferredSize: const Size.fromHeight(50.0),
         child: CustomAppBar(
           title: 'Chat',
-          leading: IconButton(
-            onPressed: () {
-              context.read<AuthBloc>().add(const AuthEventLogOut());
-            },
-            icon: SvgPicture.asset(AppAssets.icArrowLeft),
-          ),
         ),
       ),
       body: StreamBuilder<List<Chat>>(
-        stream: chatUpdates(),
+        stream: _chatStream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Center(
@@ -87,15 +59,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
               final chat = chats[index];
               return ChatTile(
                 chat: chat,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChatScreen(
-                              chat: chat,
-                            )),
-                  );
-                },
               );
             },
           );
@@ -103,4 +66,38 @@ class _ChatListScreenState extends State<ChatListScreen> {
       ),
     );
   }
+}
+
+Tuple2<Stream<List<Chat>>, BehaviorSubject<List<Chat>>> chatUpdates() {
+  final collectionStream = chatRef
+      .where('usersId', arrayContains: currentUser!.uid)
+      .orderBy('lastTime', descending: true)
+      .snapshots()
+      .map((querySnapshot) => querySnapshot.docs
+          .map((docSnapshot) => Chat.fromMap(
+              docSnapshot.data()! as Map<String, dynamic>, docSnapshot.id))
+          .toList());
+
+  final chatSubject = BehaviorSubject<List<Chat>>.seeded([]);
+
+  collectionStream.listen((chats) {
+    for (var chat in chats) {
+      chatRef
+          .where('id', isEqualTo: chat.id)
+          .snapshots()
+          .listen((querySnapshot) {
+        final updatedChat = querySnapshot.docs
+            .map((docSnapshot) => Chat.fromMap(
+                docSnapshot.data()! as Map<String, dynamic>, docSnapshot.id))
+            .first;
+        final chatIndex = chats.indexWhere((c) => c.id == updatedChat.id);
+        if (chatIndex != -1) {
+          chats[chatIndex] = updatedChat;
+        }
+        chatSubject.add(chats);
+      });
+    }
+  });
+
+  return Tuple2(chatSubject.stream.asBroadcastStream(), chatSubject);
 }

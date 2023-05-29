@@ -10,6 +10,7 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter/services.dart';
@@ -190,10 +191,19 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
       imageToUpload = await _loadDefaultImage();
     }
 
+    Uint8List compressedBytes = await FlutterImageCompress.compressWithFile(
+            imageToUpload!.path,
+            quality: 75) ??
+        Uint8List(0);
+
+    File compressedImageFile =
+        File('${(await getTemporaryDirectory()).path}/compressed_image.jpg');
+    await compressedImageFile.writeAsBytes(compressedBytes);
+
     context.read<AuthBloc>().add(AuthEventAddUserInformation(
           name: _nameController.text,
           description: _descriptionController.text,
-          image: imageToUpload!,
+          image: compressedImageFile,
         ));
   }
 }

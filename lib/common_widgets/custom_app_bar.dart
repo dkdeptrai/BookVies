@@ -2,7 +2,7 @@ import 'package:bookvies/constant/styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final String title;
+  final String? title;
   final Widget? leading;
   final List<Widget> actions;
   bool centerTitle;
@@ -16,7 +16,8 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title, style: AppStyles.actionBarText),
+      title:
+          (title != null) ? Text(title!, style: AppStyles.actionBarText) : null,
       elevation: 0,
       backgroundColor: Colors.transparent,
       centerTitle: centerTitle,
