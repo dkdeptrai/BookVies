@@ -37,7 +37,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               title: "Forgot Password",
               leading: IconButton(
                   onPressed: () {
-                    context.read<AuthBloc>().add(const AuthEventLogOut());
+                    Navigator.of(context).pop();
                   },
                   icon: SvgPicture.asset(AppAssets.icArrowLeft)),
             ),
