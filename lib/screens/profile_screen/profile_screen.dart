@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/constant/assets.dart';
+import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/models/user_model.dart';
@@ -184,14 +185,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: IconButton(
-                                  onPressed: () => _scaffoldKey.currentState
-                                      ?.openEndDrawer(),
-                                  icon: SvgPicture.asset(
-                                      AppAssets.icHamburgerMenu),
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  if (user.id != currentUser!.uid)
+                                    IconButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      icon: const Icon(
+                                        Icons.arrow_back_ios,
+                                        color: AppColors.secondaryColor,
+                                      ),
+                                    ),
+                                  if (user.id == currentUser!.uid) Spacer(),
+                                  IconButton(
+                                    onPressed: () => _scaffoldKey.currentState
+                                        ?.openEndDrawer(),
+                                    icon: SvgPicture.asset(
+                                      AppAssets.icHamburgerMenu,
+                                    ),
+                                  ),
+                                ],
                               ),
                               Center(
                                 child: UserDescriptionWidget(
@@ -262,12 +277,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   left: 20),
                                               child: Row(
                                                 children: [
-                                                  CircleAvatar(
-                                                    radius: 40,
-                                                    backgroundImage:
-                                                        NetworkImage(
-                                                            followingUser!
-                                                                .imageUrl),
+                                                  GestureDetector(
+                                                    onTap: () => Navigator.of(
+                                                            context)
+                                                        .pushNamed(
+                                                            ProfileScreen.id,
+                                                            arguments:
+                                                                followingUser),
+                                                    child: CircleAvatar(
+                                                      radius: 40,
+                                                      backgroundImage:
+                                                          NetworkImage(
+                                                              followingUser!
+                                                                  .imageUrl),
+                                                    ),
                                                   ),
                                                 ],
                                               ),

@@ -7,6 +7,7 @@ import 'package:bookvies/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:bookvies/screens/favorite_genres_screen/favorite_genres_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
+import 'package:bookvies/screens/profile_screen/profile_screen.dart';
 import 'package:bookvies/screens/recommend_movies_screen/recommend_movies_screen.dart';
 import 'package:bookvies/screens/search_movies_screen/search_movies_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
@@ -51,6 +52,12 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => EditProfileScreen(
                   user: args,
+                ));
+      case (ProfileScreen.id):
+        final args = routeSettings.arguments as UserModel;
+        return MaterialPageRoute(
+            builder: (_) => ProfileScreen(
+                  userId: args.id,
                 ));
       case (DescriptionScreen.id):
         final args = routeSettings.arguments as DescriptionScreenArguments;
