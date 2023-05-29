@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
@@ -13,8 +14,10 @@ import 'package:bookvies/screens/profile_screen/widgets/user_description_widget.
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const id = '/profile-screen';
@@ -66,8 +69,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (pickedFile == null) {
       return;
     }
-    File file = File(pickedFile.path);
-    context.read<AuthBloc>().add(AuthEventEditUserAvatar(file));
+    Uint8List compressedBytes = await FlutterImageCompress.compressWithFile(
+            pickedFile.path,
+            quality: 75) ??
+        Uint8List(0);
+
+    File compressedImageFile =
+        File('${(await getTemporaryDirectory()).path}/compressed_image.jpg');
+    await compressedImageFile.writeAsBytes(compressedBytes);
+    context.read<AuthBloc>().add(AuthEventEditUserAvatar(compressedImageFile));
   }
 
   @override

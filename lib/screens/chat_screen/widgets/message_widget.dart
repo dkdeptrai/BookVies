@@ -5,7 +5,7 @@ import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class MessageWidget extends StatefulWidget {
+class MessageWidget extends StatelessWidget {
   final Message message;
   final bool showSendTime;
 
@@ -16,13 +16,8 @@ class MessageWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MessageWidget> createState() => _MessageWidgetState();
-}
-
-class _MessageWidgetState extends State<MessageWidget> {
-  @override
   Widget build(BuildContext context) {
-    bool isCurrentUser = widget.message.senderId == currentUser!.uid;
+    bool isCurrentUser = message.senderId == currentUser!.uid;
 
     return Align(
       alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
@@ -32,10 +27,15 @@ class _MessageWidgetState extends State<MessageWidget> {
           crossAxisAlignment:
               isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
-            if (widget.showSendTime)
-              Text(
-                DateFormat('dd MMM kk:mm').format(widget.message.sendTime),
-                style: AppStyles.primaryTextStyle,
+            if (showSendTime)
+              Column(
+                children: [
+                  const SizedBox(height: 6),
+                  Text(
+                    DateFormat('dd MMM kk:mm').format(message.sendTime),
+                    style: AppStyles.primaryTextStyle,
+                  ),
+                ],
               ),
             Container(
               constraints: BoxConstraints(
@@ -45,7 +45,7 @@ class _MessageWidgetState extends State<MessageWidget> {
               margin: const EdgeInsets.fromLTRB(0, 6, 0, 6),
               padding: const EdgeInsets.all(12.0),
               child: Text(
-                widget.message.content,
+                message.content,
                 style: const TextStyle(color: AppColors.primaryTextColor),
               ),
             ),

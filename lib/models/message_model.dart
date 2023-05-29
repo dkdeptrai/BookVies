@@ -7,10 +7,12 @@ class Message {
   final String senderId;
   final String content;
   final DateTime sendTime;
+  final bool read;
   Message({
     required this.senderId,
     required this.content,
     required this.sendTime,
+    required this.read,
   });
 
   Message copyWith({
@@ -22,6 +24,7 @@ class Message {
       senderId: senderId ?? this.senderId,
       content: content ?? this.content,
       sendTime: sendTime ?? this.sendTime,
+      read: read,
     );
   }
 
@@ -30,6 +33,7 @@ class Message {
       'senderId': senderId,
       'content': content,
       'sendTime': sendTime.millisecondsSinceEpoch,
+      'read': read,
     };
   }
 
@@ -38,6 +42,7 @@ class Message {
       senderId: map['senderId'] as String,
       content: map['content'] as String,
       sendTime: (map['sendTime'] as Timestamp).toDate(),
+      read: map['read'] ?? false,
     );
   }
 
@@ -48,7 +53,7 @@ class Message {
 
   @override
   String toString() =>
-      'Message(senderId: $senderId, content: $content, sendTime: $sendTime)';
+      'Message(senderId: $senderId, content: $content, sendTime: $sendTime. read: $read)';
 
   @override
   bool operator ==(covariant Message other) {
@@ -56,9 +61,11 @@ class Message {
 
     return other.senderId == senderId &&
         other.content == content &&
-        other.sendTime == sendTime;
+        other.sendTime == sendTime &&
+        other.read == read;
   }
 
   @override
-  int get hashCode => senderId.hashCode ^ content.hashCode ^ sendTime.hashCode;
+  int get hashCode =>
+      senderId.hashCode ^ content.hashCode ^ sendTime.hashCode ^ read.hashCode;
 }

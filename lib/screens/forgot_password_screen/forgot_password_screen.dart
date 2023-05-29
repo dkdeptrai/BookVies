@@ -6,7 +6,6 @@ import 'package:bookvies/common_widgets/custom_button_with_gradient_background.d
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

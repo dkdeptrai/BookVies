@@ -9,13 +9,11 @@ class Chat {
   final String id;
   final DateTime lastTime;
   final List<String> usersId;
-  final bool read;
   Chat({
     required this.docId,
     required this.id,
     required this.lastTime,
     required this.usersId,
-    required this.read,
   });
 
   Chat copyWith({
@@ -23,14 +21,12 @@ class Chat {
     String? id,
     DateTime? lastTime,
     List<String>? usersId,
-    bool? read,
   }) {
     return Chat(
       docId: docId ?? this.docId,
       id: id ?? this.id,
       lastTime: lastTime ?? this.lastTime,
       usersId: usersId ?? this.usersId,
-      read: read ?? this.read,
     );
   }
 
@@ -40,7 +36,6 @@ class Chat {
       'id': id,
       'lastTime': lastTime.millisecondsSinceEpoch,
       'usersId': usersId,
-      'read': read,
     };
   }
 
@@ -52,7 +47,6 @@ class Chat {
       usersId: List<String>.from(
         (map['usersId']),
       ),
-      read: map['read'] ?? true,
     );
   }
 
@@ -63,7 +57,7 @@ class Chat {
 
   @override
   String toString() {
-    return 'Chat(docId: $docId, id: $id, lastTime: $lastTime, usersId: $usersId, read: $read)';
+    return 'Chat(docId: $docId, id: $id, lastTime: $lastTime, usersId: $usersId)';
   }
 
   @override
@@ -73,16 +67,11 @@ class Chat {
     return other.docId == docId &&
         other.id == id &&
         other.lastTime == lastTime &&
-        listEquals(other.usersId, usersId) &&
-        other.read == read;
+        listEquals(other.usersId, usersId);
   }
 
   @override
   int get hashCode {
-    return docId.hashCode ^
-        id.hashCode ^
-        lastTime.hashCode ^
-        usersId.hashCode ^
-        read.hashCode;
+    return docId.hashCode ^ id.hashCode ^ lastTime.hashCode ^ usersId.hashCode;
   }
 }

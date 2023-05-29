@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:bookvies/screens/chat_screen/widgets/messages_widget.dart';
+import 'package:bookvies/screens/chat_screen/widgets/message_widget.dart';
+import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -25,11 +26,31 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
   final ScrollController _scrollController = ScrollController();
   final BehaviorSubject<List<Message>> _messagesSubject =
       BehaviorSubject<List<Message>>.seeded([]);
+
+  Future<void> _updateReadStatus() async {
+    final messagesQuery = FirebaseFirestore.instance
+        .collection('chat')
+        .doc(widget.chat.docId)
+        .collection('messages')
+        .where('senderId', isNotEqualTo: currentUser!.uid)
+        .where('read', isEqualTo: false);
+
+    final messagesSnapshot = await messagesQuery.get();
+
+    final batch = FirebaseFirestore.instance.batch();
+
+    for (final doc in messagesSnapshot.docs) {
+      batch.update(doc.reference, {'read': true});
+    }
+
+    await batch.commit();
+  }
+
   @override
   void initState() {
     super.initState();
-    FirebaseFirestore.instance
-        .collection('chat')
+
+    chatRef
         .doc(widget.chat.docId)
         .collection('messages')
         .orderBy('sendTime', descending: true)
@@ -43,6 +64,8 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
         });
       }
     });
+
+    _updateReadStatus();
   }
 
   @override

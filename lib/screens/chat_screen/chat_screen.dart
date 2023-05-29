@@ -85,7 +85,8 @@ class _ChatScreenState extends State<ChatScreen> {
               }
             })),
       ),
-      body: SizedBox(
+      body: Container(
+        color: AppColors.primaryBackgroundColor,
         height: size.height,
         child: Column(
           children: [
@@ -95,42 +96,45 @@ class _ChatScreenState extends State<ChatScreen> {
                 shrinkWrap: true,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxHeight: 200,
-                      minHeight: 52,
-                    ),
-                    child: TextFormField(
-                      keyboardType: TextInputType.multiline,
-                      autofocus: false,
-                      textAlignVertical: TextAlignVertical.center,
-                      minLines: 1,
-                      maxLines: 5,
-                      controller: messageController,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'Type your message here...',
-                        hintStyle: AppStyles.hintTextStyle,
-                        focusedBorder: AppStyles.authenticateFieldBorder,
-                        enabledBorder: AppStyles.authenticateFieldBorder,
-                        border: AppStyles.authenticateFieldBorder,
-                        fillColor: AppColors.primaryBackgroundColor,
-                        filled: true,
+            Container(
+              color: AppColors.primaryBackgroundColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxHeight: 200,
+                        minHeight: 52,
+                      ),
+                      child: TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        autofocus: false,
+                        textAlignVertical: TextAlignVertical.center,
+                        minLines: 1,
+                        maxLines: 5,
+                        controller: messageController,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          hintText: 'Type your message here...',
+                          hintStyle: AppStyles.hintTextStyle,
+                          focusedBorder: AppStyles.authenticateFieldBorder,
+                          enabledBorder: AppStyles.authenticateFieldBorder,
+                          border: AppStyles.authenticateFieldBorder,
+                          fillColor: AppColors.primaryBackgroundColor,
+                          filled: true,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: SvgPicture.asset(AppAssets.icSend),
-                  onPressed: () async =>
-                      await _sendMessage(messageController.text),
-                ),
-              ],
+                  IconButton(
+                    icon: SvgPicture.asset(AppAssets.icSend),
+                    onPressed: () async =>
+                        await _sendMessage(messageController.text),
+                  ),
+                ],
+              ),
             )
           ],
         ),
@@ -153,6 +157,7 @@ class _ChatScreenState extends State<ChatScreen> {
         'content': text,
         'sendTime': DateTime.now(),
         'senderId': currentUser!.uid,
+        'read': false,
       },
     );
 
