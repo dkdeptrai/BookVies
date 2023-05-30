@@ -58,10 +58,10 @@ class AppRouter {
                   user: args,
                 ));
       case (ProfileScreen.id):
-        final args = routeSettings.arguments as UserModel;
+        final String args = routeSettings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => ProfileScreen(
-                  userId: args.id,
+                  userId: args,
                 ));
       case (DescriptionScreen.id):
         final args = routeSettings.arguments as DescriptionScreenArguments;

@@ -5,7 +5,8 @@
     "bookvies",
     "Firestore",
     "LTRB",
-    "rxdart"
+    "rxdart",
+    "Unfollow"
   ],
   "java.configuration.updateBuildConfiguration": "interactive"
 }

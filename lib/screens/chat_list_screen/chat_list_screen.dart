@@ -94,7 +94,9 @@ Tuple2<Stream<List<Chat>>, BehaviorSubject<List<Chat>>> chatUpdates() {
         if (chatIndex != -1) {
           chats[chatIndex] = updatedChat;
         }
-        chatSubject.add(chats);
+        if (!chatSubject.isClosed) {
+          chatSubject.add(chats);
+        }
       });
     }
   });
