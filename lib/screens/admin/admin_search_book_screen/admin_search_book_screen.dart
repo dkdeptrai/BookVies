@@ -38,7 +38,7 @@ class _AdminSearchBookScreenState extends State<AdminSearchBookScreen> {
     return Scaffold(
         body: SafeArea(
       child: Column(children: [
-        SearchBar(
+        CustomSearchBar(
             controller: searchController,
             hint: "Search book",
             onSearch: () {
