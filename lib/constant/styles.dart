@@ -169,6 +169,11 @@ class AppStyles {
   static const reportDialogTitle =
       TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
 
+  static const adminHeader = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+      color: AppColors.primaryTextColor);
+
   // Others
   static BoxDecoration primaryBoxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(12),

@@ -28,6 +28,13 @@ class AppColors {
   static Color thirdChartColor = const Color(0xFF9B97B2);
   static Color fourthChartColor = const Color(0xFFD8A7CA);
   static Color fifthChartColor = const Color(0xFFC7B8EA);
+  static Color primaryGradientFirstColor =
+      const Color(0xFF6FE3E1).withOpacity(0.5);
+  static Color primaryGradientSecondColor =
+      const Color(0xFF5257E5).withOpacity(0.5);
+  static Color lightBlueBackground = const Color(0xFFD9F0FB);
+  static Color darkBlueBackground = const Color(0xFF003190);
+  static Color lightGrey = const Color(0xFFD9D9D9).withOpacity(0.5);
 
   static const navBarActiveColor = Color(0xFFFfFFFF);
   static const navBarInactiveColor = greyTextColor;

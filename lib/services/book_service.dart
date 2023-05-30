@@ -2,6 +2,7 @@ import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/models/user_model.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,5 +67,41 @@ class BookService {
     }
 
     return books;
+  }
+
+  Future<void> updateBook({required Book book}) async {
+    try {
+      await booksRef.doc(book.id).update(book.toMap());
+    } catch (error) {
+      print("Update book error: $error");
+    }
+  }
+
+  Future<Book?> getBookById({required String id}) async {
+    try {
+      final doc = await booksRef.doc(id).get();
+      return Book.fromMap(doc.data() as Map<String, dynamic>)
+          .copyWith(id: doc.id);
+    } catch (error) {
+      print("Get book by id error: $error");
+      return null;
+    }
+  }
+
+  Future<void> deleteBook({required String id}) async {
+    try {
+      await booksRef.doc(id).delete();
+    } catch (error) {
+      print("Delete book error: $error");
+    }
+  }
+
+  Future<void> addBook({required Book book}) async {
+    try {
+      final DocumentReference docRef = booksRef.doc();
+      await docRef.set(book.copyWith(id: docRef.id).toMap());
+    } catch (error) {
+      print("Add book error: $error");
+    }
   }
 }

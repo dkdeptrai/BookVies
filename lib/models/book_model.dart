@@ -67,9 +67,9 @@ class Book extends Media {
           genres: []);
     } else {
       return Book(
-        id: map['id'] as String,
-        name: map['name'] as String,
-        description: map['description'] as String,
+        id: map['id'] ?? "",
+        name: map['name'] ?? "",
+        description: map['description'] ?? "",
         image: map['coverImg'] ?? "",
         reviews: map['reviews'] == null
             ? []

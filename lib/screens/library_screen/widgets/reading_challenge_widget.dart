@@ -82,7 +82,7 @@ class _ReadingChallengeWidgetState extends State<ReadingChallengeWidget> {
                       ),
                       const SizedBox(width: 15),
                       Text(
-                          "${readingGoal!.finishedAmount}/${readingGoal!.amount}",
+                          "${readingGoal.finishedAmount}/${readingGoal.amount}",
                           style: AppStyles.smallSemiBoldText)
                     ],
                   ),
