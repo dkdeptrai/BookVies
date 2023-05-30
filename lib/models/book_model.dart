@@ -69,7 +69,7 @@ class Book extends Media {
       return Book(
           id: map['id'] as String,
           name: map['name'] as String,
-          description: map['description'] as String,
+          description: map['description'] ?? "",
           image: map['coverImg'] == null ? "" : map['coverImg'] as String,
           reviews: map['reviews'] == null
               ? []

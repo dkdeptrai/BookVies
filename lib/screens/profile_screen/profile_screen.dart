@@ -198,14 +198,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: AppColors.secondaryColor,
                                       ),
                                     ),
-                                  if (user.id == currentUser!.uid) Spacer(),
-                                  IconButton(
-                                    onPressed: () => _scaffoldKey.currentState
-                                        ?.openEndDrawer(),
-                                    icon: SvgPicture.asset(
-                                      AppAssets.icHamburgerMenu,
+                                  if (user.id == currentUser!.uid)
+                                    const Spacer(),
+                                  if (user.id == currentUser!.uid)
+                                    IconButton(
+                                      onPressed: () => _scaffoldKey.currentState
+                                          ?.openEndDrawer(),
+                                      icon: SvgPicture.asset(
+                                        AppAssets.icHamburgerMenu,
+                                      ),
                                     ),
-                                  ),
                                 ],
                               ),
                               Center(
