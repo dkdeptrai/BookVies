@@ -48,6 +48,10 @@ class CustomSearchBar extends StatelessWidget {
                     borderSide:
                         const BorderSide(color: AppColors.greyTextColor),
                   )),
+              onFieldSubmitted: (keyword) {
+                FocusScope.of(context).unfocus();
+                onSearch();
+              },
             ),
           )),
           IconButton(

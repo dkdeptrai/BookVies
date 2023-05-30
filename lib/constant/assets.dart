@@ -42,6 +42,10 @@ class AppAssets {
   static const String icKey = "$iconPath/ic_key.svg";
   static const String icImage = "$iconPath/ic_image.svg";
   static const String icUnreadMessage = "$iconPath/ic_unread_message.svg";
+  static const String icPlus = "$iconPath/ic_plus.svg";
+  static const String icEdit = "$iconPath/ic_edit.svg";
+  static const String icTrash = "$iconPath/ic_trash.svg";
+  static const String icCalendar = "$iconPath/ic_calendar.svg";
 
   // images
   static const String imgForgotPassword = "$imagePath/img_forgot_password.svg";

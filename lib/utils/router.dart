@@ -1,3 +1,7 @@
+import 'package:bookvies/models/book_model.dart';
+import 'package:bookvies/screens/admin/add_book_screen/admin_add_book_screen.dart';
+import 'package:bookvies/screens/admin/admin_search_book_screen/admin_search_book_screen.dart';
+import 'package:bookvies/screens/admin/edit_book_screen/edit_book_screen.dart';
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/models/user_model.dart';
 import 'package:bookvies/screens/book_description_screen/description_screen.dart';
@@ -70,6 +74,16 @@ class AppRouter {
             builder: (_) => WriteReviewScreen(
                   media: media,
                 ));
+      case (AdminEditBookScreen.id):
+        final args = routeSettings.arguments as Book;
+        return MaterialPageRoute(
+            builder: (_) => AdminEditBookScreen(
+                  book: args,
+                ));
+      case (AdminSearchBookScreen.id):
+        return MaterialPageRoute(builder: (_) => const AdminSearchBookScreen());
+      case (AdminAddBookScreen.id):
+        return MaterialPageRoute(builder: (_) => const AdminAddBookScreen());
 
       default:
         return MaterialPageRoute(

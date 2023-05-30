@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bookvies/constant/constants.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class UserModel {
   String id;
@@ -7,6 +9,7 @@ class UserModel {
   String description;
   String email;
   String imageUrl;
+  String type;
   List<String> favoriteGenres;
   List<String> followers;
   List<String> following;
@@ -16,6 +19,7 @@ class UserModel {
     required this.description,
     required this.email,
     required this.imageUrl,
+    required this.type,
     required this.favoriteGenres,
     required this.followers,
     required this.following,
@@ -28,6 +32,7 @@ class UserModel {
       'description': description,
       'email': email,
       'imageUrl': imageUrl,
+      'type': type,
       'favoriteGenres': favoriteGenres,
       'followers': followers,
       'following': following,
@@ -41,6 +46,7 @@ class UserModel {
       description: map['description'] ?? "",
       email: map['email'] ?? "",
       imageUrl: map['imageUrl'] as String,
+      type: map['type'] ?? UserType.user.name,
       favoriteGenres: map['favoriteGenres'] == null
           ? []
           : List<String>.from(map['favoriteGenres'].map((e) => e.toString())),
@@ -66,6 +72,7 @@ class UserModel {
     String? description,
     String? email,
     String? imageUrl,
+    String? type,
     List<String>? favoriteGenres,
     List<String>? followers,
     List<String>? following,
@@ -76,6 +83,7 @@ class UserModel {
       description: description ?? this.description,
       email: email ?? this.email,
       imageUrl: imageUrl ?? this.imageUrl,
+      type: type ?? this.type,
       favoriteGenres: favoriteGenres ?? this.favoriteGenres,
       followers: followers ?? this.followers,
       following: following ?? this.following,

@@ -14,8 +14,8 @@ void showSnackBar(
   )));
 }
 
-void showWarningDialog(
-    {required BuildContext context, required String message}) {
+Future<void> showWarningDialog(
+    {required BuildContext context, required String message}) async {
   showDialog(
       context: context,
       builder: (context) {
@@ -24,8 +24,9 @@ void showWarningDialog(
       });
 }
 
-void showErrorDialog({required BuildContext context, required String message}) {
-  showDialog(
+Future<void> showErrorDialog(
+    {required BuildContext context, required String message}) async {
+  await showDialog(
       context: context,
       builder: (context) {
         return CommonDialog(
@@ -33,7 +34,7 @@ void showErrorDialog({required BuildContext context, required String message}) {
       });
 }
 
-void showSuccessDialog(
+Future<void> showSuccessDialog(
     {required BuildContext context, required String message}) async {
   await showDialog(
       context: context,

@@ -26,12 +26,12 @@ class BookScreen extends StatelessWidget {
                   icon: SvgPicture.asset(AppAssets.icSearch))
             ],
           )),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(left: AppDimensions.defaultPadding),
+          padding: const EdgeInsets.only(left: AppDimensions.defaultPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: const [
               HighestRatingBookWidget(),
               PopularBookWidget(margin: EdgeInsets.only(top: 5)),
               ExploreBooksWidget()
