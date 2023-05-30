@@ -83,7 +83,7 @@ class _WatchingChallengeWidgetState extends State<WatchingChallengeWidget> {
                       ),
                       const SizedBox(width: 15),
                       Text(
-                          "${watchingGoal!.finishedAmount}/${watchingGoal!.amount}",
+                          "${watchingGoal.finishedAmount}/${watchingGoal.amount}",
                           style: AppStyles.smallSemiBoldText)
                     ],
                   ),

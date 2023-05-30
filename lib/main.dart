@@ -1,3 +1,4 @@
+import 'package:bookvies/blocs/admin_newest_books_bloc/admin_newest_books_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
@@ -5,6 +6,8 @@ import 'package:bookvies/blocs/description_review_list_bloc/description_review_l
 import 'package:bookvies/blocs/reading_goal_bloc/reading_goal_bloc.dart';
 import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:bookvies/blocs/watching_goal_bloc/watching_goal_bloc.dart';
+import 'package:bookvies/constant/constants.dart';
+import 'package:bookvies/screens/admin/admin_main_screen.dart';
 import 'package:bookvies/screens/favorite_genres_screen/favorite_genres_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
@@ -33,6 +36,7 @@ void main() async {
       BlocProvider(create: (_) => AuthBloc(FirebaseAuthProvider())),
       BlocProvider(create: (_) => ReadingGoalBloc()),
       BlocProvider(create: (_) => WatchingGoalBloc()),
+      BlocProvider(create: (_) => AdminNewestBooksBloc()),
     ],
     child: MyApp(appRouter: AppRouter()),
   ));
@@ -64,7 +68,11 @@ class MyApp extends StatelessWidget {
             return BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
                 if (state is UserLoaded) {
-                  return const MainScreen();
+                  if (state.user.type == UserType.admin.name) {
+                    return const AdminMainScreen();
+                  } else {
+                    return const MainScreen();
+                  }
                 } else if (state is UserLoading) {
                   return const SplashScreen();
                 } else if (state is UserLoadFailed) {

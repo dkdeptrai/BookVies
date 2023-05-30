@@ -1,6 +1,18 @@
 class AppConstants {
   static const List<String> mediaType = ["BOOK", "MOVIE"];
+  static const List<String> bookGenres = [
+    "Romance",
+    "Mystery",
+    "Science Fiction",
+    "Horror",
+    "Historical Fiction",
+    "Young Adult",
+    "Non-Fiction",
+    "Children"
+  ];
 }
+
+enum UserType { user, admin }
 
 enum MediaType { book, movie }
 

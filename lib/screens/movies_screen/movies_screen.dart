@@ -29,11 +29,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
                     icon: SvgPicture.asset(AppAssets.icSearch))
               ],
             )),
-        body: const SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
                 vertical: AppDimensions.defaultPadding),
-            child: Column(children: [
+            child: Column(children: const [
               TopMoviesWidget(),
               SizedBox(height: 20.0),
               RecommendMoviesWidget(),
