@@ -33,7 +33,7 @@ class BookService {
         // .where('name', isGreaterThanOrEqualTo: keyword)
         // .where('name', isLessThan: keyword + 'z')
         .startAt([keyword])
-        .endAt([keyword + '\uf8ff'])
+        .endAt(['$keyword\uf8ff'])
         .limit(10)
         .get();
 

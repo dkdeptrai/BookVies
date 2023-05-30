@@ -1,6 +1,5 @@
 import 'package:bookvies/blocs/description_review_list_bloc/description_review_list_bloc.dart';
 import 'package:bookvies/common_widgets/shimmer_loading_widget.dart';
-import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
@@ -8,7 +7,6 @@ import 'package:bookvies/screens/book_description_screen/widgets/chart_detail_it
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ReviewsChartWidget extends StatelessWidget {
   final double averageRating;

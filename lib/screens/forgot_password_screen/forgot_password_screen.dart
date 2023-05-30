@@ -6,7 +6,6 @@ import 'package:bookvies/common_widgets/custom_button_with_gradient_background.d
 import 'package:bookvies/common_widgets/custom_text_form_field.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,54 +37,55 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               title: "Forgot Password",
               leading: IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        LoginScreen.id, (route) => false);
+                    Navigator.of(context).pop();
                   },
                   icon: SvgPicture.asset(AppAssets.icArrowLeft)),
             ),
           ),
-          body: Container(
-            height: size.height,
-            padding: EdgeInsets.only(
-              top: size.height * 0.15,
-              left: 20,
-              right: 20,
-            ),
-            child: Column(
-              children: [
-                SvgPicture.asset(AppAssets.imgForgotPassword),
-                Container(
-                  margin: const EdgeInsets.only(top: 25),
-                  child: const Text(
-                    "Enter your registered email, we will send you a password reset email",
-                    style: AppStyles.subHeaderTextStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                CustomTextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  controller: _emailController,
-                  hintText: "Email",
-                  prefixIcon: Container(
-                    margin: const EdgeInsets.only(left: 10, right: 10),
-                    child: SvgPicture.asset(
-                      AppAssets.icEmail,
-                      height: 14,
-                      width: 14,
+          body: SingleChildScrollView(
+            child: Container(
+              height: size.height - 52,
+              padding: EdgeInsets.only(
+                top: size.height * 0.15,
+                left: 20,
+                right: 20,
+              ),
+              child: Column(
+                children: [
+                  SvgPicture.asset(AppAssets.imgForgotPassword),
+                  Container(
+                    margin: const EdgeInsets.only(top: 25),
+                    child: const Text(
+                      "Enter your registered email, we will send you a password reset email",
+                      style: AppStyles.subHeaderTextStyle,
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  errorText: _error,
-                ),
-                const Spacer(),
-                CustomButtonWithGradientBackground(
-                  margin: const EdgeInsets.only(bottom: 27),
-                  height: 54,
-                  text: "Send",
-                  onPressed: () {
-                    _sendEmailAndAlert(context);
-                  },
-                ),
-              ],
+                  CustomTextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: _emailController,
+                    hintText: "Email",
+                    prefixIcon: Container(
+                      margin: const EdgeInsets.only(left: 10, right: 10),
+                      child: SvgPicture.asset(
+                        AppAssets.icEmail,
+                        height: 14,
+                        width: 14,
+                      ),
+                    ),
+                    errorText: _error,
+                  ),
+                  const Spacer(),
+                  CustomButtonWithGradientBackground(
+                    margin: const EdgeInsets.only(bottom: 27),
+                    height: 54,
+                    text: "Send",
+                    onPressed: () {
+                      _sendEmailAndAlert(context);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

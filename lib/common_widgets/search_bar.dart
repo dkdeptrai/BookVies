@@ -4,13 +4,13 @@ import 'package:bookvies/constant/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SearchBar extends StatelessWidget {
+class CustomSearchBar extends StatelessWidget {
   final String hint;
   final TextEditingController? controller;
   final VoidCallback onSearch;
   final bool noBackButton;
   final EdgeInsets? margin;
-  const SearchBar(
+  const CustomSearchBar(
       {super.key,
       required this.hint,
       this.controller,

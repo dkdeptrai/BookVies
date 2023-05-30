@@ -8,8 +8,10 @@ import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:bookvies/blocs/watching_goal_bloc/watching_goal_bloc.dart';
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/screens/admin/admin_main_screen.dart';
+import 'package:bookvies/screens/favorite_genres_screen/favorite_genres_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
+import 'package:bookvies/screens/personal_information_screen/personal_information_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/screens/splash_screen/splash_screen.dart';
 import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
@@ -47,7 +49,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<AuthBloc>().add(const AuthEventInitialize());
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.onGenerateRoute,
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
 
           BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
+          // return ProfileScreen(userId: currentUser!.uid);
           if (state is AuthStateLoggedIn) {
             context.read<UserBloc>().add(const LoadUser());
             return BlocBuilder<UserBloc, UserState>(
@@ -84,11 +86,24 @@ class MyApp extends StatelessWidget {
             );
           } else if (state is AuthStateLoggedOut) {
             return const LoginScreen();
+          } else if (state is AuthStateSignUpFailure) {
+            return const SignUpScreen();
           } else if (state is AuthStateForgotPassword) {
             return const ForgotPasswordScreen();
           } else if (state is AuthStateNeedSignUp) {
             return const SignUpScreen();
+          } else if (state is AuthStateNoUserInformation) {
+            return const PersonalInformationScreen();
+          } else if (state is AuthStateNoFavoritesGenres) {
+            return const FavoriteGenresScreen();
           } else {
+            return Scaffold(
+              body: Center(
+                child: Text(
+                  state.toString(),
+                ),
+              ),
+            );
             return const SplashScreen();
           }
         },

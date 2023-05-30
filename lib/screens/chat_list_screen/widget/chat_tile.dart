@@ -1,6 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'package:bookvies/constant/assets.dart';
+import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:bookvies/constant/colors.dart';
@@ -12,11 +16,9 @@ import 'package:bookvies/utils/firebase_constants.dart';
 
 class ChatTile extends StatelessWidget {
   final Chat chat;
-  final Function onTap;
   const ChatTile({
     Key? key,
     required this.chat,
-    required this.onTap,
   }) : super(key: key);
   Stream<BookviesUser> getChatPartner() async* {
     String partnerId = chat.usersId.where((id) => id != currentUser!.uid).first;
@@ -39,7 +41,10 @@ class ChatTile extends StatelessWidget {
         .map((messageSnapshot) {
       if (messageSnapshot.docs.isEmpty) {
         return Message(
-            content: 'No messages yet', senderId: '', sendTime: DateTime.now());
+            content: 'No messages yet',
+            senderId: '',
+            sendTime: DateTime.now(),
+            read: true);
       }
       DocumentSnapshot messageDoc = messageSnapshot.docs.first;
       return Message.fromMap(messageDoc.data() as Map<String, dynamic>);
@@ -58,7 +63,7 @@ class ChatTile extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
-          return const Text('Error: \${snapshot.error}');
+          return Text('Error: ${snapshot.error}');
         }
         BookviesUser partner = snapshot.data!['partner'] as BookviesUser;
         Message lastMessage = snapshot.data!['lastMessage'] as Message;
@@ -76,25 +81,44 @@ class ChatTile extends StatelessWidget {
               ],
             ),
             child: ListTile(
-              onTap: onTap as void Function()?,
+              onTap: () => Navigator.pushNamed(
+                context,
+                ChatScreen.id,
+                arguments: chat,
+              ),
+              trailing: (!lastMessage.read &&
+                      lastMessage.senderId != currentUser!.uid)
+                  ? SvgPicture.asset(AppAssets.icUnreadMessage)
+                  : null,
               leading: CircleAvatar(
                 radius: 40,
                 backgroundImage: NetworkImage(partner.imageUrl),
               ),
               title: Text(
                 partner.name,
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                style: (!lastMessage.read &&
+                        lastMessage.senderId != currentUser!.uid)
+                    ? const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)
+                    : const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
               ),
-              subtitle: Expanded(
-                child: Text(
-                  subtitle,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
+              subtitle: Text(
+                subtitle,
+                maxLines: 1,
+                style: (!lastMessage.read &&
+                        lastMessage.senderId != currentUser!.uid)
+                    ? const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      )
+                    : const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.primaryTextColor,
+                      ),
               ),
             ));
       },

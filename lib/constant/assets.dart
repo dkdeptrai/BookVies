@@ -36,6 +36,12 @@ class AppAssets {
   static const String icSend = "$iconPath/ic_send.svg";
   static const String icReport = "$iconPath/ic_report.svg";
   static const String icClose = "$iconPath/ic_close.svg";
+  static const String icHamburgerMenu = "$iconPath/ic_hamburger_menu.svg";
+  static const String icGradientUser = "$iconPath/ic_gradient_user.svg";
+  static const String icLogout = "$iconPath/ic_logout.svg";
+  static const String icKey = "$iconPath/ic_key.svg";
+  static const String icImage = "$iconPath/ic_image.svg";
+  static const String icUnreadMessage = "$iconPath/ic_unread_message.svg";
   static const String icPlus = "$iconPath/ic_plus.svg";
   static const String icEdit = "$iconPath/ic_edit.svg";
   static const String icTrash = "$iconPath/ic_trash.svg";
@@ -44,6 +50,9 @@ class AppAssets {
   // images
   static const String imgForgotPassword = "$imagePath/img_forgot_password.svg";
   static const String imgEmailSent = "$imagePath/img_email_sent.svg";
+  static const String imgProfileBackground = "$imagePath/img_profile.png";
+  static const String imgGenericUser = "$imagePath/img_generic_user.png";
+  static const String imgEditProfile = "$imagePath/img_edit_profile.png";
 
   // lotties
   static const String lottieWarning = "$lottiePath/warning_sign.json";

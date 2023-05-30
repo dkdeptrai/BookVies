@@ -44,9 +44,9 @@ class _TopMoviesWidgetState extends State<TopMoviesWidget> {
     try {
       final snapshot = await moviesRef.orderBy("averageRating").limit(5).get();
 
-      snapshot.docs.forEach((element) {
+      for (var element in snapshot.docs) {
         movies.add(Movie.fromMap(element.data() as Map<String, dynamic>));
-      });
+      }
     } catch (error) {
       print("Get top movies error: ${error.toString()}");
     }
