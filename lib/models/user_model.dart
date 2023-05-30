@@ -46,10 +46,12 @@ class UserModel {
           : List<String>.from(map['favoriteGenres'].map((e) => e.toString())),
       followers: map['followers'] == null
           ? []
-          : List<String>.from(map['followers'] as List<String>),
+          : List<String>.from(
+              map['followers'].map((e) => e.toString()).toList()),
       following: map['following'] == null
           ? []
-          : List<String>.from(map['following'] as List),
+          : List<String>.from(
+              map['following'].map((e) => e.toString()).toList()),
     );
   }
 

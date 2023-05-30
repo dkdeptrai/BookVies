@@ -285,7 +285,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         .pushNamed(
                                                             ProfileScreen.id,
                                                             arguments:
-                                                                followingUser),
+                                                                followingUser
+                                                                    .id),
                                                     child: CircleAvatar(
                                                       radius: 40,
                                                       backgroundImage:

@@ -1,15 +1,37 @@
+import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/user_model.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class UserDescriptionWidget extends StatelessWidget {
+class UserDescriptionWidget extends StatefulWidget {
   final UserModel user;
   const UserDescriptionWidget({super.key, required this.user});
+
+  @override
+  State<UserDescriptionWidget> createState() => _UserDescriptionWidgetState();
+}
+
+class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
+  late UserModel _currentUserModel;
+
+  late bool _followed;
+  @override
+  void initState() {
+    super.initState();
+    final UserState userState = context.read<UserBloc>().state;
+    if (userState is UserLoaded) {
+      _currentUserModel = userState.user;
+      _followed = _currentUserModel.following.contains(widget.user.id);
+    }
+    print('initstate called $_followed');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +60,7 @@ class UserDescriptionWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      user.name,
+                      widget.user.name,
                       style: AppStyles.sectionHeaderText,
                     ),
                     const SizedBox(
@@ -47,7 +69,7 @@ class UserDescriptionWidget extends StatelessWidget {
                     SizedBox(
                       height: 60,
                       child: Text(
-                        user.description,
+                        widget.user.description,
                         textAlign: TextAlign.center,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -58,16 +80,27 @@ class UserDescriptionWidget extends StatelessWidget {
                         horizontal: 30,
                         vertical: 10,
                       ),
-                      child: user.id != currentUser!.uid
+                      child: widget.user.id != currentUser!.uid
                           ? Row(
                               children: [
                                 Expanded(
-                                  child: CustomButtonWithGradientBackground(
-                                      margin: const EdgeInsets.only(right: 15),
-                                      height: 40,
-                                      width: 247,
-                                      text: 'Follow',
-                                      onPressed: () {}),
+                                  child: _followed
+                                      ? CustomButtonWithGradientBackground(
+                                          margin:
+                                              const EdgeInsets.only(right: 15),
+                                          height: 40,
+                                          width: 247,
+                                          text: 'Unfollow',
+                                          onPressed: () => _unfollowUser(),
+                                        )
+                                      : CustomButtonWithGradientBackground(
+                                          margin:
+                                              const EdgeInsets.only(right: 15),
+                                          height: 40,
+                                          width: 247,
+                                          text: 'Follow',
+                                          onPressed: () => _followUser(),
+                                        ),
                                 ),
                                 IconButton(
                                     onPressed: () {},
@@ -88,12 +121,50 @@ class UserDescriptionWidget extends StatelessWidget {
             child: Center(
               child: CircleAvatar(
                 radius: 40,
-                backgroundImage: NetworkImage(user.imageUrl),
+                backgroundImage: NetworkImage(widget.user.imageUrl),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  _followUser() async {
+    final batch = FirebaseFirestore.instance.batch();
+    batch.update(usersRef.doc(currentUser!.uid), {
+      'following': FieldValue.arrayUnion([widget.user.id])
+    });
+    batch.update(usersRef.doc(widget.user.id), {
+      'followers': FieldValue.arrayUnion([currentUser!.uid])
+    });
+    _currentUserModel.following.add(widget.user.id);
+    widget.user.followers.add(currentUser!.uid);
+    await batch.commit();
+    if (mounted) {
+      setState(() {
+        _followed = true;
+      });
+    }
+    print('follow triggered');
+  }
+
+  _unfollowUser() async {
+    final batch = FirebaseFirestore.instance.batch();
+    batch.update(usersRef.doc(currentUser!.uid), {
+      'following': FieldValue.arrayRemove([widget.user.id])
+    });
+    batch.update(usersRef.doc(widget.user.id), {
+      'followers': FieldValue.arrayRemove([currentUser!.uid])
+    });
+    _currentUserModel.following.remove(widget.user.id);
+    widget.user.followers.remove(currentUser!.uid);
+    await batch.commit();
+    if (mounted) {
+      setState(() {
+        _followed = false;
+      });
+    }
+    print('unfollow triggered' + _followed.toString());
   }
 }
