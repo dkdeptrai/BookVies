@@ -3,7 +3,9 @@ import 'package:bookvies/common_widgets/custom_button_with_gradient_background.d
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/models/user_model.dart';
+import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +32,6 @@ class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
       _currentUserModel = userState.user;
       _followed = _currentUserModel.following.contains(widget.user.id);
     }
-    print('initstate called $_followed');
   }
 
   @override
@@ -103,7 +104,7 @@ class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
                                         ),
                                 ),
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () => _initiateChat(),
                                     icon: SvgPicture.asset(AppAssets.icSend))
                               ],
                             )
@@ -146,7 +147,6 @@ class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
         _followed = true;
       });
     }
-    print('follow triggered');
   }
 
   _unfollowUser() async {
@@ -165,6 +165,41 @@ class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
         _followed = false;
       });
     }
-    print('unfollow triggered' + _followed.toString());
+  }
+
+  Future<void> _initiateChat() async {
+    StringBuffer sb = StringBuffer();
+    if (currentUser!.uid.compareTo(widget.user.id) < 0) {
+      sb.write(currentUser!.uid);
+      sb.write(widget.user.id);
+    } else {
+      sb.write(widget.user.id);
+      sb.write(currentUser!.uid);
+    }
+    String chatId = sb.toString();
+    String chatDocId = '';
+
+    final chatDocRef = chatRef.where('id', isEqualTo: chatId);
+    final chatDocSnapshot = await chatDocRef.get();
+
+    if (chatDocSnapshot.size == 0) {
+      final newChatDoc = await chatRef.add({
+        'id': chatId,
+        'lastMessage': '',
+        'lastTime': DateTime.now(),
+        'usersId': [currentUser!.uid, widget.user.id],
+      });
+      chatDocId = newChatDoc.id;
+    } else {
+      chatDocId = chatDocSnapshot.docs[0].id;
+    }
+
+    Chat chat = Chat(
+      id: chatId,
+      usersId: [currentUser!.uid, widget.user.id],
+      lastTime: DateTime.now(),
+      docId: chatDocId,
+    );
+    Navigator.pushNamed(context, ChatScreen.id, arguments: chat);
   }
 }

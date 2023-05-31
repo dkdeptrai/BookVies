@@ -1,13 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bookvies/constant/colors.dart';
-import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/screens/chat_screen/widgets/chat_messages_widget.dart';
@@ -45,7 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       backgroundColor: AppColors.primaryBackgroundColor,
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: size.height,
           child: Column(
             children: [

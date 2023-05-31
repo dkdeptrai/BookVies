@@ -41,10 +41,7 @@ class ChatTile extends StatelessWidget {
         .map((messageSnapshot) {
       if (messageSnapshot.docs.isEmpty) {
         return Message(
-            content: 'No messages yet',
-            senderId: '',
-            sendTime: DateTime.now(),
-            read: true);
+            content: '', senderId: '', sendTime: DateTime.now(), read: true);
       }
       DocumentSnapshot messageDoc = messageSnapshot.docs.first;
       return Message.fromMap(messageDoc.data() as Map<String, dynamic>);
@@ -67,6 +64,9 @@ class ChatTile extends StatelessWidget {
         }
         BookviesUser partner = snapshot.data!['partner'] as BookviesUser;
         Message lastMessage = snapshot.data!['lastMessage'] as Message;
+        if (lastMessage.content == '') {
+          return Container();
+        }
         String subtitle = lastMessage.senderId == currentUser!.uid
             ? "You: ${lastMessage.content}"
             : "${partner.name}: ${lastMessage.content}";
