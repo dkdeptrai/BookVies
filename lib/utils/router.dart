@@ -14,6 +14,7 @@ import 'package:bookvies/screens/main_screen/main_screen.dart';
 import 'package:bookvies/screens/profile_screen/profile_screen.dart';
 import 'package:bookvies/screens/recommend_movies_screen/recommend_movies_screen.dart';
 import 'package:bookvies/screens/search_movies_screen/search_movies_screen.dart';
+import 'package:bookvies/screens/search_user_screen/search_user_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:bookvies/screens/explore_books_screen/explore_books_screen.dart';
@@ -42,6 +43,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
       case (MainScreen.id):
         return MaterialPageRoute(builder: (_) => const MainScreen());
+      case (SearchUserScreen.id):
+        return MaterialPageRoute(builder: (_) => const SearchUserScreen());
       case (SearchMoviesScreen.id):
         return MaterialPageRoute(builder: (_) => const SearchMoviesScreen());
       case (RecommendMoviesScreen.id):

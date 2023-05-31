@@ -133,7 +133,14 @@ class _DescriptionReviewItemWidgetState
                             }
                           },
                           icon: SvgPicture.asset(AppAssets.icComment)),
-                      const Text("Comment", style: AppStyles.smallSemiBoldText),
+                      GestureDetector(
+                          onTap: () {
+                            if (!widget.hasComments) {
+                              _showCommentDialog(context);
+                            }
+                          },
+                          child: const Text("Comment",
+                              style: AppStyles.smallSemiBoldText)),
                     ],
                   );
                 }

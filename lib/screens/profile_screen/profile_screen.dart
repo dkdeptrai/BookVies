@@ -4,6 +4,8 @@ import 'dart:typed_data';
 
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
+import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
+import 'package:bookvies/common_widgets/search_bar.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
@@ -13,10 +15,13 @@ import 'package:bookvies/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:bookvies/screens/profile_screen/widgets/review_overview_widget.dart';
 import 'package:bookvies/screens/profile_screen/widgets/user_description_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:bookvies/utils/global_methods.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -185,6 +190,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              (CustomSearchBar(
+                                  hint: 'Search for other users',
+                                  noBackButton: true,
+                                  onSearch: () {})),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -311,6 +320,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               Container(
                                 margin: const EdgeInsets.only(
+                                  top: 10,
                                   left: 20,
                                   bottom: 10,
                                 ),

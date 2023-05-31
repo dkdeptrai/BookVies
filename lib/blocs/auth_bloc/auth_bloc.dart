@@ -7,6 +7,7 @@ import 'package:bookvies/services/authentication/authentication_firebase_provide
 import 'package:bookvies/services/authentication/authentication_provider.dart';
 import 'package:bookvies/services/authentication/authentication_user.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:bookvies/utils/global_methods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +140,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventForgotPasswordSent>((event, emit) async {
       try {
         await provider.sendPasswordResetEmail(email: event.email);
-        print(event.email);
         // ignore: use_build_context_synchronously
         await showDialog(
           context: event.context,
@@ -180,7 +180,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .doc(user.uid)
                 .update({
               'imageUrl': imageUrl,
-              'name': event.name,
+              'name': GlobalMethods().generateKeywords(event.name),
               'description': event.description,
             });
           } else {
@@ -190,7 +190,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .doc(user.uid)
                 .set({
               'imageUrl': imageUrl,
-              'name': event.name,
+              'name': GlobalMethods().generateKeywords(event.name),
               'description': event.description,
               'uid': user.uid,
               'favoriteGenres': [],
@@ -228,7 +228,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .collection('users')
             .doc(user.uid)
             .update({
-          'name': event.name,
+          'name': GlobalMethods().generateKeywords(event.name),
           'description': event.description,
         });
       }

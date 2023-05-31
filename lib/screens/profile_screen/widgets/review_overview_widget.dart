@@ -2,6 +2,7 @@ import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
+import 'package:bookvies/screens/book_description_screen/widgets/description_review_item_widget.dart';
 import 'package:bookvies/utils/global_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,7 +46,7 @@ class _ReviewOverviewWidgetState extends State<ReviewOverviewWidget> {
             Flexible(
               // Wrap the Column with Flexible
               child: GestureDetector(
-                onTap: () => _navigateToDescriptionScreen(),
+                onTap: () => _showCommentDialog(context, widget.review),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -125,5 +126,26 @@ class _ReviewOverviewWidgetState extends State<ReviewOverviewWidget> {
       mediaId: widget.review.mediaId,
       mediaType: widget.review.mediaType,
     );
+  }
+
+  void _showCommentDialog(BuildContext context, Review review) {
+    showDialog(
+        context: context,
+        builder: (context) => Dialog(
+              insetPadding: const EdgeInsets.all(20),
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  DescriptionReviewItemWidget(
+                    review: review,
+                    hasComments: true,
+                  )
+                ]),
+              ),
+            ));
   }
 }

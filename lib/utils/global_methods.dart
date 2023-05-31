@@ -11,4 +11,16 @@ class GlobalMethods {
         arguments:
             DescriptionScreenArguments(mediaId: mediaId, mediaType: mediaType));
   }
+
+  List<String> generateKeywords(String word) {
+    List<String> keywords = [];
+    String prevKey = '';
+    List<String> charArray = word.toLowerCase().split('');
+    for (var char in charArray) {
+      prevKey = prevKey + char;
+      keywords.add(prevKey);
+    }
+
+    return keywords;
+  }
 }

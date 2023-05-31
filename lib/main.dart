@@ -12,12 +12,15 @@ import 'package:bookvies/screens/favorite_genres_screen/favorite_genres_screen.d
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
 import 'package:bookvies/screens/personal_information_screen/personal_information_screen.dart';
+import 'package:bookvies/screens/search_user_screen/search_user_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/screens/splash_screen/splash_screen.dart';
 import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
+import 'package:bookvies/utils/global_methods.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:bookvies/firebase_options.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,6 +65,7 @@ class MyApp extends StatelessWidget {
 
           BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
+          return SearchUserScreen();
           // return ProfileScreen(userId: currentUser!.uid);
           if (state is AuthStateLoggedIn) {
             context.read<UserBloc>().add(const LoadUser());
