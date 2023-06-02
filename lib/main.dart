@@ -53,8 +53,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Start");
-    // context.read<AuthBloc>().add(const AuthEventInitialize());
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.onGenerateRoute,
@@ -65,22 +63,17 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.red),
       home: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          print("state in listener: $state");
           if (state is AuthStateLoggedIn) {
             context.read<UserBloc>().add(const LoadUser());
-            print("Loading user");
           }
           if (state is AuthStateLoggedOut) {
             firebaseAuth.signOut();
           }
         },
         builder: (context, state) {
-          print("Auth state: $state");
-          // return ProfileScreen(userId: currentUser!.uid);
           if (state is AuthStateLoggedIn) {
             return BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
-                print("User state: $state");
                 if (state is UserLoaded) {
                   if (state.user.type == UserType.admin.name) {
                     return const AdminMainScreen();
@@ -111,13 +104,6 @@ class MyApp extends StatelessWidget {
           } else if (state is AuthStateNoFavoritesGenres) {
             return const FavoriteGenresScreen();
           } else {
-            // return Scaffold(
-            //   body: Center(
-            //     child: Text(
-            //       state.toString(),
-            //     ),
-            //   ),
-            // );
             return const SplashScreen();
           }
         },

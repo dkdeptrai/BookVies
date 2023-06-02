@@ -28,7 +28,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
   String privacyCurrentValue = "";
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  double rating = 0;
+  double rating = 5;
 
   @override
   void initState() {
@@ -114,6 +114,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                     ),
                     const SizedBox(width: 20),
                     RatingBar.builder(
+                        initialRating: 5,
                         itemSize: 30,
                         itemBuilder: (_, index) {
                           return SvgPicture.asset(AppAssets.icStar, height: 30);

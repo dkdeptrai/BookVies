@@ -2,6 +2,7 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/extensions/double_extensions.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/books_screen/widgets/rating_badge.dart';
 import 'package:bookvies/utils/global_methods.dart';
@@ -46,7 +47,7 @@ class ExploreBookItemWidget extends StatelessWidget {
                             height: 116,
                             fit: BoxFit.cover),
                         RatingBadge(
-                          rating: book.averageRating,
+                          rating: book.averageRating.toFixed(1),
                           borderColor: AppColors.greyTextColor,
                         )
                       ],

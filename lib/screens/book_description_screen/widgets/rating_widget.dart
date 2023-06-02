@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RatingWidget extends StatelessWidget {
-  final double rating;
+  final String rating;
   const RatingWidget({super.key, required this.rating});
 
   @override

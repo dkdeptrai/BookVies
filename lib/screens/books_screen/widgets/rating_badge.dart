@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RatingBadge extends StatelessWidget {
-  final double rating;
+  final String rating;
   final Color? borderColor;
   final EdgeInsets? padding;
   const RatingBadge(
