@@ -70,7 +70,7 @@ class FirebaseAuthProvider implements AuthProvider {
         email: email,
         password: password,
       );
-      final user = currentUser;
+      final user = AuthUser.fromFirebase(FirebaseAuth.instance.currentUser!);
       if (user != null) {
         return user;
       } else {

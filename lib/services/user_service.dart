@@ -4,7 +4,7 @@ import 'package:bookvies/utils/firebase_constants.dart';
 class UserService {
   Future<UserModel?> loadUserData() async {
     try {
-      final String uid = currentUser!.uid;
+      final String uid = firebaseAuth.currentUser!.uid;
 
       final snapshot = await usersRef.doc(uid).get();
 
