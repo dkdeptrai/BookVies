@@ -56,6 +56,7 @@ class AdminNewestBooksBloc
   _onUpdateBook(event, emit) async {
     try {
       BookService().updateBook(book: event.book);
+
       final int index = state.newestBooks
           .indexWhere((element) => element.id == event.book.id);
       final Book? bookAfterUpdateOnFb =

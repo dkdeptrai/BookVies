@@ -1,11 +1,11 @@
 import 'package:bookvies/blocs/admin_newest_books_bloc/admin_newest_books_bloc.dart';
 import 'package:bookvies/common_widgets/search_bar.dart';
+import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/extensions/string_extensions.dart';
 import 'package:bookvies/models/book_model.dart';
-import 'package:bookvies/screens/admin/admin_book_management_screen/newest_book_widget.dart';
+import 'package:bookvies/screens/admin/admin_book_management_screen/admin_media_widget.dart';
 import 'package:bookvies/screens/admin/edit_book_screen/edit_book_screen.dart';
 import 'package:bookvies/services/book_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,8 +52,9 @@ class _AdminSearchBookScreenState extends State<AdminSearchBookScreen> {
               shrinkWrap: true,
               itemBuilder: (_, index) {
                 final Book book = searchResult[index];
-                return AdminNewestBookWidget(
-                  book: book,
+                return AdminMediaWidget(
+                  media: book,
+                  mediaType: MediaType.book.name,
                   onEdit: () => _navigateToEditBookScreen(book: book),
                   onDelete: () => _deleteBook(book: book),
                 );

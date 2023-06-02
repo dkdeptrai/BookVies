@@ -3,11 +3,12 @@ import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/common_widgets/gradient_text.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
+import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/admin/add_book_screen/admin_add_book_screen.dart';
-import 'package:bookvies/screens/admin/admin_book_management_screen/newest_book_widget.dart';
+import 'package:bookvies/screens/admin/admin_book_management_screen/admin_media_widget.dart';
 import 'package:bookvies/screens/admin/admin_search_book_screen/admin_search_book_screen.dart';
 import 'package:bookvies/screens/admin/edit_book_screen/edit_book_screen.dart';
 import 'package:flutter/material.dart';
@@ -102,8 +103,9 @@ class _AdminBookManagementScreenState extends State<AdminBookManagementScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (_, index) {
                     final book = state.newestBooks[index];
-                    return AdminNewestBookWidget(
-                      book: book,
+                    return AdminMediaWidget(
+                      media: book,
+                      mediaType: MediaType.book.name,
                       onEdit: () => _navigateToEditBookScreen(book: book),
                       onDelete: () => _deleteBook(bookId: book.id),
                     );

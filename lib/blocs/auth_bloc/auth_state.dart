@@ -19,6 +19,9 @@ class AuthStateLoggedIn extends AuthState {
   const AuthStateLoggedIn(
     this.user,
   );
+
+  @override
+  List<Object?> get props => [user];
 }
 
 class AuthStateLoggedOut extends AuthState with EquatableMixin {

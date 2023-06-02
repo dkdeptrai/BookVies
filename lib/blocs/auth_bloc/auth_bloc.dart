@@ -35,27 +35,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<AuthEventLogin>(
       (event, emit) async {
-        emit(
-          const AuthStateLoggedOut(
-            exception: null,
-            isLoading: true,
-          ),
-        );
+        // emit(
+        //   const AuthStateLoggedOut(
+        //     exception: null,
+        //     isLoading: true,
+        //   ),
+        // );
+
         try {
           final user = await provider.logIn(
               email: event.email, password: event.password);
-          emit(
-            const AuthStateLoggedOut(
-              exception: null,
-              isLoading: false,
-            ),
-          );
-          DocumentSnapshot? userData = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .get();
+          // emit(
+          //   const AuthStateLoggedOut(
+          //     exception: null,
+          //     isLoading: false,
+          //   ),
+          // );
+          print(
+              "provider called, current uid: ${firebaseAuth.currentUser!.uid}");
+          DocumentSnapshot? userData =
+              await usersRef.doc(currentUser!.uid).get();
           if (userData.exists) {
             emit(AuthStateLoggedIn(user));
+            print("Data exists");
           } else {
             emit(const AuthStateNoUserInformation());
           }
@@ -88,12 +90,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     });
+
     on<AuthEventLogOut>((event, emit) async {
       try {
+        emit(const AuthStateLoggedOut(exception: null, isLoading: false));
+
         if (provider.currentUser != null) {
           await provider.logOut();
+          firebaseAuth.signOut();
         }
-        emit(const AuthStateLoggedOut(exception: null, isLoading: false));
       } on Exception catch (e) {
         emit(
           AuthStateLoggedOut(
@@ -103,6 +108,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     });
+
     on<AuthEventSignUp>((event, emit) async {
       try {
         if (event.password != event.confirmPassword) {

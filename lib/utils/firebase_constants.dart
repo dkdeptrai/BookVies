@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -17,3 +18,5 @@ final CollectionReference readingGoalsRef =
     usersRef.doc(currentUser!.uid).collection('readingGoals');
 final CollectionReference watchingGoalsRef =
     usersRef.doc(currentUser!.uid).collection('watchingGoals');
+
+final storageRef = FirebaseStorage.instance.ref();
