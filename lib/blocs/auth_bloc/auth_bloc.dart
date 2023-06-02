@@ -9,7 +9,6 @@ import 'package:bookvies/services/authentication/authentication_user.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {

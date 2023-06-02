@@ -7,6 +7,7 @@ import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/comment_widget.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/report_dialog.dart';
+import 'package:bookvies/screens/profile_screen/profile_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,9 +48,14 @@ class _DescriptionReviewItemWidgetState
           children: [
             Row(
               children: [
-                CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(widget.review.userAvatarUrl)),
+                GestureDetector(
+                  onTap: () => Navigator.of(context).pushNamed(ProfileScreen.id,
+                      arguments: widget.review.userId),
+                  child: CircleAvatar(
+                      radius: 20,
+                      backgroundImage:
+                          NetworkImage(widget.review.userAvatarUrl)),
+                ),
                 const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
