@@ -204,7 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Already had an accout? ",
+                          Text("Already had an account? ",
                               style: AppStyles.hintTextStyle),
                           GestureDetector(
                             onTap: () {

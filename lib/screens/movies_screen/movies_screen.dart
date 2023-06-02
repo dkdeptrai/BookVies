@@ -1,5 +1,4 @@
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
-import 'package:bookvies/common_widgets/section_header.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/screens/movies_screen/widgets/recommend_movies_widget.dart';

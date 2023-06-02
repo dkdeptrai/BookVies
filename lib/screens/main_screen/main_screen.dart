@@ -2,13 +2,11 @@ import 'package:bookvies/blocs/nav_bar_bloc/nav_bar_bloc.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/screens/books_screen/book_screen.dart';
-import 'package:bookvies/screens/chat_screen/chat_screen.dart';
 import 'package:bookvies/screens/chat_list_screen/chat_list_screen.dart';
-import 'package:bookvies/screens/library_screen/library_screen.dart';
 import 'package:bookvies/screens/library_screen/library_screen.dart';
 import 'package:bookvies/screens/movies_screen/movies_screen.dart';
 import 'package:bookvies/screens/profile_screen/profile_screen.dart';
-import 'package:bookvies/screens/profile_screen/profile_screen.dart';
+import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,7 +27,9 @@ class _MainScreenState extends State<MainScreen> {
     const MoviesScreen(),
     const LibraryScreen(),
     const ChatListScreen(),
-    const ProfileScreen()
+    ProfileScreen(
+      userId: currentUser!.uid,
+    )
   ];
 
   final List<String> titles = ["Books", "Movies", "Library", "Chat", "Profile"];
@@ -41,6 +41,12 @@ class _MainScreenState extends State<MainScreen> {
     AppAssets.icMessage,
     AppAssets.icProfile
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<NavBarBloc>().add(UpdateIndex(newIndex: 0));
+  }
 
   @override
   Widget build(BuildContext context) {

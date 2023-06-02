@@ -1,6 +1,7 @@
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
 import 'package:bookvies/services/authentication/authentication_provider.dart';
 import 'package:bookvies/services/authentication/authentication_user.dart';
+import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     show
@@ -66,10 +67,11 @@ class FirebaseAuthProvider implements AuthProvider {
   Future<AuthUser> logIn(
       {required String email, required String password}) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      print("Here: ${firebaseAuth.currentUser!.uid}");
       final user = currentUser;
       if (user != null) {
         return user;

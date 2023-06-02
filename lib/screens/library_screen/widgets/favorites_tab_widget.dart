@@ -16,7 +16,7 @@ class FavoritesTabWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
-        SearchBar(
+        CustomSearchBar(
             hint: "Search",
             onSearch: () {},
             noBackButton: true,

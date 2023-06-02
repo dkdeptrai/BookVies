@@ -19,6 +19,9 @@ class AuthStateLoggedIn extends AuthState {
   const AuthStateLoggedIn(
     this.user,
   );
+
+  @override
+  List<Object?> get props => [user];
 }
 
 class AuthStateLoggedOut extends AuthState with EquatableMixin {
@@ -84,4 +87,8 @@ class AuthStateUserInformation extends AuthState {
     this.name,
     this.description,
   );
+}
+
+class AuthStateNoFavoritesGenres extends AuthState {
+  const AuthStateNoFavoritesGenres();
 }

@@ -1,6 +1,7 @@
 import 'package:bookvies/common_widgets/common_dialog.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 
 void showSnackBar(
@@ -14,8 +15,8 @@ void showSnackBar(
   )));
 }
 
-void showWarningDialog(
-    {required BuildContext context, required String message}) {
+Future<void> showWarningDialog(
+    {required BuildContext context, required String message}) async {
   showDialog(
       context: context,
       builder: (context) {
@@ -24,8 +25,9 @@ void showWarningDialog(
       });
 }
 
-void showErrorDialog({required BuildContext context, required String message}) {
-  showDialog(
+Future<void> showErrorDialog(
+    {required BuildContext context, required String message}) async {
+  await showDialog(
       context: context,
       builder: (context) {
         return CommonDialog(
@@ -33,7 +35,7 @@ void showErrorDialog({required BuildContext context, required String message}) {
       });
 }
 
-void showSuccessDialog(
+Future<void> showSuccessDialog(
     {required BuildContext context, required String message}) async {
   await showDialog(
       context: context,
@@ -69,4 +71,12 @@ String durationFromMinutes(int minutes) {
   final remainingMinutes = minutes % 60;
 
   return "${hours}h ${remainingMinutes}min";
+}
+
+Future<String?> pickImage({required ImageSource source}) async {
+  XFile? image = await ImagePicker().pickImage(source: source);
+  if (image != null) {
+    return image.path;
+  }
+  return null;
 }

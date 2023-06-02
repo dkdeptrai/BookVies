@@ -1,3 +1,5 @@
+import 'package:bookvies/blocs/admin_movies_bloc/admin_movies_bloc.dart';
+import 'package:bookvies/blocs/admin_newest_books_bloc/admin_newest_books_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
@@ -5,11 +7,16 @@ import 'package:bookvies/blocs/description_review_list_bloc/description_review_l
 import 'package:bookvies/blocs/reading_goal_bloc/reading_goal_bloc.dart';
 import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:bookvies/blocs/watching_goal_bloc/watching_goal_bloc.dart';
+import 'package:bookvies/constant/constants.dart';
+import 'package:bookvies/screens/admin/admin_main_screen.dart';
+import 'package:bookvies/screens/favorite_genres_screen/favorite_genres_screen.dart';
 import 'package:bookvies/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:bookvies/screens/main_screen/main_screen.dart';
+import 'package:bookvies/screens/personal_information_screen/personal_information_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/screens/splash_screen/splash_screen.dart';
 import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
+import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:bookvies/firebase_options.dart';
@@ -28,9 +35,13 @@ void main() async {
       BlocProvider(create: (_) => UserBloc()),
       BlocProvider(create: (_) => NavBarBloc()),
       BlocProvider(create: (_) => DescriptionReviewListBloc()),
-      BlocProvider(create: (_) => AuthBloc(FirebaseAuthProvider())),
+      BlocProvider(
+          create: (_) => AuthBloc(FirebaseAuthProvider())
+            ..add(const AuthEventInitialize())),
       BlocProvider(create: (_) => ReadingGoalBloc()),
       BlocProvider(create: (_) => WatchingGoalBloc()),
+      BlocProvider(create: (_) => AdminNewestBooksBloc()),
+      BlocProvider(create: (_) => AdminMoviesBloc()),
     ],
     child: MyApp(appRouter: AppRouter()),
   ));
@@ -42,8 +53,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<AuthBloc>().add(const AuthEventInitialize());
-
+    print("Start");
+    // context.read<AuthBloc>().add(const AuthEventInitialize());
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.onGenerateRoute,
@@ -52,17 +63,30 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "Poppins",
           primaryColor: Colors.red),
-      home:
-          // MainScreen()
-
-          BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
+      home: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          print("state in listener: $state");
           if (state is AuthStateLoggedIn) {
             context.read<UserBloc>().add(const LoadUser());
+            print("Loading user");
+          }
+          if (state is AuthStateLoggedOut) {
+            firebaseAuth.signOut();
+          }
+        },
+        builder: (context, state) {
+          print("Auth state: $state");
+          // return ProfileScreen(userId: currentUser!.uid);
+          if (state is AuthStateLoggedIn) {
             return BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
+                print("User state: $state");
                 if (state is UserLoaded) {
-                  return const MainScreen();
+                  if (state.user.type == UserType.admin.name) {
+                    return const AdminMainScreen();
+                  } else {
+                    return const MainScreen();
+                  }
                 } else if (state is UserLoading) {
                   return const SplashScreen();
                 } else if (state is UserLoadFailed) {
@@ -76,11 +100,24 @@ class MyApp extends StatelessWidget {
             );
           } else if (state is AuthStateLoggedOut) {
             return const LoginScreen();
+          } else if (state is AuthStateSignUpFailure) {
+            return const SignUpScreen();
           } else if (state is AuthStateForgotPassword) {
             return const ForgotPasswordScreen();
           } else if (state is AuthStateNeedSignUp) {
             return const SignUpScreen();
+          } else if (state is AuthStateNoUserInformation) {
+            return const PersonalInformationScreen();
+          } else if (state is AuthStateNoFavoritesGenres) {
+            return const FavoriteGenresScreen();
           } else {
+            // return Scaffold(
+            //   body: Center(
+            //     child: Text(
+            //       state.toString(),
+            //     ),
+            //   ),
+            // );
             return const SplashScreen();
           }
         },

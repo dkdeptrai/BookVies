@@ -59,3 +59,34 @@ class AuthEventAddUserInformation extends AuthEvent {
     required this.description,
   });
 }
+
+class AuthEventEditUserAvatar extends AuthEvent {
+  final File image;
+
+  const AuthEventEditUserAvatar(this.image);
+}
+
+class AuthEventEditUserInformation extends AuthEvent {
+  final String name;
+  final String description;
+
+  const AuthEventEditUserInformation({
+    required this.name,
+    required this.description,
+  });
+}
+
+class AuthEventAddUserFavoriteGenres extends AuthEvent {
+  final List<String> genres;
+
+  const AuthEventAddUserFavoriteGenres(this.genres);
+}
+
+class AuthEventChangePassword extends AuthEvent {
+  final String oldPassword;
+  final String newPassword;
+  final String confirmNewPassword;
+
+  const AuthEventChangePassword(
+      this.oldPassword, this.newPassword, this.confirmNewPassword);
+}
