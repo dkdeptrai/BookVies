@@ -1,23 +1,23 @@
 import 'package:bookvies/constant/assets.dart';
-import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:bookvies/models/book_model.dart';
+import 'package:bookvies/models/media_model.dart';
 import 'package:bookvies/utils/global_methods.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AdminNewestBookWidget extends StatelessWidget {
+class AdminMediaWidget extends StatelessWidget {
+  final Media media;
+  final String mediaType;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
-  const AdminNewestBookWidget(
+  const AdminMediaWidget(
       {super.key,
-      required this.book,
+      required this.media,
+      required this.mediaType,
       required this.onEdit,
       required this.onDelete});
-
-  final Book book;
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +25,20 @@ class AdminNewestBookWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () => GlobalMethods().navigateToDescriptionScreen(
-          context: context, mediaId: book.id, mediaType: MediaType.book.name),
+          context: context, mediaId: media.id, mediaType: mediaType),
       child: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: AppDimensions.defaultPadding),
         child: Row(
           children: [
             CachedNetworkImage(
-                imageUrl: book.image,
+                imageUrl: media.image,
                 errorWidget: (_, url, error) => const Icon(Icons.error),
                 width: size.width * 0.18),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                book.name,
+                media.name,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppStyles.adminHeader,

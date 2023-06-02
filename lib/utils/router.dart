@@ -1,9 +1,13 @@
 import 'package:bookvies/models/book_model.dart';
+import 'package:bookvies/models/movie_model.dart';
 import 'package:bookvies/screens/admin/add_book_screen/admin_add_book_screen.dart';
+import 'package:bookvies/screens/admin/admin_add_movie_screen/admin_add_movie_screen.dart';
 import 'package:bookvies/screens/admin/admin_search_book_screen/admin_search_book_screen.dart';
+import 'package:bookvies/screens/admin/admin_search_movie_screen.dart';
 import 'package:bookvies/screens/admin/edit_book_screen/edit_book_screen.dart';
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/models/user_model.dart';
+import 'package:bookvies/screens/admin/edit_movie_screen/edit_movie_screen.dart';
 import 'package:bookvies/screens/book_description_screen/description_screen.dart';
 import 'package:bookvies/models/media_model.dart';
 import 'package:bookvies/screens/chat_screen/chat_screen.dart';
@@ -87,6 +91,14 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const AdminSearchBookScreen());
       case (AdminAddBookScreen.id):
         return MaterialPageRoute(builder: (_) => const AdminAddBookScreen());
+      case (AdminAddMovieScreen.id):
+        return MaterialPageRoute(builder: (_) => const AdminAddMovieScreen());
+      case (AdminSearchMovieScreen.id):
+        return MaterialPageRoute(
+            builder: (_) => const AdminSearchMovieScreen());
+      case (EditMovieScreen.id):
+        final args = routeSettings.arguments as Movie;
+        return MaterialPageRoute(builder: (_) => EditMovieScreen(movie: args));
 
       default:
         return MaterialPageRoute(

@@ -1,6 +1,7 @@
 import 'package:bookvies/common_widgets/common_dialog.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 
 void showSnackBar(
@@ -70,4 +71,12 @@ String durationFromMinutes(int minutes) {
   final remainingMinutes = minutes % 60;
 
   return "${hours}h ${remainingMinutes}min";
+}
+
+Future<String?> pickImage({required ImageSource source}) async {
+  XFile? image = await ImagePicker().pickImage(source: source);
+  if (image != null) {
+    return image.path;
+  }
+  return null;
 }

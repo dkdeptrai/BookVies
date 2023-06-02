@@ -1,11 +1,16 @@
+import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
+import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
+import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/screens/admin/admin_analytics_screen/widgets/register_chart_widget.dart';
+import 'package:bookvies/screens/login_screen/login_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AnalyticsScreen extends StatelessWidget {
   const AnalyticsScreen({super.key});
@@ -49,7 +54,11 @@ class AnalyticsScreen extends StatelessWidget {
                                       fontSize: 12,
                                       color: AppColors.greyTextColor))
                             ],
-                          )
+                          ),
+                          const Spacer(),
+                          IconButton(
+                              onPressed: () => _onLogOut(context: context),
+                              icon: SvgPicture.asset(AppAssets.icLogout))
                         ],
                       );
                     }
@@ -108,5 +117,9 @@ class AnalyticsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onLogOut({required BuildContext context}) {
+    context.read<AuthBloc>().add(const AuthEventLogOut());
   }
 }

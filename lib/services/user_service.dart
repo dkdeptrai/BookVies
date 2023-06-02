@@ -5,6 +5,10 @@ class UserService {
   Future<UserModel?> loadUserData() async {
     try {
       final String uid = firebaseAuth.currentUser!.uid;
+<<<<<<< HEAD
+=======
+      print("Uid: $uid");
+>>>>>>> c5aa9b67c4a782b7195c2dda096bd546bfaf6062
 
       final snapshot = await usersRef.doc(uid).get();
 

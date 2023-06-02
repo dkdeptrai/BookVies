@@ -1,3 +1,4 @@
+import 'package:bookvies/blocs/admin_movies_bloc/admin_movies_bloc.dart';
 import 'package:bookvies/blocs/admin_newest_books_bloc/admin_newest_books_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
@@ -15,6 +16,7 @@ import 'package:bookvies/screens/personal_information_screen/personal_informatio
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/screens/splash_screen/splash_screen.dart';
 import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
+import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:bookvies/firebase_options.dart';
@@ -33,10 +35,13 @@ void main() async {
       BlocProvider(create: (_) => UserBloc()),
       BlocProvider(create: (_) => NavBarBloc()),
       BlocProvider(create: (_) => DescriptionReviewListBloc()),
-      BlocProvider(create: (_) => AuthBloc(FirebaseAuthProvider())),
+      BlocProvider(
+          create: (_) => AuthBloc(FirebaseAuthProvider())
+            ..add(const AuthEventInitialize())),
       BlocProvider(create: (_) => ReadingGoalBloc()),
       BlocProvider(create: (_) => WatchingGoalBloc()),
       BlocProvider(create: (_) => AdminNewestBooksBloc()),
+      BlocProvider(create: (_) => AdminMoviesBloc()),
     ],
     child: MyApp(appRouter: AppRouter()),
   ));
@@ -48,7 +53,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<AuthBloc>().add(const AuthEventInitialize());
+    print("Start");
+    // context.read<AuthBloc>().add(const AuthEventInitialize());
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.onGenerateRoute,
@@ -57,16 +63,24 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "Poppins",
           primaryColor: Colors.red),
-      home:
-          // MainScreen()
-
-          BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          // return ProfileScreen(userId: currentUser!.uid);
+      home: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          print("state in listener: $state");
           if (state is AuthStateLoggedIn) {
             context.read<UserBloc>().add(const LoadUser());
+            print("Loading user");
+          }
+          if (state is AuthStateLoggedOut) {
+            firebaseAuth.signOut();
+          }
+        },
+        builder: (context, state) {
+          print("Auth state: $state");
+          // return ProfileScreen(userId: currentUser!.uid);
+          if (state is AuthStateLoggedIn) {
             return BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
+                print("User state: $state");
                 if (state is UserLoaded) {
                   if (state.user.type == UserType.admin.name) {
                     return const AdminMainScreen();
@@ -97,13 +111,13 @@ class MyApp extends StatelessWidget {
           } else if (state is AuthStateNoFavoritesGenres) {
             return const FavoriteGenresScreen();
           } else {
-            return Scaffold(
-              body: Center(
-                child: Text(
-                  state.toString(),
-                ),
-              ),
-            );
+            // return Scaffold(
+            //   body: Center(
+            //     child: Text(
+            //       state.toString(),
+            //     ),
+            //   ),
+            // );
             return const SplashScreen();
           }
         },
