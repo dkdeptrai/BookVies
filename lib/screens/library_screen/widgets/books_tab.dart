@@ -27,13 +27,14 @@ class _BookTabState extends State<BookTab> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
-        CustomSearchBar(
-          hint: "Book title, author,...",
-          onSearch: () {},
-          noBackButton: true,
-          margin: const EdgeInsets.only(
-              left: AppDimensions.defaultPadding, top: 25),
-        ),
+        // CustomSearchBar(
+        //   hint: "Book title, author,...",
+        //   onSearch: () {},
+        //   enabled: false,
+        //   noBackButton: true,
+        //   margin: const EdgeInsets.only(
+        //       left: AppDimensions.defaultPadding, top: 25),
+        // ),
 
         // Currently added book
         const CurrentlyAddedBookWidget(),

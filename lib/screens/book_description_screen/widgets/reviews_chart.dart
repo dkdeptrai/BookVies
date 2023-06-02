@@ -2,6 +2,7 @@ import 'package:bookvies/blocs/description_review_list_bloc/description_review_l
 import 'package:bookvies/common_widgets/shimmer_loading_widget.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/extensions/double_extensions.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/chart_detail_item_widget.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -60,7 +61,8 @@ class ReviewsChartWidget extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text("$averageRating (${reviews.length} Reviews)",
+                          Text(
+                              "${averageRating.toFixed(1)} (${reviews.length} Reviews)",
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w500)),
                           // Text(" (${reviews.length} Reviews)")

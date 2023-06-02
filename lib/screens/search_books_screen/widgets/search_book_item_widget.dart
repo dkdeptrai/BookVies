@@ -3,6 +3,7 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/extensions/double_extensions.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/book_description_screen/description_screen.dart';
 import 'package:bookvies/utils/router.dart';
@@ -57,7 +58,7 @@ class SearchBookItemWidget extends StatelessWidget {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  Text("Rating: ${book.averageRating}",
+                  Text("Rating: ${book.averageRating.toFixed(1)}",
                       style: AppStyles.searchBookRatingText),
                   SvgPicture.asset(AppAssets.icRatingStar)
                 ],

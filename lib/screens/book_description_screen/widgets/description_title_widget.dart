@@ -1,5 +1,6 @@
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/extensions/double_extensions.dart';
 import 'package:bookvies/models/media_model.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/rating_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -49,7 +50,7 @@ class DescriptionTitleWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   RatingWidget(
-                    rating: media.averageRating,
+                    rating: media.averageRating.toFixed(1),
                   ),
                   const SizedBox(height: 16),
                   Text("${media.numberReviews} Reviews"),
