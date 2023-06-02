@@ -3,11 +3,16 @@ import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/models/review_model.dart';
+import 'package:bookvies/services/report_service.dart';
+import 'package:bookvies/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ReportDialog extends StatefulWidget {
-  const ReportDialog({super.key});
+  final Review review;
+
+  const ReportDialog({super.key, required this.review});
 
   @override
   State<ReportDialog> createState() => _ReportDialogState();
@@ -22,6 +27,14 @@ class _ReportDialogState extends State<ReportDialog> {
     "Others"
   ];
   int selectedReportIndex = 0;
+  final TextEditingController _reportContentController =
+      TextEditingController();
+
+  @override
+  void dispose() {
+    _reportContentController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +91,7 @@ class _ReportDialogState extends State<ReportDialog> {
             ),
             const SizedBox(height: 15),
             TextFormField(
+                controller: _reportContentController,
                 maxLines: 5,
                 decoration: InputDecoration(
                   fillColor: AppColors.secondaryColor,
@@ -104,11 +118,21 @@ class _ReportDialogState extends State<ReportDialog> {
                   gradient: AppColors.secondaryGradient,
                   height: 50,
                   text: "Report",
-                  onPressed: () {
-                    // TODO: Add report to fb
-                  }),
+                  onPressed: _onAddReport),
             )
           ],
         ));
+  }
+
+  _onAddReport() async {
+    await ReportService().addReport(
+        context: context,
+        review: widget.review,
+        reportTitle: reportTitles[selectedReportIndex],
+        reportContent: _reportContentController.text);
+
+    if (!mounted) return;
+    showSnackBar(context: context, message: "Reported successfully");
+    Navigator.pop(context);
   }
 }

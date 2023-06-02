@@ -258,7 +258,7 @@ class _DescriptionReviewItemWidgetState
               borderRadius: BorderRadius.circular(20),
             ),
             child: SingleChildScrollView(
-              child: Column(children: const [ReportDialog()]),
+              child: Column(children: [ReportDialog(review: widget.review)]),
             ),
           );
         });
