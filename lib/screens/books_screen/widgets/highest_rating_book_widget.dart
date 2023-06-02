@@ -2,6 +2,7 @@ import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/constants.dart';
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/constant/styles.dart';
+import 'package:bookvies/extensions/double_extensions.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/screens/books_screen/widgets/loading/highest_rating_book_loading_widget.dart';
 import 'package:bookvies/screens/books_screen/widgets/rating_badge.dart';
@@ -68,7 +69,7 @@ class HighestRatingBookWidget extends StatelessWidget {
                             height: 20,
                           ),
                           RatingBadge(
-                            rating: book.averageRating,
+                            rating: book.averageRating.toFixed(1),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 4),
                           )

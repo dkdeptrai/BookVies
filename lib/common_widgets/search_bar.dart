@@ -10,13 +10,16 @@ class CustomSearchBar extends StatelessWidget {
   final VoidCallback onSearch;
   final bool noBackButton;
   final EdgeInsets? margin;
-  const CustomSearchBar(
-      {super.key,
-      required this.hint,
-      this.controller,
-      required this.onSearch,
-      this.noBackButton = false,
-      this.margin});
+  final bool enabled;
+  const CustomSearchBar({
+    super.key,
+    required this.hint,
+    this.controller,
+    required this.onSearch,
+    this.noBackButton = false,
+    this.margin,
+    this.enabled = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +38,26 @@ class CustomSearchBar extends StatelessWidget {
             child: TextFormField(
               controller: controller,
               textInputAction: TextInputAction.search,
+              enabled: enabled,
               decoration: InputDecoration(
-                  hintText: hint,
-                  hintStyle: AppStyles.searchBoxText,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(100),
-                    borderSide:
-                        const BorderSide(color: AppColors.greyTextColor),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(100),
-                    borderSide:
-                        const BorderSide(color: AppColors.greyTextColor),
-                  )),
+                hintText: hint,
+                hintStyle: AppStyles.searchBoxText,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(100),
+                  borderSide: const BorderSide(color: AppColors.greyTextColor),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(100),
+                  borderSide: const BorderSide(color: AppColors.greyTextColor),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(100),
+                  borderSide: const BorderSide(color: AppColors.greyTextColor),
+                ),
+              ),
+              onTap: () {
+                onSearch();
+              },
               onFieldSubmitted: (keyword) {
                 FocusScope.of(context).unfocus();
                 onSearch();

@@ -18,5 +18,6 @@ final CollectionReference readingGoalsRef =
     usersRef.doc(currentUser!.uid).collection('readingGoals');
 final CollectionReference watchingGoalsRef =
     usersRef.doc(currentUser!.uid).collection('watchingGoals');
+final CollectionReference reportsRef = firestore.collection('reports');
 
 final storageRef = FirebaseStorage.instance.ref();
