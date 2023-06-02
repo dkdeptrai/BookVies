@@ -226,13 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
   _signIn() {
     final email = _emailController.text;
     final password = _passwordController.text;
-    context.read<AuthBloc>().add(
-          AuthEventLogin(
-            email,
-            password,
-          ),
-        );
-    context.read<UserBloc>().add(const LoadUser());
+    context.read<AuthBloc>().add(AuthEventLogin(email, password));
   }
 
   void _handleLoginExceptions(AuthState state) async {

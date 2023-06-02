@@ -43,6 +43,12 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    context.read<NavBarBloc>().add(UpdateIndex(newIndex: 0));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavBarBloc, NavBarState>(
       builder: (context, state) {
