@@ -163,9 +163,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   Border.all(color: AppColors.greyTextColor)),
                           child: ElevatedButton(
                             onPressed: () {
-                              // context
-                              //     .read<AuthBloc>()
-                              //     .add(const AuthEventSignInWithGoogle());
+                              context
+                                  .read<AuthBloc>()
+                                  .add(const AuthEventSignInWithGoogle());
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,

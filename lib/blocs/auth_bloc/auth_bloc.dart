@@ -11,6 +11,7 @@ import 'package:bookvies/utils/global_methods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthProvider provider) : super(const AuthStateUninitialized()) {
@@ -70,14 +71,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
     on<AuthEventSignInWithGoogle>((event, emit) async {
-      emit(
-        const AuthStateLoggedOut(
-          exception: null,
-          isLoading: true,
-        ),
-      );
+      // emit(
+      //   const AuthStateLoggedOut(
+      //     exception: null,
+      //     isLoading: true,
+      //   ),
+      // );
       try {
         final user = await provider.signInWithGoogle();
+        DocumentSnapshot? userData = await usersRef.doc(currentUser!.uid).get();
+        // emit(const AuthStateLoggedOut(
+        //   exception: null,
+        //   isLoading: false,
+        // ));
+        if (userData.exists) {
+          print('user data exists');
+          emit(AuthStateLoggedIn(user));
+          print(user.uid);
+        } else {
+          print('no user data');
+          emit(const AuthStateNoUserInformation());
+        }
         emit(AuthStateLoggedIn(user));
       } on Exception catch (e) {
         emit(
@@ -94,6 +108,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthStateLoggedOut(exception: null, isLoading: false));
 
         if (provider.currentUser != null) {
+          final GoogleSignIn googleSignIn = GoogleSignIn();
+          await googleSignIn.signOut();
           await provider.logOut();
           firebaseAuth.signOut();
         }

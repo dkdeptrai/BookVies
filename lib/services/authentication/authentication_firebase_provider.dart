@@ -133,10 +133,14 @@ class FirebaseAuthProvider implements AuthProvider {
     );
 
     try {
-      FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
       final user = currentUser;
 
-      return user!;
+      if (user != null) {
+        return user;
+      } else {
+        throw UserNotLoggedInAuthException();
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         throw EmailAlreadyInUseAuthException();
