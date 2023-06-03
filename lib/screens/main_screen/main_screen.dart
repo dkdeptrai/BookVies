@@ -1,4 +1,5 @@
 import 'package:bookvies/blocs/nav_bar_bloc/nav_bar_bloc.dart';
+import 'package:bookvies/blocs/user_bloc/user_bloc.dart';
 import 'package:bookvies/constant/assets.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/screens/books_screen/book_screen.dart';
@@ -28,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
     const LibraryScreen(),
     const ChatListScreen(),
     ProfileScreen(
-      userId: currentUser!.uid,
+      userId: firebaseAuth.currentUser!.uid,
     )
   ];
 

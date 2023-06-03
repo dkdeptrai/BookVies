@@ -12,6 +12,7 @@ import 'package:bookvies/models/user_model.dart';
 import 'package:bookvies/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:bookvies/screens/profile_screen/widgets/review_overview_widget.dart';
 import 'package:bookvies/screens/profile_screen/widgets/user_description_widget.dart';
+import 'package:bookvies/screens/search_user_screen/search_user_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -100,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               return Scaffold(
                 key: _scaffoldKey,
                 endDrawerEnableOpenDragGesture: false,
-                endDrawer: user.id == currentUser!.uid
+                endDrawer: user.id == firebaseAuth.currentUser!.uid
                     ? Stack(
                         children: [
                           Positioned(
@@ -126,7 +127,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         onTap: () {
                                           context.read<AuthBloc>().add(
                                               AuthEventForgotPasswordSent(
-                                                  currentUser!.email as String,
+                                                  firebaseAuth.currentUser!
+                                                      .email as String,
                                                   context));
                                         },
                                       ),
@@ -189,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  if (user.id != currentUser!.uid)
+                                  if (user.id != firebaseAuth.currentUser!.uid)
                                     IconButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(),
@@ -198,9 +200,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: AppColors.secondaryColor,
                                       ),
                                     ),
-                                  if (user.id == currentUser!.uid)
+                                  if (user.id == firebaseAuth.currentUser!.uid)
                                     const Spacer(),
-                                  if (user.id == currentUser!.uid)
+                                  IconButton(
+                                    onPressed: () => Navigator.of(context)
+                                        .pushNamed(SearchUserScreen.id),
+                                    icon: const Icon(Icons.search_rounded,
+                                        color: AppColors.secondaryColor),
+                                  ),
+                                  if (user.id == firebaseAuth.currentUser!.uid)
                                     IconButton(
                                       onPressed: () => _scaffoldKey.currentState
                                           ?.openEndDrawer(),
@@ -311,6 +319,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               Container(
                                 margin: const EdgeInsets.only(
+                                  top: 10,
                                   left: 20,
                                   bottom: 10,
                                 ),

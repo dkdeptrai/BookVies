@@ -81,7 +81,7 @@ class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
                         horizontal: 30,
                         vertical: 10,
                       ),
-                      child: widget.user.id != currentUser!.uid
+                      child: widget.user.id != firebaseAuth.currentUser!.uid
                           ? Row(
                               children: [
                                 Expanded(
@@ -133,14 +133,14 @@ class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
 
   _followUser() async {
     final batch = FirebaseFirestore.instance.batch();
-    batch.update(usersRef.doc(currentUser!.uid), {
+    batch.update(usersRef.doc(firebaseAuth.currentUser!.uid), {
       'following': FieldValue.arrayUnion([widget.user.id])
     });
     batch.update(usersRef.doc(widget.user.id), {
-      'followers': FieldValue.arrayUnion([currentUser!.uid])
+      'followers': FieldValue.arrayUnion([firebaseAuth.currentUser!.uid])
     });
     _currentUserModel.following.add(widget.user.id);
-    widget.user.followers.add(currentUser!.uid);
+    widget.user.followers.add(firebaseAuth.currentUser!.uid);
     await batch.commit();
     if (mounted) {
       setState(() {
@@ -151,14 +151,14 @@ class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
 
   _unfollowUser() async {
     final batch = FirebaseFirestore.instance.batch();
-    batch.update(usersRef.doc(currentUser!.uid), {
+    batch.update(usersRef.doc(firebaseAuth.currentUser!.uid), {
       'following': FieldValue.arrayRemove([widget.user.id])
     });
     batch.update(usersRef.doc(widget.user.id), {
-      'followers': FieldValue.arrayRemove([currentUser!.uid])
+      'followers': FieldValue.arrayRemove([firebaseAuth.currentUser!.uid])
     });
     _currentUserModel.following.remove(widget.user.id);
-    widget.user.followers.remove(currentUser!.uid);
+    widget.user.followers.remove(firebaseAuth.currentUser!.uid);
     await batch.commit();
     if (mounted) {
       setState(() {
@@ -169,12 +169,12 @@ class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
 
   Future<void> _initiateChat() async {
     StringBuffer sb = StringBuffer();
-    if (currentUser!.uid.compareTo(widget.user.id) < 0) {
-      sb.write(currentUser!.uid);
+    if (firebaseAuth.currentUser!.uid.compareTo(widget.user.id) < 0) {
+      sb.write(firebaseAuth.currentUser!.uid);
       sb.write(widget.user.id);
     } else {
       sb.write(widget.user.id);
-      sb.write(currentUser!.uid);
+      sb.write(firebaseAuth.currentUser!.uid);
     }
     String chatId = sb.toString();
     String chatDocId = '';
@@ -187,7 +187,7 @@ class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
         'id': chatId,
         'lastMessage': '',
         'lastTime': DateTime.now(),
-        'usersId': [currentUser!.uid, widget.user.id],
+        'usersId': [firebaseAuth.currentUser!.uid, widget.user.id],
       });
       chatDocId = newChatDoc.id;
     } else {
@@ -196,7 +196,7 @@ class _UserDescriptionWidgetState extends State<UserDescriptionWidget> {
 
     Chat chat = Chat(
       id: chatId,
-      usersId: [currentUser!.uid, widget.user.id],
+      usersId: [firebaseAuth.currentUser!.uid, widget.user.id],
       lastTime: DateTime.now(),
       docId: chatDocId,
     );

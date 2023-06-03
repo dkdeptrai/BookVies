@@ -17,7 +17,7 @@ class MessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isCurrentUser = message.senderId == currentUser!.uid;
+    bool isCurrentUser = message.senderId == firebaseAuth.currentUser!.uid;
 
     return Align(
       alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,

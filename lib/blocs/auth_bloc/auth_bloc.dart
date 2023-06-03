@@ -7,9 +7,11 @@ import 'package:bookvies/services/authentication/authentication_firebase_provide
 import 'package:bookvies/services/authentication/authentication_provider.dart';
 import 'package:bookvies/services/authentication/authentication_user.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:bookvies/utils/global_methods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthProvider provider) : super(const AuthStateUninitialized()) {
@@ -51,13 +53,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           //     isLoading: false,
           //   ),
           // );
-          print(
-              "provider called, current uid: ${firebaseAuth.currentUser!.uid}");
           DocumentSnapshot? userData =
               await usersRef.doc(currentUser!.uid).get();
           if (userData.exists) {
             emit(AuthStateLoggedIn(user));
-            print("Data exists");
           } else {
             emit(const AuthStateNoUserInformation());
           }
@@ -72,14 +71,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
     on<AuthEventSignInWithGoogle>((event, emit) async {
-      emit(
-        const AuthStateLoggedOut(
-          exception: null,
-          isLoading: true,
-        ),
-      );
+      // emit(
+      //   const AuthStateLoggedOut(
+      //     exception: null,
+      //     isLoading: true,
+      //   ),
+      // );
       try {
         final user = await provider.signInWithGoogle();
+        DocumentSnapshot? userData = await usersRef.doc(currentUser!.uid).get();
+        // emit(const AuthStateLoggedOut(
+        //   exception: null,
+        //   isLoading: false,
+        // ));
+        if (userData.exists) {
+          print('user data exists');
+          emit(AuthStateLoggedIn(user));
+          print(user.uid);
+        } else {
+          print('no user data');
+          emit(const AuthStateNoUserInformation());
+        }
         emit(AuthStateLoggedIn(user));
       } on Exception catch (e) {
         emit(
@@ -96,6 +108,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthStateLoggedOut(exception: null, isLoading: false));
 
         if (provider.currentUser != null) {
+          final GoogleSignIn googleSignIn = GoogleSignIn();
+          await googleSignIn.signOut();
           await provider.logOut();
           firebaseAuth.signOut();
         }
@@ -187,6 +201,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .update({
               'imageUrl': imageUrl,
               'name': event.name,
+              'keywords': GlobalMethods().generateKeywords(event.name),
               'description': event.description,
             });
           } else {
@@ -197,6 +212,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .set({
               'imageUrl': imageUrl,
               'name': event.name,
+              'keywords': GlobalMethods().generateKeywords(event.name),
               'description': event.description,
               'uid': user.uid,
               'favoriteGenres': [],
@@ -235,6 +251,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .doc(user.uid)
             .update({
           'name': event.name,
+          'keywords': GlobalMethods().generateKeywords(event.name),
           'description': event.description,
         });
       }

@@ -21,7 +21,8 @@ class ChatTile extends StatelessWidget {
     required this.chat,
   }) : super(key: key);
   Stream<BookviesUser> getChatPartner() async* {
-    String partnerId = chat.usersId.where((id) => id != currentUser!.uid).first;
+    String partnerId =
+        chat.usersId.where((id) => id != firebaseAuth.currentUser!.uid).first;
     yield* FirebaseFirestore.instance
         .collection('users')
         .doc(partnerId)
@@ -67,7 +68,7 @@ class ChatTile extends StatelessWidget {
         if (lastMessage.content == '') {
           return Container();
         }
-        String subtitle = lastMessage.senderId == currentUser!.uid
+        String subtitle = lastMessage.senderId == firebaseAuth.currentUser!.uid
             ? "You: ${lastMessage.content}"
             : "${partner.name}: ${lastMessage.content}";
         return Container(
@@ -87,7 +88,7 @@ class ChatTile extends StatelessWidget {
                 arguments: chat,
               ),
               trailing: (!lastMessage.read &&
-                      lastMessage.senderId != currentUser!.uid)
+                      lastMessage.senderId != firebaseAuth.currentUser!.uid)
                   ? SvgPicture.asset(AppAssets.icUnreadMessage)
                   : null,
               leading: CircleAvatar(
@@ -97,7 +98,7 @@ class ChatTile extends StatelessWidget {
               title: Text(
                 partner.name,
                 style: (!lastMessage.read &&
-                        lastMessage.senderId != currentUser!.uid)
+                        lastMessage.senderId != firebaseAuth.currentUser!.uid)
                     ? const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)
                     : const TextStyle(
                         fontSize: 14,
@@ -108,7 +109,7 @@ class ChatTile extends StatelessWidget {
                 subtitle,
                 maxLines: 1,
                 style: (!lastMessage.read &&
-                        lastMessage.senderId != currentUser!.uid)
+                        lastMessage.senderId != firebaseAuth.currentUser!.uid)
                     ? const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
