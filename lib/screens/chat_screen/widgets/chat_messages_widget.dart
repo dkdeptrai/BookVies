@@ -32,7 +32,7 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
         .collection('chat')
         .doc(widget.chat.docId)
         .collection('messages')
-        .where('senderId', isNotEqualTo: currentUser!.uid)
+        .where('senderId', isNotEqualTo: firebaseAuth.currentUser!.uid)
         .where('read', isEqualTo: false);
 
     final messagesSnapshot = await messagesQuery.get();

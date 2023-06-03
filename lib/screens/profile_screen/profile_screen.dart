@@ -101,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               return Scaffold(
                 key: _scaffoldKey,
                 endDrawerEnableOpenDragGesture: false,
-                endDrawer: user.id == currentUser!.uid
+                endDrawer: user.id == firebaseAuth.currentUser!.uid
                     ? Stack(
                         children: [
                           Positioned(
@@ -127,7 +127,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         onTap: () {
                                           context.read<AuthBloc>().add(
                                               AuthEventForgotPasswordSent(
-                                                  currentUser!.email as String,
+                                                  firebaseAuth.currentUser!
+                                                      .email as String,
                                                   context));
                                         },
                                       ),
@@ -190,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  if (user.id != currentUser!.uid)
+                                  if (user.id != firebaseAuth.currentUser!.uid)
                                     IconButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(),
@@ -199,19 +200,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: AppColors.secondaryColor,
                                       ),
                                     ),
-                                  if (user.id == currentUser!.uid)
+                                  if (user.id == firebaseAuth.currentUser!.uid)
                                     const Spacer(),
                                   IconButton(
-                                    onPressed: () {
-                                      Navigator.of(context)
-                                          .pushNamed(SearchUserScreen.id);
-                                    },
-                                    icon: const Icon(
-                                      Icons.search_outlined,
-                                      color: AppColors.secondaryColor,
-                                    ),
+                                    onPressed: () => Navigator.of(context)
+                                        .pushNamed(SearchUserScreen.id),
+                                    icon: const Icon(Icons.search_rounded,
+                                        color: AppColors.secondaryColor),
                                   ),
-                                  if (user.id == currentUser!.uid)
+                                  if (user.id == firebaseAuth.currentUser!.uid)
                                     IconButton(
                                       onPressed: () => _scaffoldKey.currentState
                                           ?.openEndDrawer(),

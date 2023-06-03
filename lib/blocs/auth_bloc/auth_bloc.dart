@@ -52,13 +52,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           //     isLoading: false,
           //   ),
           // );
-          print(
-              "provider called, current uid: ${firebaseAuth.currentUser!.uid}");
           DocumentSnapshot? userData =
               await usersRef.doc(currentUser!.uid).get();
           if (userData.exists) {
             emit(AuthStateLoggedIn(user));
-            print("Data exists");
           } else {
             emit(const AuthStateNoUserInformation());
           }
@@ -146,6 +143,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventForgotPasswordSent>((event, emit) async {
       try {
         await provider.sendPasswordResetEmail(email: event.email);
+        print(event.email);
         // ignore: use_build_context_synchronously
         await showDialog(
           context: event.context,
@@ -186,7 +184,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .doc(user.uid)
                 .update({
               'imageUrl': imageUrl,
-              'name': GlobalMethods().generateKeywords(event.name),
+              'name': event.name,
+              'keywords': GlobalMethods().generateKeywords(event.name),
               'description': event.description,
             });
           } else {
@@ -196,7 +195,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .doc(user.uid)
                 .set({
               'imageUrl': imageUrl,
-              'name': GlobalMethods().generateKeywords(event.name),
+              'name': event.name,
+              'keywords': GlobalMethods().generateKeywords(event.name),
               'description': event.description,
               'uid': user.uid,
               'favoriteGenres': [],
@@ -234,7 +234,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .collection('users')
             .doc(user.uid)
             .update({
-          'name': GlobalMethods().generateKeywords(event.name),
+          'name': event.name,
+          'keywords': GlobalMethods().generateKeywords(event.name),
           'description': event.description,
         });
       }

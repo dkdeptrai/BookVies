@@ -29,7 +29,9 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<UserModel> _getUser() async {
     return FirebaseFirestore.instance
         .collection('users')
-        .doc(widget.chat.usersId.where((id) => id != currentUser!.uid).first)
+        .doc(widget.chat.usersId
+            .where((id) => id != firebaseAuth.currentUser!.uid)
+            .first)
         .get()
         .then(
           (value) => UserModel.fromMap(value.data() as Map<String, dynamic>),
@@ -163,7 +165,7 @@ class _ChatScreenState extends State<ChatScreen> {
       {
         'content': text,
         'sendTime': DateTime.now(),
-        'senderId': currentUser!.uid,
+        'senderId': firebaseAuth.currentUser!.uid,
         'read': false,
       },
     );
