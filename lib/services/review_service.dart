@@ -202,4 +202,13 @@ class ReviewService {
       return Future.error(error);
     }
   }
+
+  Future<void> deleteReview({required String id}) async {
+    try {
+      await reviewsRef.doc(id).delete();
+    } catch (error) {
+      print("Delete review error: ${error.toString()}");
+      rethrow;
+    }
+  }
 }
