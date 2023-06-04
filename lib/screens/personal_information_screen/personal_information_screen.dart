@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
@@ -163,17 +164,38 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
 
   Future<File> _loadDefaultImage() async {
     // Load the default image bytes from assets
-    ByteData byteData = await rootBundle.load(AppAssets.icUser);
+    ByteData byteData = await rootBundle.load(AppAssets.imgGenericUser);
 
     // Create a Uint8List from the byteData
     Uint8List uint8List = byteData.buffer.asUint8List();
+
+    // Decode the image
+    ui.Codec codec = await ui.instantiateImageCodec(uint8List);
+    ui.FrameInfo frameInfo = await codec.getNextFrame();
+    ui.Image image = frameInfo.image;
+
+    // Create a new image with a white background
+    ui.PictureRecorder recorder = ui.PictureRecorder();
+    Canvas canvas = Canvas(recorder);
+    canvas.drawRect(
+        ui.Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+        Paint()..color = ui.Color(0xFFFFFFFF));
+    canvas.drawImage(image, ui.Offset.zero, Paint());
+
+    // Convert the image with a white background to PNG
+    ui.Image whiteBgImage =
+        await recorder.endRecording().toImage(image.width, image.height);
+    ByteData? whiteBgByteData =
+        await whiteBgImage.toByteData(format: ui.ImageByteFormat.png);
+    Uint8List whiteBgUint8List =
+        whiteBgByteData?.buffer.asUint8List() ?? Uint8List(0);
 
     // Get the temporary directory
     Directory tempDir = await getTemporaryDirectory();
 
     // Create a File object with the default image bytes
-    File file = File('/${tempDir.path}/default_image.jpg');
-    await file.writeAsBytes(uint8List);
+    File file = File('/${tempDir.path}/default_image.png');
+    await file.writeAsBytes(whiteBgUint8List);
 
     return file;
   }

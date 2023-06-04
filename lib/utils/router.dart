@@ -38,7 +38,11 @@ class AppRouter {
       case (SearchBooksScreen.id):
         return MaterialPageRoute(builder: (_) => const SearchBooksScreen());
       case (FavoriteGenresScreen.id):
-        return MaterialPageRoute(builder: (_) => const FavoriteGenresScreen());
+        var arg = routeSettings.arguments as bool;
+        return MaterialPageRoute(
+            builder: (_) => FavoriteGenresScreen(
+                  skipButton: arg,
+                ));
       case (PopularBookScreen.id):
         return MaterialPageRoute(builder: (_) => const PopularBookScreen());
       case (ExploreBooksScreen.id):
