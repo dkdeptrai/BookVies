@@ -10,6 +10,7 @@ import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/models/user_model.dart';
 import 'package:bookvies/screens/edit_profile_screen/edit_profile_screen.dart';
+import 'package:bookvies/screens/favorite_genres_screen/favorite_genres_screen.dart';
 import 'package:bookvies/screens/profile_screen/widgets/review_overview_widget.dart';
 import 'package:bookvies/screens/profile_screen/widgets/user_description_widget.dart';
 import 'package:bookvies/screens/search_user_screen/search_user_screen.dart';
@@ -157,6 +158,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           context
                                               .read<AuthBloc>()
                                               .add(const AuthEventLogOut());
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: SvgPicture.asset(
+                                            AppAssets.icLogout),
+                                        title:
+                                            const Text("Edit Favorite Genres"),
+                                        onTap: () {
+                                          Navigator.of(context).pushNamed(
+                                              FavoriteGenresScreen.id,
+                                              arguments: false);
                                         },
                                       )
                                     ],

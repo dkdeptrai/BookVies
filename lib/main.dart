@@ -72,6 +72,7 @@ class MyApp extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is AuthStateLoggedIn) {
+            print(firebaseAuth.currentUser!.uid);
             return BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
                 if (state is UserLoaded) {
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
                 } else if (state is UserLoading) {
                   return const SplashScreen();
                 } else if (state is UserLoadFailed) {
+                  return const PersonalInformationScreen();
                   return Scaffold(
                     body: Center(child: Text(state.message)),
                   );

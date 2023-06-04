@@ -1,15 +1,23 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:bookvies/constant/assets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:bookvies/blocs/auth_bloc/auth_bloc.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/common_widgets/custom_app_bar.dart';
 import 'package:bookvies/common_widgets/custom_button_with_gradient_background.dart';
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/constant/styles.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FavoriteGenresScreen extends StatefulWidget {
   static const String id = '/favorite-genres-screen';
-  const FavoriteGenresScreen({super.key});
+  const FavoriteGenresScreen({
+    Key? key,
+    this.skipButton = true,
+  }) : super(key: key);
+  final bool skipButton;
 
   @override
   State<FavoriteGenresScreen> createState() => _FavoriteGenresScreenState();
@@ -79,12 +87,18 @@ class _FavoriteGenresScreenState extends State<FavoriteGenresScreen> {
         preferredSize: const Size.fromHeight(50),
         child: CustomAppBar(
           title: 'Select your favorite genres',
-          leading: TextButton(
-            child: const Text('Skip'),
-            onPressed: () {
-              context.read<AuthBloc>().add(const AuthEventInitialize());
-            },
-          ),
+          leading: widget.skipButton
+              ? TextButton(
+                  child: const Text('Skip'),
+                  onPressed: () {
+                    context.read<AuthBloc>().add(const AuthEventInitialize());
+                  },
+                )
+              : IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: SvgPicture.asset(AppAssets.icArrowLeft)),
         ),
       ),
       body: Padding(
