@@ -37,7 +37,11 @@ class _DescriptionReviewItemWidgetState
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _showCommentDialog(context),
+      onTap: () {
+        if (!widget.hasComments) {
+          _showCommentDialog(context);
+        }
+      },
       child: Container(
           margin: const EdgeInsets.only(bottom: AppDimensions.defaultPadding),
           padding: const EdgeInsets.all(AppDimensions.defaultPadding),
@@ -50,10 +54,13 @@ class _DescriptionReviewItemWidgetState
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                      radius: 20,
-                      backgroundImage:
-                          NetworkImage(widget.review.userAvatarUrl)),
+                  InkWell(
+                    onTap: _navigateToProfileScreen,
+                    child: CircleAvatar(
+                        radius: 20,
+                        backgroundImage:
+                            NetworkImage(widget.review.userAvatarUrl)),
+                  ),
                   const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,5 +269,10 @@ class _DescriptionReviewItemWidgetState
             ),
           );
         });
+  }
+
+  _navigateToProfileScreen() {
+    Navigator.pushNamed(context, ProfileScreen.id,
+        arguments: widget.review.userId);
   }
 }
