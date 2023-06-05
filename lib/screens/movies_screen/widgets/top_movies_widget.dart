@@ -1,7 +1,7 @@
 import 'package:bookvies/constant/colors.dart';
 import 'package:bookvies/models/movie_model.dart';
 import 'package:bookvies/screens/movies_screen/widgets/top_movies_carousel_widget.dart';
-import 'package:bookvies/utils/firebase_constants.dart';
+import 'package:bookvies/services/movie_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -39,18 +39,8 @@ class _TopMoviesWidgetState extends State<TopMoviesWidget> {
   }
 
   Future<List<Movie>> getTopMovies() async {
-    List<Movie> movies = [];
+    final result = await MovieService().getTopRatingMovies(limit: 5);
 
-    try {
-      final snapshot = await moviesRef.orderBy("averageRating").limit(5).get();
-
-      for (var element in snapshot.docs) {
-        movies.add(Movie.fromMap(element.data() as Map<String, dynamic>));
-      }
-    } catch (error) {
-      print("Get top movies error: ${error.toString()}");
-    }
-
-    return movies;
+    return result['movies'];
   }
 }

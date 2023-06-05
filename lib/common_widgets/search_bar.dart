@@ -38,7 +38,7 @@ class CustomSearchBar extends StatelessWidget {
             child: TextFormField(
               controller: controller,
               textInputAction: TextInputAction.search,
-              enabled: enabled,
+              // enabled: enabled,
               decoration: InputDecoration(
                 hintText: hint,
                 hintStyle: AppStyles.searchBoxText,
@@ -55,9 +55,9 @@ class CustomSearchBar extends StatelessWidget {
                   borderSide: const BorderSide(color: AppColors.greyTextColor),
                 ),
               ),
-              onTap: () {
-                onSearch();
-              },
+              // onTap: () {
+              //   onSearch();
+              // },
               onFieldSubmitted: (keyword) {
                 FocusScope.of(context).unfocus();
                 onSearch();

@@ -77,12 +77,17 @@ class Movie extends Media {
       numberReviews: map['numberReviews'] ?? 0,
       averageRating:
           map['averageRating'] == null ? 0.0 : map['averageRating'].toDouble(),
-      genres: List<String>.from((map['genres'].map((e) => e.toString()))),
-      director: List<String>.from((map['director'].map((e) => e.toString()))),
+      genres: map['genres'] == null
+          ? []
+          : List<String>.from((map['genres'].map((e) => e.toString()))),
+      director: map['director'].toString().split(", "),
+      // List<String>.from((map['director'].map((e) => e.toString()))),
       rating: map['rating'] as String,
       duration: map['duration'] as int,
       releaseYear: map['releaseYear'] as int,
-      actors: List<String>.from((map['actors'].map((e) => e.toString()))),
+      actors: map['actors'] == null
+          ? []
+          : List<String>.from((map['actors'].map((e) => e.toString()))),
     );
   }
 
