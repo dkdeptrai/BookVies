@@ -45,19 +45,31 @@ class BookService {
     return books;
   }
 
-  Future<List<Book>> getRecommendBooks(
-      {required BuildContext context, required int limit}) async {
+  Future<Map<String, dynamic>> getRecommendBooks(
+      {required BuildContext context,
+      required int limit,
+      DocumentSnapshot? lastDocument}) async {
     List<Book> books = [];
+    late final QuerySnapshot snapshot;
+
     try {
       final UserState userState = context.read<UserBloc>().state;
       if (userState is UserLoaded) {
         final UserModel user = userState.user;
-        final ref = await booksRef
-            .where("genres", arrayContainsAny: user.favoriteGenres)
-            .limit(limit)
-            .get();
+        if (lastDocument == null) {
+          snapshot = await booksRef
+              .where("genres", arrayContainsAny: user.favoriteGenres)
+              .limit(limit)
+              .get();
+        } else {
+          snapshot = await booksRef
+              .where("genres", arrayContainsAny: user.favoriteGenres)
+              .startAfterDocument(lastDocument)
+              .limit(limit)
+              .get();
+        }
 
-        books = ref.docs
+        books = snapshot.docs
             .map((e) => Book.fromMap(e.data() as Map<String, dynamic>)
                 .copyWith(id: e.id))
             .toList();
@@ -66,7 +78,7 @@ class BookService {
       print("Get recommend books error: $error");
     }
 
-    return books;
+    return {"books": books, "lastDocument": snapshot.docs.last};
   }
 
   Future<void> updateBook({required Book book}) async {

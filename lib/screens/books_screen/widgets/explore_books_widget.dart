@@ -59,8 +59,9 @@ class ExploreBooksWidget extends StatelessWidget {
 
   Future<List<Book>> _getExploreBooks({required BuildContext context}) async {
     List<Book> books = [];
-    books = await BookService().getRecommendBooks(context: context, limit: 10);
+    final result =
+        await BookService().getRecommendBooks(context: context, limit: 10);
 
-    return books;
+    return result['books'];
   }
 }
