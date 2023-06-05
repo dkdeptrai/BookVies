@@ -1,23 +1,44 @@
 import 'package:bookvies/constant/dimensions..dart';
 import 'package:bookvies/models/movie_model.dart';
 import 'package:bookvies/screens/search_movies_screen/widgets/search_movies_item_widget.dart';
+import 'package:bookvies/services/movie_service.dart';
 import 'package:flutter/material.dart';
 import 'package:bookvies/common_widgets/search_bar.dart' show CustomSearchBar;
 
-class SearchMoviesScreen extends StatelessWidget {
+class SearchMoviesScreen extends StatefulWidget {
   const SearchMoviesScreen({super.key});
 
   static const id = "/search-movies-screen";
 
   @override
-  Widget build(BuildContext context) {
-    final List<Movie> movies = Movie.movieList;
+  State<SearchMoviesScreen> createState() => _SearchMoviesScreenState();
+}
 
+class _SearchMoviesScreenState extends State<SearchMoviesScreen> {
+  List<Movie> movies = [];
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _searchController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
             child: Column(children: [
-          CustomSearchBar(hint: "Search movies, actors,...", onSearch: () {}),
+          CustomSearchBar(
+              controller: _searchController,
+              hint: "Search movies, actors,...",
+              onSearch: _onSearchMovies),
           GridView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(
@@ -34,5 +55,14 @@ class SearchMoviesScreen extends StatelessWidget {
         ])),
       ),
     );
+  }
+
+  _onSearchMovies() async {
+    final result = await MovieService()
+        .searchMovies(keyword: _searchController.text, limit: 20);
+
+    setState(() {
+      movies.addAll(result);
+    });
   }
 }
