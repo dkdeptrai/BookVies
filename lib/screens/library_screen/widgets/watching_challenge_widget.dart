@@ -127,6 +127,9 @@ class _WatchingChallengeWidgetState extends State<WatchingChallengeWidget> {
                   child: const Text("Cancel")),
               TextButton(
                   onPressed: () async {
+                    if (controller.text.isEmpty) {
+                      return;
+                    }
                     Navigator.pop(context);
                     await _addGoal(
                         type: GoalType.watching.name,
