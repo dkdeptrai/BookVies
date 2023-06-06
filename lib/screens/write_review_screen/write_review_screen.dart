@@ -8,6 +8,7 @@ import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/book_model.dart';
 import 'package:bookvies/models/media_model.dart';
 import 'package:bookvies/models/movie_model.dart';
+import 'package:bookvies/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -161,6 +162,11 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
   }
 
   void addReview() {
+    if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
+      showErrorDialog(context: context, message: "Please fill all fields");
+      return;
+    }
+
     String author = "";
     if (widget.media is Book) {
       author = (widget.media as Book).author;
