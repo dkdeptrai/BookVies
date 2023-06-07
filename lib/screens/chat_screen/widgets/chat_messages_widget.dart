@@ -1,5 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
+
+import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/screens/chat_screen/widgets/message_widget.dart';
+import 'package:bookvies/screens/profile_screen/widgets/review_overview_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -86,26 +90,32 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
         }
 
         var messages = snapshot.data!;
+
         return ListView.builder(
-          reverse: true,
-          controller: _scrollController,
-          itemCount: messages.length,
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          shrinkWrap: widget.shrinkWrap,
-          itemBuilder: (context, index) {
-            bool showSendTime = index == messages.length - 1 ||
-                messages[index]
-                        .sendTime
-                        .difference(messages[index + 1].sendTime)
-                        .inMinutes >
-                    5;
-            return MessageWidget(
-              message: messages[index],
-              showSendTime: showSendTime,
-            );
-          },
-        );
+            reverse: true,
+            controller: _scrollController,
+            itemCount: messages.length,
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            shrinkWrap: widget.shrinkWrap,
+            itemBuilder: (context, index) {
+              bool showSendTime = index == messages.length - 1 ||
+                  messages[index]
+                          .sendTime
+                          .difference(messages[index + 1].sendTime)
+                          .inMinutes >
+                      5;
+              return MessageWidget(
+                message: messages[index],
+                showSendTime: showSendTime,
+              );
+            });
       },
     );
+  }
+
+  Future<Review> _fetchReview(String reviewId) async {
+    return await reviewsRef.doc(reviewId).get().then((doc) {
+      return Review.fromMap(doc.data()! as Map<String, dynamic>);
+    });
   }
 }

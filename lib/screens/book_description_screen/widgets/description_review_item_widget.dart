@@ -7,6 +7,7 @@ import 'package:bookvies/constant/styles.dart';
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/comment_widget.dart';
 import 'package:bookvies/screens/book_description_screen/widgets/report_dialog.dart';
+import 'package:bookvies/screens/book_description_screen/widgets/share_dialog.dart';
 import 'package:bookvies/screens/profile_screen/profile_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +90,7 @@ class _DescriptionReviewItemWidgetState
                   IconButton(
                       onPressed: () {
                         // TODO: share review
+                        showShareReviewDialog(context);
                       },
                       icon: SvgPicture.asset(AppAssets.icShareGradient))
                 ],
@@ -269,6 +271,14 @@ class _DescriptionReviewItemWidgetState
             ),
           );
         });
+  }
+
+  void showShareReviewDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => ShareDialog(
+              reviewId: widget.review.id,
+            ));
   }
 
   _navigateToProfileScreen() {

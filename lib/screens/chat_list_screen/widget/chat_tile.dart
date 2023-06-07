@@ -42,7 +42,12 @@ class ChatTile extends StatelessWidget {
         .map((messageSnapshot) {
       if (messageSnapshot.docs.isEmpty) {
         return Message(
-            content: '', senderId: '', sendTime: DateTime.now(), read: true);
+          content: '',
+          senderId: '',
+          sendTime: DateTime.now(),
+          type: 'text',
+          read: true,
+        );
       }
       DocumentSnapshot messageDoc = messageSnapshot.docs.first;
       return Message.fromMap(messageDoc.data() as Map<String, dynamic>);

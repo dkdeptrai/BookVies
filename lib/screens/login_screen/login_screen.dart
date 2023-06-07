@@ -225,6 +225,13 @@ class _LoginScreenState extends State<LoginScreen> {
   _signIn() {
     final email = _emailController.text;
     final password = _passwordController.text;
+    if (email.isEmpty || password.isEmpty) {
+      setState(() {
+        _emailErrorText = email.isEmpty ? "Email is required!" : null;
+        _passwordErrorText = password.isEmpty ? "Password is required!" : null;
+      });
+      return;
+    }
     context.read<AuthBloc>().add(AuthEventLogin(email, password));
   }
 

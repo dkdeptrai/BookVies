@@ -33,11 +33,16 @@ class _MoviesScreenState extends State<MoviesScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(
                 vertical: AppDimensions.defaultPadding),
-            child: Column(children: const [
+            child: Column(children: [
               TopMoviesWidget(),
               SizedBox(height: 20.0),
               RecommendMoviesWidget(),
               TopRatingMoviesWidget(),
+              // CustomButtonWithGradientBackground(
+              //   height: 52,
+              //   text: 'Submit',
+              //   onPressed: () => _updateGenres(),
+              // ),
             ]),
           ),
         ));
@@ -46,4 +51,27 @@ class _MoviesScreenState extends State<MoviesScreen> {
   _navigateToSearchScreen() {
     Navigator.pushNamed(context, SearchMoviesScreen.id);
   }
+
+  // _updateGenres() async {
+  //   await moviesRef.get().then((snapshot) {
+  //     for (DocumentSnapshot doc in snapshot.docs) {
+  //       String stringWithNumber = doc['duration'];
+  //       RegExp regex = RegExp(r'\d+');
+  //       RegExpMatch? match = regex.firstMatch(stringWithNumber);
+
+  //       if (match != null) {
+  //         String? numberString = match.group(0);
+  //         if (numberString != null) {
+  //           int number = int.parse(numberString);
+  //           doc.reference.update({'duration': number});
+  //           print('${doc.id} updated');
+  //         } else {
+  //           print('No number found in the string');
+  //         }
+  //       } else {
+  //         print('No number found in the string');
+  //       }
+  //     }
+  //   });
+  // }
 }

@@ -3,7 +3,6 @@ import 'package:bookvies/common_widgets/search_bar.dart';
 import 'package:bookvies/models/chat_model.dart';
 import 'package:bookvies/models/user_model.dart';
 import 'package:bookvies/screens/chat_list_screen/widget/chat_tile.dart';
-import 'package:bookvies/screens/search_user_screen/search_user_screen.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
