@@ -200,7 +200,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     const Spacer(),
                     Container(
-                      margin: const EdgeInsets.only(bottom: 38),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -233,6 +232,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final email = _emailController.text;
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      setState(() {
+        _emailErrorText = email.isEmpty ? "Email is required!" : null;
+        _passwordErrorText = password.isEmpty ? "Password is required!" : null;
+        _confirmPasswordErrorText =
+            confirmPassword.isEmpty ? "Confirm password is required!" : null;
+      });
+      return;
+    }
     context
         .read<AuthBloc>()
         .add(AuthEventSignUp(email, password, confirmPassword));

@@ -70,6 +70,17 @@ class _FavoriteGenresScreenState extends State<FavoriteGenresScreen> {
     'Comedy',
     'Japan',
     'Humor',
+    'Action & Adventure',
+    'Anime Series',
+    'Thrillers',
+    'Drama',
+    'Classic Movies',
+    'Comedies',
+    'International Movies',
+    'Romantic Movies',
+    'Horror',
+    'Horror Movies',
+    'Children & Family Movies',
   ];
   late List<bool> isSelected;
 
@@ -107,6 +118,10 @@ class _FavoriteGenresScreenState extends State<FavoriteGenresScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Text(
+                'Select your favorite book and movie genres',
+                style: AppStyles.sectionHeaderText,
+              ),
               Wrap(
                 // Replace ToggleButtons with Wrap
                 spacing: 8.0, // Space between buttons horizontally
