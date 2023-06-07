@@ -22,7 +22,7 @@ class MessageWidget extends StatefulWidget {
 }
 
 class _MessageWidgetState extends State<MessageWidget> {
-  late Future<Review> _futureReview;
+  Future<Review>? _futureReview;
   Future<Review> _fetchReview(String reviewId) async {
     return await reviewsRef.doc(reviewId).get().then((doc) {
       return Review.fromMap(doc.data()! as Map<String, dynamic>);
@@ -60,7 +60,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                   ),
                 ],
               ),
-            if (widget.message.type == 'review')
+            if (widget.message.type == 'review' && _futureReview != null)
               FutureBuilder(
                 future: _futureReview,
                 builder: (context, snapshot) {

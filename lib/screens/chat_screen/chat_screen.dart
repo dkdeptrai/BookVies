@@ -182,4 +182,32 @@ class _ChatScreenState extends State<ChatScreen> {
     });
     await batch.commit();
   }
+
+  Future<void> _sendReview(String reviewId) async {
+    final batch = FirebaseFirestore.instance.batch();
+
+    final chatDocRef =
+        FirebaseFirestore.instance.collection('chat').doc(widget.chat.docId);
+    final messagesCollRef = chatDocRef.collection('messages');
+
+    batch.set(
+      messagesCollRef.doc(),
+      {
+        'type': 'review',
+        'sendTime': DateTime.now(),
+        'senderId': firebaseAuth.currentUser!.uid,
+        'reviewId': reviewId,
+        'read': false,
+      },
+    );
+
+    batch.update(
+      chatDocRef,
+      {
+        'lastMessage': 'Sent a review!',
+        'lastTime': DateTime.now(),
+      },
+    );
+    await batch.commit();
+  }
 }

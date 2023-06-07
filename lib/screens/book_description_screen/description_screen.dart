@@ -58,12 +58,12 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                   Navigator.pop(context);
                 },
                 icon: SvgPicture.asset(AppAssets.icArrowLeft)),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset(AppAssets.icShare),
-              )
-            ],
+            // actions: [
+            //   IconButton(
+            //     onPressed: () {},
+            //     icon: SvgPicture.asset(AppAssets.icShare),
+            //   )
+            // ],
           ),
         ),
         body: SafeArea(

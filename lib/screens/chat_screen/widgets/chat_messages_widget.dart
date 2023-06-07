@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:bookvies/models/review_model.dart';
 import 'package:bookvies/screens/chat_screen/widgets/message_widget.dart';
-import 'package:bookvies/screens/profile_screen/widgets/review_overview_widget.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
