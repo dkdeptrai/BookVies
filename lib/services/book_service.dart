@@ -50,7 +50,8 @@ class BookService {
       required int limit,
       DocumentSnapshot? lastDocument}) async {
     List<Book> books = [];
-    late final QuerySnapshot snapshot;
+    QuerySnapshot snapshot;
+    DocumentSnapshot? newLastDocument;
 
     try {
       final UserState userState = context.read<UserBloc>().state;
@@ -73,15 +74,13 @@ class BookService {
             .map((e) => Book.fromMap(e.data() as Map<String, dynamic>)
                 .copyWith(id: e.id))
             .toList();
+        newLastDocument = snapshot.docs.last;
       }
     } catch (error) {
       print("Get recommend books error: $error");
     }
 
-    return {
-      "books": books,
-      "lastDocument": snapshot.docs.isNotEmpty ? snapshot.docs.last : null
-    };
+    return {"books": books, "lastDocument": newLastDocument};
   }
 
   Future<void> updateBook({required Book book}) async {
