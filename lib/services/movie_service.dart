@@ -95,7 +95,7 @@ class MovieService {
     }
 
     return {
-      "movies": snapshot.docs
+      "movies": snapshot.docs.isEmpty ? [] : snapshot.docs
           .map((doc) => Movie.fromMap(doc.data() as Map<String, dynamic>)
               .copyWith(id: doc.id))
           .toList(),
