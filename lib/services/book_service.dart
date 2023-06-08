@@ -78,7 +78,10 @@ class BookService {
       print("Get recommend books error: $error");
     }
 
-    return {"books": books, "lastDocument": snapshot.docs.last};
+    return {
+      "books": books,
+      "lastDocument": snapshot.docs.isNotEmpty ? snapshot.docs.last : null
+    };
   }
 
   Future<void> updateBook({required Book book}) async {
