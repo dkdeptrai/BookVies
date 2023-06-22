@@ -152,6 +152,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                       ListTile(
                                         leading: SvgPicture.asset(
+                                            AppAssets.icEditFav),
+                                        title:
+                                            const Text("Edit Favorite Genres"),
+                                        onTap: () {
+                                          Navigator.of(context).pushNamed(
+                                              FavoriteGenresScreen.id,
+                                              arguments: false);
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: SvgPicture.asset(
                                             AppAssets.icLogout),
                                         title: const Text("Log Out"),
                                         onTap: () {
@@ -160,17 +171,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               .add(const AuthEventLogOut());
                                         },
                                       ),
-                                      ListTile(
-                                        leading: SvgPicture.asset(
-                                            AppAssets.icLogout),
-                                        title:
-                                            const Text("Edit Favorite Genres"),
-                                        onTap: () {
-                                          Navigator.of(context).pushNamed(
-                                              FavoriteGenresScreen.id,
-                                              arguments: false);
-                                        },
-                                      )
                                     ],
                                   ),
                                 ),
