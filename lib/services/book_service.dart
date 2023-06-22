@@ -50,38 +50,46 @@ class BookService {
       required int limit,
       DocumentSnapshot? lastDocument}) async {
     List<Book> books = [];
-    late final QuerySnapshot snapshot;
+    QuerySnapshot snapshot;
+    DocumentSnapshot? newLastDocument;
+    final UserState userState = context.read<UserBloc>().state;
 
-    try {
-      final UserState userState = context.read<UserBloc>().state;
-      if (userState is UserLoaded) {
-        final UserModel user = userState.user;
-        if (lastDocument == null) {
-          snapshot = await booksRef
-              .where("genres", arrayContainsAny: user.favoriteGenres)
-              .limit(limit)
-              .get();
+    if (userState is UserLoaded) {
+      final UserModel user = userState.user;
+      final favoriteGenres = List.from(userState.user.favoriteGenres);
+
+      try {
+        if (favoriteGenres.isEmpty) {
+          // if there is no favorite genres, get random books
+          snapshot = await booksRef.limit(limit).get();
         } else {
-          snapshot = await booksRef
-              .where("genres", arrayContainsAny: user.favoriteGenres)
-              .startAfterDocument(lastDocument)
-              .limit(limit)
-              .get();
+          if (lastDocument == null) {
+            snapshot = await booksRef
+                .where("genres", arrayContainsAny: user.favoriteGenres)
+                .limit(limit)
+                .get();
+          } else {
+            snapshot = await booksRef
+                .where("genres", arrayContainsAny: user.favoriteGenres)
+                .startAfterDocument(lastDocument)
+                .limit(limit)
+                .get();
+          }
         }
 
         books = snapshot.docs
             .map((e) => Book.fromMap(e.data() as Map<String, dynamic>)
                 .copyWith(id: e.id))
             .toList();
+        newLastDocument = snapshot.docs.last;
+      } catch (error) {
+        print("Get recommend books error: $error");
       }
-    } catch (error) {
-      print("Get recommend books error: $error");
+    } else {
+      print("Error getting recommendations books");
     }
 
-    return {
-      "books": books,
-      "lastDocument": snapshot.docs.isNotEmpty ? snapshot.docs.last : null
-    };
+    return {"books": books, "lastDocument": newLastDocument};
   }
 
   Future<void> updateBook({required Book book}) async {
