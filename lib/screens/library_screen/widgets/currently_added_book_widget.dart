@@ -17,7 +17,7 @@ class CurrentlyAddedBookWidget extends StatelessWidget {
 
     return StreamBuilder<QuerySnapshot>(
         stream: usersRef
-            .doc(currentUser!.uid)
+            .doc(firebaseAuth.currentUser!.uid)
             .collection("library")
             .orderBy("addedAt", descending: true)
             .snapshots(),

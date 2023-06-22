@@ -153,7 +153,8 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
     final reviewState = context.read<DescriptionReviewListBloc>().state;
     if (reviewState is DescriptionReviewListLoaded) {
       if (reviewState.reviews.any((element) =>
-          element.userId == currentUser!.uid && element.mediaId == media.id)) {
+          element.userId == firebaseAuth.currentUser!.uid &&
+          element.mediaId == media.id)) {
         showWarningDialog(
             context: context, message: "You have already reviewed this");
         return;

@@ -81,7 +81,7 @@ class _ReviewedTabState extends State<ReviewedTab> {
           ),
           StreamBuilder<QuerySnapshot>(
               stream: reviewsRef
-                  .where("userId", isEqualTo: currentUser!.uid)
+                  .where("userId", isEqualTo: firebaseAuth.currentUser!.uid)
                   .where("mediaType", isEqualTo: typeCurrentValue.toLowerCase())
                   .where("privacy",
                       isEqualTo: privacyCurrentValue.toUpperCase())

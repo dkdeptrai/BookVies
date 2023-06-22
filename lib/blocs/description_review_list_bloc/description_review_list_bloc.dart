@@ -31,18 +31,19 @@ class DescriptionReviewListBloc
       // store original numbers to use to revert if update data failed
       final originalDownVoteUsers = review.downVoteUsers;
       final originalDownVoteNumber = review.downVoteNumber;
+      final currentUid = firebaseAuth.currentUser!.uid;
 
       try {
         // if user have already down voted, remove it from downVoteUsers list and decrease downVoteNumber. Else
-        if (review.downVoteUsers.contains(currentUser!.uid)) {
-          review.downVoteUsers.remove(currentUser!.uid);
+        if (review.downVoteUsers.contains(currentUid)) {
+          review.downVoteUsers.remove(currentUid);
           review = review.copyWith(downVoteNumber: review.downVoteNumber - 1);
         } else {
-          review.downVoteUsers.add(currentUser!.uid);
+          review.downVoteUsers.add(currentUid);
           review = review.copyWith(downVoteNumber: review.downVoteNumber + 1);
           // if user is having up vote, remove it from upVoteUsers list and decrease upVoteNumber
-          if (review.upVoteUsers.contains(currentUser!.uid)) {
-            review.upVoteUsers.remove(currentUser!.uid);
+          if (review.upVoteUsers.contains(currentUid)) {
+            review.upVoteUsers.remove(currentUid);
             review = review.copyWith(upVoteNumber: review.upVoteNumber - 1);
             ReviewService().deleteUpVoteReview(reviewId: event.reviewId);
           }
@@ -51,7 +52,7 @@ class DescriptionReviewListBloc
         emit(DescriptionReviewListLoaded(
             reviews: reviews, lastUpdated: DateTime.now()));
 
-        if (review.downVoteUsers.contains(currentUser!.uid)) {
+        if (review.downVoteUsers.contains(currentUid)) {
           await ReviewService().downVoteReview(reviewId: event.reviewId);
         } else {
           await ReviewService().deleteDownVoteReview(reviewId: event.reviewId);
@@ -77,18 +78,19 @@ class DescriptionReviewListBloc
       // store original numbers to use to revert if update data failed
       final originalUpVoteUsers = review.upVoteUsers;
       final originalUpVoteNumber = review.upVoteNumber;
+      final currentUid = firebaseAuth.currentUser!.uid;
 
       try {
         // if user have already up voted, remove it from upVoteUsers list and decrease upVoteNumber. Else
-        if (review.upVoteUsers.contains(currentUser!.uid)) {
-          review.upVoteUsers.remove(currentUser!.uid);
+        if (review.upVoteUsers.contains(currentUid)) {
+          review.upVoteUsers.remove(currentUid);
           review = review.copyWith(upVoteNumber: review.upVoteNumber - 1);
         } else {
-          review.upVoteUsers.add(currentUser!.uid);
+          review.upVoteUsers.add(currentUid);
           review = review.copyWith(upVoteNumber: review.upVoteNumber + 1);
           // if user is having down vote, remove it from downVoteUsers list and decrease downVoteNumber
-          if (review.downVoteUsers.contains(currentUser!.uid)) {
-            review.downVoteUsers.remove(currentUser!.uid);
+          if (review.downVoteUsers.contains(currentUid)) {
+            review.downVoteUsers.remove(currentUid);
             review = review.copyWith(downVoteNumber: review.downVoteNumber - 1);
             ReviewService().deleteDownVoteReview(reviewId: event.reviewId);
           }
@@ -97,7 +99,7 @@ class DescriptionReviewListBloc
         emit(DescriptionReviewListLoaded(
             reviews: reviews, lastUpdated: DateTime.now()));
 
-        if (review.upVoteUsers.contains(currentUser!.uid)) {
+        if (review.upVoteUsers.contains(currentUid)) {
           await ReviewService().upVoteReview(reviewId: event.reviewId);
         } else {
           await ReviewService().deleteUpVoteReview(reviewId: event.reviewId);

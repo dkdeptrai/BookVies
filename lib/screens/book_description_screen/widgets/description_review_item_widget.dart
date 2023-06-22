@@ -116,7 +116,8 @@ class _DescriptionReviewItemWidgetState
                                   .read<DescriptionReviewListBloc>()
                                   .add(UpVote(reviewId: widget.review.id));
                             },
-                            icon: review.upVoteUsers.contains(currentUser!.uid)
+                            icon: review.upVoteUsers
+                                    .contains(firebaseAuth.currentUser!.uid)
                                 ? SvgPicture.asset(AppAssets.icUpVoteFill)
                                 : SvgPicture.asset(AppAssets.icUpVoteOutline)),
                         Text("${review.upVoteNumber}",
@@ -127,11 +128,11 @@ class _DescriptionReviewItemWidgetState
                                   .read<DescriptionReviewListBloc>()
                                   .add(DownVote(reviewId: widget.review.id));
                             },
-                            icon:
-                                review.downVoteUsers.contains(currentUser!.uid)
-                                    ? SvgPicture.asset(AppAssets.icDownVoteFill)
-                                    : SvgPicture.asset(
-                                        AppAssets.icDownVoteOutline)),
+                            icon: review.downVoteUsers
+                                    .contains(firebaseAuth.currentUser!.uid)
+                                ? SvgPicture.asset(AppAssets.icDownVoteFill)
+                                : SvgPicture.asset(
+                                    AppAssets.icDownVoteOutline)),
                         Text("${review.downVoteNumber}",
                             style: AppStyles.smallSemiBoldText),
                         const Spacer(),

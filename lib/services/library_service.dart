@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class LibraryService {
   Future<bool> isThisBookInLibrary(String bookId) async {
     final items = await usersRef
-        .doc(currentUser?.uid)
+        .doc(firebaseAuth.currentUser?.uid)
         .collection("library")
         .where("mediaId", isEqualTo: bookId)
         .get();
@@ -20,7 +20,7 @@ class LibraryService {
       required Object author,
       required String status}) async {
     final libraryRef =
-        usersRef.doc(currentUser?.uid).collection("library").doc();
+        usersRef.doc(firebaseAuth.currentUser?.uid).collection("library").doc();
 
     final libraryItem = {
       "mediaId": mediaId,
@@ -38,7 +38,7 @@ class LibraryService {
       BuildContext context, String bookId, String newStatus) async {
     try {
       await usersRef
-          .doc(currentUser?.uid)
+          .doc(firebaseAuth.currentUser?.uid)
           .collection("library")
           .doc(bookId)
           .update({"status": newStatus});
@@ -50,7 +50,7 @@ class LibraryService {
 
   Future<bool> isThisBookInFavorites({required String mediaId}) async {
     final items = await usersRef
-        .doc(currentUser?.uid)
+        .doc(firebaseAuth.currentUser?.uid)
         .collection("favorites")
         .where("mediaId", isEqualTo: mediaId)
         .get();
@@ -74,7 +74,7 @@ class LibraryService {
     };
 
     await usersRef
-        .doc(currentUser?.uid)
+        .doc(firebaseAuth.currentUser?.uid)
         .collection("favorites")
         .add(libraryItem);
 
