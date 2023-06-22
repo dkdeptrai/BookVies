@@ -80,7 +80,10 @@ class _FavoriteGenresScreenState extends State<FavoriteGenresScreen> {
     'Romantic Movies',
     'Horror',
     'Horror Movies',
+    'Documentaries',
     'Children & Family Movies',
+    'Independent Movies',
+    'Music & Musicals',
   ];
   late List<bool> isSelected;
 
