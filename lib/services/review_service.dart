@@ -33,7 +33,7 @@ class ReviewService {
 
         final Review review = Review(
           id: doc.id,
-          userId: currentUser!.uid,
+          userId: firebaseAuth.currentUser!.uid,
           userName: user.name,
           userAvatarUrl: user.imageUrl,
           mediaType: mediaType,
@@ -133,7 +133,7 @@ class ReviewService {
       if (userState is UserLoaded) {
         Comment comment = Comment(
             id: doc.id,
-            userId: currentUser!.uid,
+            userId: firebaseAuth.currentUser!.uid,
             userName: userState.user.name,
             userAvatarUrl: userState.user.imageUrl,
             mediaId: mediaId,
@@ -158,7 +158,7 @@ class ReviewService {
     try {
       await reviewsRef.doc(reviewId).update({
         "upVoteNumber": FieldValue.increment(1),
-        "upVoteUsers": FieldValue.arrayUnion([currentUser!.uid])
+        "upVoteUsers": FieldValue.arrayUnion([firebaseAuth.currentUser!.uid])
       });
     } catch (error) {
       print("Up vote error: ${error.toString()}");
@@ -170,7 +170,7 @@ class ReviewService {
     try {
       await reviewsRef.doc(reviewId).update({
         "upVoteNumber": FieldValue.increment(-1),
-        "upVoteUsers": FieldValue.arrayRemove([currentUser!.uid])
+        "upVoteUsers": FieldValue.arrayRemove([firebaseAuth.currentUser!.uid])
       });
       print("Delete up vote successfully");
     } catch (error) {
@@ -183,7 +183,7 @@ class ReviewService {
     try {
       await reviewsRef.doc(reviewId).update({
         "downVoteNumber": FieldValue.increment(1),
-        "downVoteUsers": FieldValue.arrayUnion([currentUser!.uid])
+        "downVoteUsers": FieldValue.arrayUnion([firebaseAuth.currentUser!.uid])
       });
     } catch (error) {
       print("Down vote error: ${error.toString()}");
@@ -195,7 +195,7 @@ class ReviewService {
     try {
       await reviewsRef.doc(reviewId).update({
         "downVoteNumber": FieldValue.increment(-1),
-        "downVoteUsers": FieldValue.arrayRemove([currentUser!.uid])
+        "downVoteUsers": FieldValue.arrayRemove([firebaseAuth.currentUser!.uid])
       });
     } catch (error) {
       print("Delete down vote error: ${error.toString()}");

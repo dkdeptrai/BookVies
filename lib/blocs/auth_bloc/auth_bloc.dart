@@ -54,7 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           //   ),
           // );
           DocumentSnapshot? userData =
-              await usersRef.doc(currentUser!.uid).get();
+              await usersRef.doc(firebaseAuth.currentUser!.uid).get();
           if (userData.exists) {
             emit(AuthStateLoggedIn(user));
           } else {
@@ -79,7 +79,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // );
       try {
         final user = await provider.signInWithGoogle();
-        DocumentSnapshot? userData = await usersRef.doc(currentUser!.uid).get();
+        DocumentSnapshot? userData =
+            await usersRef.doc(firebaseAuth.currentUser!.uid).get();
         // emit(const AuthStateLoggedOut(
         //   exception: null,
         //   isLoading: false,
