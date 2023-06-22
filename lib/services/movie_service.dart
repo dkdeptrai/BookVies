@@ -75,12 +75,12 @@ class MovieService {
       try {
         if (lastDocument == null) {
           snapshot = await moviesRef
-              .where("genres", arrayContainsAny: userState.user.favoriteGenres)
+              // .where("genres", arrayContainsAny: userState.user.favoriteGenres)
               .limit(limit)
               .get();
         } else {
           snapshot = await moviesRef
-              .where("genres", arrayContainsAny: userState.user.favoriteGenres)
+              // .where("genres", arrayContainsAny: userState.user.favoriteGenres.isEmpty ? [] : )
               .startAfterDocument(lastDocument)
               .limit(limit)
               .get();
@@ -95,10 +95,12 @@ class MovieService {
     }
 
     return {
-      "movies": snapshot.docs.isEmpty ? [] : snapshot.docs
-          .map((doc) => Movie.fromMap(doc.data() as Map<String, dynamic>)
-              .copyWith(id: doc.id))
-          .toList(),
+      "movies": snapshot.docs.isEmpty
+          ? []
+          : snapshot.docs
+              .map((doc) => Movie.fromMap(doc.data() as Map<String, dynamic>)
+                  .copyWith(id: doc.id))
+              .toList(),
       "lastDocument": snapshot.docs.isNotEmpty ? snapshot.docs.last : null,
     };
   }
