@@ -85,9 +85,6 @@ class MyApp extends StatelessWidget {
                   return const SplashScreen();
                 } else if (state is UserLoadFailed) {
                   return const PersonalInformationScreen();
-                  return Scaffold(
-                    body: Center(child: Text(state.message)),
-                  );
                 } else {
                   return Container();
                 }
