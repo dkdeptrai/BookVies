@@ -29,6 +29,7 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
   final ScrollController _scrollController = ScrollController();
   final BehaviorSubject<List<Message>> _messagesSubject =
       BehaviorSubject<List<Message>>.seeded([]);
+  StreamSubscription? _messageSub;
 
   Future<void> _updateReadStatus() async {
     final messagesQuery = FirebaseFirestore.instance
@@ -53,7 +54,7 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
   void initState() {
     super.initState();
 
-    chatRef
+    _messageSub = chatRef
         .doc(widget.chat.docId)
         .collection('messages')
         .orderBy('sendTime', descending: true)
@@ -63,7 +64,7 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
         .listen((messages) {
       if (mounted) {
         setState(() {
-          _messagesSubject.add([...messages, ..._messagesSubject.value]);
+          _messagesSubject.add(messages);
         });
       }
     });
@@ -73,8 +74,7 @@ class _ChatMessagesWidgetState extends State<ChatMessagesWidget> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
-    _messagesSubject.close();
+    _messageSub?.cancel();
     super.dispose();
   }
 

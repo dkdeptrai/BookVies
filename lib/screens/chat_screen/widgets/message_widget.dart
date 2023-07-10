@@ -39,6 +39,9 @@ class _MessageWidgetState extends State<MessageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.message.type == 'review' && _futureReview == null) {
+      _futureReview = _fetchReview(widget.message.reviewId);
+    }
     bool isCurrentUser =
         widget.message.senderId == firebaseAuth.currentUser!.uid;
 
