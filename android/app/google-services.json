@@ -7,12 +7,112 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:884051304577:android:757d11c14ec6fe6cadad80",
+        "mobilesdk_app_id": "1:884051304577:android:3497fc810aff13a0adad80",
         "android_client_info": {
           "package_name": "com.bookvies"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "884051304577-8ujc1u3fskskef6e9grsobo6cl29tql9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bookvies",
+            "certificate_hash": "bc51777670de0713424ebcacbefe1ead1e572809"
+          }
+        },
+        {
+          "client_id": "884051304577-ahssjuesleum959ei4o3hf21126r9t7g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bookvies",
+            "certificate_hash": "1a57f3cbb24baf27c90745ba2991cbe98e45570f"
+          }
+        },
+        {
+          "client_id": "884051304577-dvc8ug39sdvkbgehakkcsvfm5rqpoknf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bookvies",
+            "certificate_hash": "abae8918beda6a837d04dbff34c5b085bb9e1750"
+          }
+        },
+        {
+          "client_id": "884051304577-pj2du1riordh61gk4hot3d4dv3j8r0qa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bookvies",
+            "certificate_hash": "216be6cd74deff5c249b7e970ad72fcf0182d02a"
+          }
+        },
+        {
+          "client_id": "884051304577-68fihkml9gpa8oeon9u0ep3qetke00o7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBINtwx8Ml7N6unJGnVc3-Rq4vDJlF7nkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884051304577-68fihkml9gpa8oeon9u0ep3qetke00o7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "884051304577-vrn7b6lsn2rsl751n8jsdmi4cfpudlsi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bookvies"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884051304577:android:757d11c14ec6fe6cadad80",
+        "android_client_info": {
+          "package_name": "com.example.bookvies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "884051304577-6ph7g7p69erfb4rc074ffd9q85jevjml.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bookvies",
+            "certificate_hash": "216be6cd74deff5c249b7e970ad72fcf0182d02a"
+          }
+        },
+        {
+          "client_id": "884051304577-9318l2968a29n4ke3ng0esd76cdnr2ii.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bookvies",
+            "certificate_hash": "bc51777670de0713424ebcacbefe1ead1e572809"
+          }
+        },
+        {
+          "client_id": "884051304577-jpfj98f2ugspsb8vfalptftt8n77t53k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bookvies",
+            "certificate_hash": "1a57f3cbb24baf27c90745ba2991cbe98e45570f"
+          }
+        },
+        {
+          "client_id": "884051304577-p406i8e40v6e99d1tfevbdv4v5tv95ol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bookvies",
+            "certificate_hash": "abae8918beda6a837d04dbff34c5b085bb9e1750"
+          }
+        },
         {
           "client_id": "884051304577-68fihkml9gpa8oeon9u0ep3qetke00o7.apps.googleusercontent.com",
           "client_type": 3
