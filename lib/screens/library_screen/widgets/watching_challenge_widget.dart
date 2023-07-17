@@ -45,7 +45,7 @@ class _WatchingChallengeWidgetState extends State<WatchingChallengeWidget> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Reading challenge",
+                  const Text("Watching challenge",
                       style: AppStyles.smallSemiBoldText),
                   const SizedBox(height: 5),
                   const Text("You haven't had any watching challenge yet",
@@ -112,12 +112,12 @@ class _WatchingChallengeWidgetState extends State<WatchingChallengeWidget> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Set a reading challenge"),
+            title: const Text("Set a watching challenge"),
             content: TextField(
               controller: controller,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
-                  hintText: "Enter the number of books you want to read"),
+                  hintText: "Enter the number of movies you want to watch"),
             ),
             actions: [
               TextButton(

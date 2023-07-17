@@ -33,7 +33,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(
                 vertical: AppDimensions.defaultPadding),
-            child: Column(children: [
+            child: Column(children: const [
               TopMoviesWidget(),
               SizedBox(height: 20.0),
               RecommendMoviesWidget(),
