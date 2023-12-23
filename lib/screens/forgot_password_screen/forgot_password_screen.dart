@@ -34,6 +34,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
             child: CustomAppBar(
+              key: const Key("forgot_password_button"),
               title: "Forgot Password",
               leading: IconButton(
                   onPressed: () {
@@ -94,9 +95,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   _sendEmailAndAlert(BuildContext context) async {
-    context
-        .read<AuthBloc>()
-        .add(AuthEventForgotPasswordSent(_emailController.text, context));
+    context.read<AuthBloc>().add(AuthEventForgotPasswordSent(_emailController.text, context));
   }
 
   void _handleExceptions(AuthState state) {

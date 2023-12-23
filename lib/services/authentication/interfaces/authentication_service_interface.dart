@@ -1,7 +1,8 @@
 import 'package:bookvies/services/authentication/authentication_user.dart';
 
-abstract class AuthProvider {
+abstract class IAuthenticationService {
   AuthUser? get currentUser;
+
   Future<void> initialize();
   Future<AuthUser> logIn({
     required String email,

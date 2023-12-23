@@ -15,7 +15,7 @@ import 'package:bookvies/screens/main_screen/main_screen.dart';
 import 'package:bookvies/screens/personal_information_screen/personal_information_screen.dart';
 import 'package:bookvies/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:bookvies/screens/splash_screen/splash_screen.dart';
-import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
+import 'package:bookvies/services/authentication/authentication_service.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -36,7 +36,7 @@ void main() async {
       BlocProvider(create: (_) => NavBarBloc()),
       BlocProvider(create: (_) => DescriptionReviewListBloc()),
       BlocProvider(
-          create: (_) => AuthBloc(FirebaseAuthProvider())
+          create: (_) => AuthBloc(AuthenticationService())
             ..add(const AuthEventInitialize())),
       BlocProvider(create: (_) => ReadingGoalBloc()),
       BlocProvider(create: (_) => WatchingGoalBloc()),

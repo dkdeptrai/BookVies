@@ -3,8 +3,8 @@ import 'package:bookvies/blocs/auth_bloc/auth_event.dart';
 import 'package:bookvies/blocs/auth_bloc/auth_state.dart';
 import 'package:bookvies/screens/forgot_password_screen/widgets/change_password_notification_dialog.dart';
 import 'package:bookvies/services/authentication/authentication_exceptions.dart';
-import 'package:bookvies/services/authentication/authentication_firebase_provider.dart';
-import 'package:bookvies/services/authentication/authentication_provider.dart';
+import 'package:bookvies/services/authentication/authentication_service.dart';
+import 'package:bookvies/services/authentication/interfaces/authentication_service_interface.dart';
 import 'package:bookvies/services/authentication/authentication_user.dart';
 import 'package:bookvies/utils/firebase_constants.dart';
 import 'package:bookvies/utils/global_methods.dart';
@@ -14,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(AuthProvider provider) : super(const AuthStateUninitialized()) {
+  AuthBloc(IAuthenticationService provider)
+      : super(const AuthStateUninitialized()) {
     on<AuthEventInitialize>((event, emit) async {
       await provider.initialize();
       final user = provider.currentUser;
@@ -178,7 +179,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<AuthEventAddUserInformation>(
       (event, emit) async {
-        AuthUser? user = FirebaseAuthProvider().currentUser;
+        AuthUser? user = AuthenticationService().currentUser;
 
         FirebaseStorage storage = FirebaseStorage.instance;
         Reference ref = storage.ref().child("user_images").child(user!.uid);
@@ -226,7 +227,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
     on<AuthEventAddUserFavoriteGenres>(
       (event, emit) async {
-        AuthUser? user = FirebaseAuthProvider().currentUser;
+        AuthUser? user = AuthenticationService().currentUser;
         await FirebaseFirestore.instance
             .collection('users')
             .doc(user!.uid)
@@ -237,7 +238,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
     on<AuthEventEditUserInformation>((event, emit) async {
-      AuthUser? user = FirebaseAuthProvider().currentUser!;
+      AuthUser? user = AuthenticationService().currentUser!;
 
       // Check if the document exists
       var docSnapshot = await FirebaseFirestore.instance
@@ -259,7 +260,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<AuthEventEditUserAvatar>(
       (event, emit) async {
-        AuthUser? user = FirebaseAuthProvider().currentUser;
+        AuthUser? user = AuthenticationService().currentUser;
 
         FirebaseStorage storage = FirebaseStorage.instance;
         Reference ref = storage.ref().child("user_images").child(user!.uid);
