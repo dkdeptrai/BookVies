@@ -18,19 +18,15 @@ class ExploreBookItemWidget extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return InkWell(
-      onTap: () => GlobalMethods().navigateToDescriptionScreen(
-          context: context, mediaId: book.id, mediaType: MediaType.book.name),
+      onTap: () => GlobalMethods().navigateToDescriptionScreen(context: context, mediaId: book.id, mediaType: MediaType.book.name),
       child: SizedBox(
         width: size.width / 2 - 30,
         child: Stack(
           children: [
             Container(
-                padding: const EdgeInsets.only(
-                    left: 15, top: 15, right: 10, bottom: 15),
+                padding: const EdgeInsets.only(left: 15, top: 15, right: 10, bottom: 15),
                 decoration: BoxDecoration(
-                    color: AppColors.secondaryColor,
-                    boxShadow: [AppStyles.primaryShadow],
-                    borderRadius: AppDimensions.defaultBorderRadius),
+                    color: AppColors.secondaryColor, boxShadow: [AppStyles.primaryShadow], borderRadius: AppDimensions.defaultBorderRadius),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -38,14 +34,20 @@ class ExploreBookItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CachedNetworkImage(
+                        Expanded(
+                          child: CachedNetworkImage(
                             imageUrl: book.image,
                             errorWidget: (context, url, error) => Container(
-                                color: AppColors.greyTextColor,
-                                width: size.width * 0.2,
-                                child: const Center(child: Icon(Icons.error))),
+                              color: AppColors.greyTextColor,
+                              width: size.width * 0.2,
+                              child: const Center(child: Icon(Icons.error)),
+                            ),
                             height: 116,
-                            fit: BoxFit.cover),
+                            // width: 90,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
                         RatingBadge(
                           rating: book.averageRating.toFixed(1),
                           borderColor: AppColors.greyTextColor,
@@ -57,17 +59,13 @@ class ExploreBookItemWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       book.name,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
                       book.author.toString(),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.greyTextColor),
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.greyTextColor),
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -78,18 +76,11 @@ class ExploreBookItemWidget extends StatelessWidget {
               child: InkWell(
                 onTap: () {},
                 child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
                     decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            bottomRight: Radius.circular(12)),
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomRight: Radius.circular(12)),
                         gradient: AppColors.primaryGradient),
-                    child: const Text("Details",
-                        style: TextStyle(
-                            fontSize: 10,
-                            color: AppColors.primaryTextColor,
-                            fontWeight: FontWeight.w500))),
+                    child: const Text("Details", style: TextStyle(fontSize: 10, color: AppColors.primaryTextColor, fontWeight: FontWeight.w500))),
               ),
             )
           ],
