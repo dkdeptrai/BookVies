@@ -65,7 +65,10 @@ class CustomSearchBar extends StatelessWidget {
             ),
           )),
           IconButton(
-              onPressed: onSearch, icon: SvgPicture.asset(AppAssets.icSearch))
+            onPressed: onSearch,
+            icon: SvgPicture.asset(AppAssets.icSearch),
+            key: const Key("searchBarSearchButton"),
+          )
         ],
       ),
     );

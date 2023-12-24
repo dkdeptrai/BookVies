@@ -20,6 +20,7 @@ class SearchBookItemWidget extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return InkWell(
+      key: const Key("searchBookItemWidget"),
       onTap: () => _navigateToDescriptionScreen(context),
       child: Container(
         margin: const EdgeInsets.fromLTRB(20, 16, 20, 0),

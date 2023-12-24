@@ -120,10 +120,19 @@ class _DescriptionReviewItemWidgetState
                             },
                             icon: review.upVoteUsers
                                     .contains(firebaseAuth.currentUser!.uid)
-                                ? SvgPicture.asset(AppAssets.icUpVoteFill)
-                                : SvgPicture.asset(AppAssets.icUpVoteOutline)),
-                        Text("${review.upVoteNumber}",
-                            style: AppStyles.smallSemiBoldText),
+                                ? SvgPicture.asset(
+                                    AppAssets.icUpVoteFill,
+                                    semanticsLabel: "Filled Up vote Icon",
+                                  )
+                                : SvgPicture.asset(
+                                    AppAssets.icUpVoteOutline,
+                                    semanticsLabel: "Outlined Up vote Icon",
+                                  )),
+                        Text(
+                          "${review.upVoteNumber}",
+                          style: AppStyles.smallSemiBoldText,
+                          key: Key("upVoteCount"),
+                        ),
                         IconButton(
                             onPressed: () {
                               context
@@ -132,11 +141,19 @@ class _DescriptionReviewItemWidgetState
                             },
                             icon: review.downVoteUsers
                                     .contains(firebaseAuth.currentUser!.uid)
-                                ? SvgPicture.asset(AppAssets.icDownVoteFill)
+                                ? SvgPicture.asset(
+                                    AppAssets.icDownVoteFill,
+                                    semanticsLabel: "Filled Down vote Icon",
+                                  )
                                 : SvgPicture.asset(
-                                    AppAssets.icDownVoteOutline)),
-                        Text("${review.downVoteNumber}",
-                            style: AppStyles.smallSemiBoldText),
+                                    AppAssets.icDownVoteOutline,
+                                    semanticsLabel: "Outlined Down vote Icon",
+                                  )),
+                        Text(
+                          "${review.downVoteNumber}",
+                          style: AppStyles.smallSemiBoldText,
+                          key: Key("downVoteCount"),
+                        ),
                         const Spacer(),
                         IconButton(
                             onPressed: () {

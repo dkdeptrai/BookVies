@@ -93,6 +93,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
               }
 
               return SingleChildScrollView(
+                key: Key("descriptionScreenScrollable"),
                 child: Padding(
                   padding: const EdgeInsets.all(AppDimensions.defaultPadding),
                   child: Column(

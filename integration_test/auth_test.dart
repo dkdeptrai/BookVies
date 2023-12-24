@@ -11,7 +11,8 @@ void main() {
     testWidgets("Login with correct credentials", (tester) async {
       app.main();
       await tester.pumpAndSettle();
-      await tester.enterText(find.byType(TextFormField).at(0), "abcxyz@gmail.com");
+      await tester.enterText(
+          find.byType(TextFormField).at(0), "abcxyz@gmail.com");
       await tester.enterText(find.byType(TextFormField).at(1), "abc123");
       await tester.tap(find.byType(ElevatedButton).at(0));
       await tester.pumpAndSettle(
@@ -22,7 +23,8 @@ void main() {
     testWidgets("Login with wrong password", (tester) async {
       app.main();
       await tester.pumpAndSettle();
-      await tester.enterText(find.byType(TextFormField).at(0), "abcxyz@gmail.com");
+      await tester.enterText(
+          find.byType(TextFormField).at(0), "abcxyz@gmail.com");
       await tester.enterText(find.byType(TextFormField).at(1), "abc321");
       await tester.tap(find.byType(ElevatedButton).at(0));
       await tester.pumpAndSettle(
@@ -33,7 +35,8 @@ void main() {
     testWidgets("Login with email not exist", (tester) async {
       app.main();
       await tester.pumpAndSettle();
-      await tester.enterText(find.byType(TextFormField).at(0), "abcxyz@gmail.com");
+      await tester.enterText(
+          find.byType(TextFormField).at(0), "abcxyz@gmail.com");
       await tester.enterText(find.byType(TextFormField).at(1), "abc123");
       await tester.tap(find.byType(ElevatedButton).at(0));
       await tester.pumpAndSettle(
