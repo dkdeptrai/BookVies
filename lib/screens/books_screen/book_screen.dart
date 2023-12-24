@@ -23,7 +23,10 @@ class BookScreen extends StatelessWidget {
                   onPressed: () {
                     _navigateToSearchBooksScreen(context);
                   },
-                  icon: SvgPicture.asset(AppAssets.icSearch))
+                  icon: SvgPicture.asset(
+                    AppAssets.icSearch,
+                    key: const Key("bookScreenSearchIcon"),
+                  ))
             ],
           )),
       body: SingleChildScrollView(
